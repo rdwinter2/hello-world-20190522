@@ -602,9 +602,9 @@ object HelloWorldStatus extends Enumeration {
 // Hello World Aggregate
 
 case class HelloWorldAggregate(
-    helloWorldId: String,
+  helloWorldId: String,
 //    helloWorld: HelloWorld
-     helloWorldResource: HelloWorldResource
+  helloWorldResource: HelloWorldResource
 )
 
 object HelloWorldAggregate {

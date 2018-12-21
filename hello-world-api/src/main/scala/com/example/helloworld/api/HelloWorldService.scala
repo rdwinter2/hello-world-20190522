@@ -57,7 +57,7 @@ trait HelloWorldService extends Service {
       restCall(Method.POST,   "/api/hello-worlds/:id/creation",                     createHelloWorld2 _),
       restCall(Method.POST,   "/api/hello-worlds/creation/:creationId",             createHelloWorld3 _),
       restCall(Method.POST,   "/api/hello-worlds/:id/creation/:creationId",         createHelloWorld4 _),
-      //restCall(Method.POST,   "/api/hello-worlds/:id/replacement/:replcementId",    replaceHelloWorld _),
+      //restCall(Method.POST,   "/api/hello-worlds/:id/replacement/:replacementId",    replaceHelloWorld _),
       //restCall(Method.POST,   "/api/hello-worlds/:id/deactivation/:deactivationId", deactivateHelloWorld _),
       //restCall(Method.POST,   "/api/hello-worlds/:id/reactivation/:reactivationId", reactivateHelloWorld _),
       //restCall(Method.GET,    "/api/hello-worlds/:id/creation/:creationId",         getCreateHelloWorld _),
