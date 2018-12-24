@@ -16,7 +16,7 @@ sbt new rdwinter2/lagom-scala.g8
 After running `git init` or cloning from a repository `cd` into the directory and run `./custom-hooks/run-after-clone.sh`.
 
 The REST call identifiers for the Hello World project are defined as:
-<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjpyjg7a700000yn3w4yio83e -->
+<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq29f3jn0000tyn3mhsa7vah -->
 
 ```scala
   override final def descriptor = {
@@ -62,11 +62,11 @@ The REST call identifiers for the Hello World project are defined as:
   }
 ```
 
-<!--- transclude cjpyjg7a700000yn3w4yio83e -->
+<!--- transclude cjq29f3jn0000tyn3mhsa7vah -->
 NOTE: For naming resources in a DDD way follow recommendations in https://www.thoughtworks.com/insights/blog/rest-api-design-resource-modeling.
 
 The algebraic data type for Hello World is defined as:
-<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjpyjg7bd00010yn3ij2ozi8p -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq29f3kn0001tyn3mjxxhpsz -->
 
 ```scala
 // Hello World algebraic data type {
@@ -100,10 +100,10 @@ object HelloWorld {
 // }
 ```
 
-<!--- transclude cjpyjg7bd00010yn3ij2ozi8p -->
+<!--- transclude cjq29f3kn0001tyn3mjxxhpsz -->
 
 With regular expression validation matchers:
-<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjpyjg7cs00020yn3eigt8ojd -->
+<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq29f3m10002tyn3j452ex0p -->
 
 ```scala
 object Matchers {
@@ -116,11 +116,11 @@ object Matchers {
 }
 ```
 
-<!--- transclude cjpyjg7cs00020yn3eigt8ojd -->
+<!--- transclude cjq29f3m10002tyn3j452ex0p -->
 
 The REST resource for Hello World is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjpyjg7e700030yn3ki42vh34 -->
+<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq29f3nb0003tyn3g3wj74d3 -->
 
 ```scala
 case class HelloWorldResource(
@@ -128,43 +128,43 @@ case class HelloWorldResource(
 )
 ```
 
-<!--- transclude cjpyjg7e700030yn3ki42vh34 -->
+<!--- transclude cjq29f3nb0003tyn3g3wj74d3 -->
 
 The DDD aggregate for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjpyjg7fr00040yn3ulo9xgl3 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq29f3oq0004tyn3frq35ppp -->
 
 ```scala
 case class HelloWorldAggregate(
   helloWorldId: String,
 //    helloWorld: HelloWorld
-  helloWorldResource: HelloWorldResource
+  helloWorldResource: HelloWorldResource,
+  clock: Int  // a monotonically increasing counter of transactions accepted by the DDD aggregate (state transitions in FSM)
 )
 ```
 
-<!--- transclude cjpyjg7fr00040yn3ulo9xgl3 -->
+<!--- transclude cjq29f3oq0004tyn3frq35ppp -->
 
 The state for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjpyjg7io00050yn3cwmcd7o0 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq29f3ra0005tyn3rrrfidxm -->
 
 ```scala
 case class HelloWorldState(
-  helloWorldAggregate: Option[HelloWorldAggregate],
-  status: HelloWorldStatus.Status = HelloWorldStatus.NONEXISTENT,
-  transactionClock: Int
+  helloWorldAggregate: HelloWorldAggregate,
+  status: HelloWorldStatus.Status = HelloWorldStatus.NONEXISTENT
 )
 ```
 
-<!--- transclude cjpyjg7io00050yn3cwmcd7o0 -->
+<!--- transclude cjq29f3ra0005tyn3rrrfidxm -->
 
 The possible statuses for the Hello World aggregate are defined to be:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjpyjg7lv00060yn38oumu672 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq29f3u60006tyn39scmuyad -->
 
 ```scala
 object HelloWorldStatus extends Enumeration {
-  val NONEXISTENT, ACTIVE, ARCHIVED = Value
+  val NONEXISTENT, ACTIVE, ARCHIVED, UNKNOWN = Value
   type Status = Value
 
   implicit val format: Format[Value] = enumFormat(this)
@@ -173,17 +173,17 @@ object HelloWorldStatus extends Enumeration {
 }
 ```
 
-<!--- transclude cjpyjg7lv00060yn38oumu672 -->
+<!--- transclude cjq29f3u60006tyn39scmuyad -->
 
 The entity for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjpyjg7p500070yn3genu7qt9 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq29f3xg0007tyn395ibkk29 -->
 
 ```scala
 
 ```
 
-<!--- transclude cjpyjg7p500070yn3genu7qt9 -->
+<!--- transclude cjq29f3xg0007tyn395ibkk29 -->
 
 
 

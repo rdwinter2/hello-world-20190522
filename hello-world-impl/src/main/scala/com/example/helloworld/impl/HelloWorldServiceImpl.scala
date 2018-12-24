@@ -442,19 +442,19 @@ final class HelloWorldEntity extends PersistentEntity {
 
   override type Command = HelloWorldCommand[_]
   override type Event = HelloWorldEvent
-  override type State = HelloWorldState
+  override type State = Option[HelloWorldState]
 
   type OnCommandHandler[M] = PartialFunction[(Command, CommandContext[M], State), Persist]
   type ReadOnlyHandler[M] = PartialFunction[(Command, ReadOnlyCommandContext[M], State), Unit]
 
-  override def initialState: HelloWorldState = HelloWorldState.nonexistent
+  override def initialState: Option[HelloWorldState] = None
 
   // FSM
   override def behavior: Behavior = {
-    case HelloWorldState(_, HelloWorldStatus.NONEXISTENT, _) => nonexistentHelloWorld
-    case HelloWorldState(_, HelloWorldStatus.ACTIVE, _) => activeHelloWorld
-    case HelloWorldState(_, HelloWorldStatus.ARCHIVED, _) => archivedHelloWorld
-    case HelloWorldState(_, _, _) => unknownHelloWorld
+    case None => nonexistentHelloWorld
+    case Some(state) if state.status == HelloWorldStatus.ACTIVE => activeHelloWorld
+    case Some(state) if state.status == HelloWorldStatus.ARCHIVED => archivedHelloWorld
+    case Some(state) => unknownHelloWorld
   }
 
   private def getHelloWorldAction = Actions()
@@ -576,9 +576,8 @@ final class HelloWorldEntity extends PersistentEntity {
 // Hello World State
 
 case class HelloWorldState(
-  helloWorldAggregate: Option[HelloWorldAggregate],
-  status: HelloWorldStatus.Status = HelloWorldStatus.NONEXISTENT,
-  transactionClock: Int
+  helloWorldAggregate: HelloWorldAggregate,
+  status: HelloWorldStatus.Status = HelloWorldStatus.NONEXISTENT
 ) {
   def withStatus (status: HelloWorldStatus.Status) = copy(status = status)
 }
@@ -591,7 +590,7 @@ object HelloWorldState {
 // Hello World Status
 
 object HelloWorldStatus extends Enumeration {
-  val NONEXISTENT, ACTIVE, ARCHIVED = Value
+  val NONEXISTENT, ACTIVE, ARCHIVED, UNKNOWN = Value
   type Status = Value
 
   implicit val format: Format[Value] = enumFormat(this)
@@ -604,7 +603,8 @@ object HelloWorldStatus extends Enumeration {
 case class HelloWorldAggregate(
   helloWorldId: String,
 //    helloWorld: HelloWorld
-  helloWorldResource: HelloWorldResource
+  helloWorldResource: HelloWorldResource,
+  clock: Int  // a monotonically increasing counter of transactions accepted by the DDD aggregate (state transitions in FSM)
 )
 
 object HelloWorldAggregate {
