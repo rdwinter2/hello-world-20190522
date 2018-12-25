@@ -34,7 +34,7 @@ print "\n\n$real_file\n\n";
 print "\n\nregexp $regexp\n\n$last last\n\nz $z\n\n";
       my $z = substr $regexp, -1, 1, "(\\((?:[^()]++|(?1))*\\))" if ($last eq "(");
       #print $regexp;
-      my $data = `perl -0777 -ne 'print \${^MATCH} if /$regexp/' $real_file`;q
+      my $data = `perl -0777 -ne 'print \${^MATCH} if /$regexp/' $real_file`;
       print $data;
     } else {
       open(DATA, "<$real_file");
