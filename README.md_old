@@ -13,90 +13,177 @@ To generate a new project execute the following and supply values for (name, plu
 sbt new rdwinter2/lagom-scala.g8
 ```
 
-After running `git init` or cloning from a repository `cd` into the directory and run
-```bash
-cpan App::cpanminus
-cpanm Data::Cuid
-./custom-hooks/run-after-clone.sh
-```
+After running `git init` or cloning from a repository `cd` into the directory and run `./custom-hooks/run-after-clone.sh`.
 
 The REST call identifiers for the Hello World project are defined as:
-<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq3q6woo0000puyazcqf1cgr -->
+<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq29f3jn0000tyn3mhsa7vah -->
 
 ```scala
+  override final def descriptor = {
+    import Service._
+    // @formatter:off
+    named("hello-world").withCalls(
+      // CRUDy REST
+      restCall(Method.POST,   "/api/hello-worlds",       postHelloWorld _),
+      restCall(Method.PUT,    "/api/hello-worlds/:id",   putHelloWorld _),
+      //restCall(Method.PATCH,  "/api/hello-worlds/:id",   patchHelloWorld _),
+      //restCall(Method.DELETE, "/api/hello-worlds/:id",   deleteHelloWorld _),
 
+      restCall(Method.GET,    "/api/hello-worlds/:id",   getHelloWorld _),
+      //restCall(Method.GET,    "/api/hello-worlds",       getAllHelloWorlds _),
+      // CRUDy DDDified REST without a proper ubiquitious language
+      restCall(Method.POST,   "/api/hello-worlds/creation",                         createHelloWorld1 _),
+      restCall(Method.POST,   "/api/hello-worlds/:id/creation",                     createHelloWorld2 _),
+      restCall(Method.POST,   "/api/hello-worlds/creation/:creationId",             createHelloWorld3 _),
+      restCall(Method.POST,   "/api/hello-worlds/:id/creation/:creationId",         createHelloWorld4 _),
+      //restCall(Method.POST,   "/api/hello-worlds/:id/replacement/:replacementId",    replaceHelloWorld _),
+      //restCall(Method.POST,   "/api/hello-worlds/:id/deactivation/:deactivationId", deactivateHelloWorld _),
+      //restCall(Method.POST,   "/api/hello-worlds/:id/reactivation/:reactivationId", reactivateHelloWorld _),
+      //restCall(Method.GET,    "/api/hello-worlds/:id/creation/:creationId",         getCreateHelloWorld _),
+      //restCall(Method.GET,    "/api/hello-worlds/:id/amelioration/:ameliorationId", getAmeliorateHelloWorld _),
+      //restCall(Method.GET,    "/api/hello-worlds/:id/deactivation/:deactivationId", getDeactivateHelloWorld _),
+      //restCall(Method.GET,    "/api/hello-worlds/:id/reactivation/:reactivationId", getReactivateHelloWorld _)
+      // DDDified REST using the bounded context's ubiquitious language
+      //restCall(Method.POST,    "/api/hello-worlds",                     createHelloWorldWithSystemGeneratedId _),
+      //restCall(Method.POST,    "/api/hello-worlds/:id/creation/:creationId",   createHelloWorld _),
+      //restCall(Method.POST, "/api/hello-worlds/:id/archival/:archivalId", archiveHelloWorld _),
+      //restCall(Method.POST, "/api/hello-worlds/:id/reactivation/:reactivationId", reactivateHelloWorld _),
+      //restCall(Method.POST, "/api/hello-worlds/:id/enhancement/:enhancementId", enhanceHelloWorld _),
+//      pathCall("/api/hello-worlds/stream", streamHelloWorlds _),
+      //restCall(Method.GET, "/api/hello-worlds/:id", getHelloWorld _),
+      //restCall(Method.GET, "/api/hello-worlds", getAllHelloWorlds _)
+    )
+      .withAutoAcl(true)
+      .withExceptionSerializer(new DefaultExceptionSerializer(Environment.simple(mode = Mode.Prod)))
+      .withTopics(
+        topic("helloWorld-HelloWorldMessageBrokerEvent", this.helloWorldMessageBrokerEvents)
+      )
+    // @formatter:on
+  }
 ```
 
-<!--- transclude cjq3q6woo0000puyazcqf1cgr -->
+<!--- transclude cjq29f3jn0000tyn3mhsa7vah -->
 NOTE: For naming resources in a DDD way follow recommendations in https://www.thoughtworks.com/insights/blog/rest-api-design-resource-modeling.
 
 The algebraic data type for Hello World is defined as:
-<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq3q6wwj0001puya4ueajukw -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq29f3kn0001tyn3mjxxhpsz -->
 
 ```scala
+// Hello World algebraic data type {
+//
+// An algebraic data type is a kind of composite type.
+// They are built up from Product types and Sum types.
+//
+// Product types - a tuple or record (this and that)
+//   class ScalaPerson(val name: String, val age: Int)
+//
+// Sum types - a disjoint union or variant type (this or that)
+//   sealed trait Pet
+//   case class Cat(name: String) extends Pet
+//   case class Fish(name: String, color: String) extends Pet
+//   case class Squid(name: String, age: Int) extends Pet
 
+case class HelloWorld(
+  name: String,
+  description: Option[String])
+
+object HelloWorld {
+  implicit val format: Format[HelloWorld] = Jsonx.formatCaseClass
+
+  val helloWorldValidator: Validator[HelloWorld] =
+    validator[HelloWorld] { helloWorld =>
+      helloWorld.name is notEmpty
+      helloWorld.name should matchRegexFully(Matchers.Name)
+      helloWorld.description.each should matchRegexFully(Matchers.Description)
+    }
+}
+// }
 ```
 
-<!--- transclude cjq3q6wwj0001puya4ueajukw -->
+<!--- transclude cjq29f3kn0001tyn3mjxxhpsz -->
 
 With regular expression validation matchers:
-<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq3q6x410002puyabkribvh0 -->
+<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq29f3m10002tyn3j452ex0p -->
 
 ```scala
-
+object Matchers {
+  val Email =
+    """^[a-zA-Z0-9\.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"""
+  val Id = """^[a-zA-Z0-9\-\.\_\~]{1,64}$"""
+  val Name = """^[a-zA-Z0-9\-\.\_\~]{1,128}$"""
+  val Description = """^.{1,2048}$"""
+  val Motivation = """^.{1,2048}$"""
+}
 ```
 
-<!--- transclude cjq3q6x410002puyabkribvh0 -->
+<!--- transclude cjq29f3m10002tyn3j452ex0p -->
 
 The REST resource for Hello World is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq3q6xbw0003puya9tr6mwuj -->
+<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq29f3nb0003tyn3g3wj74d3 -->
 
 ```scala
-
+case class HelloWorldResource(
+  helloWorld: HelloWorld
+)
 ```
 
-<!--- transclude cjq3q6xbw0003puya9tr6mwuj -->
+<!--- transclude cjq29f3nb0003tyn3g3wj74d3 -->
 
 The DDD aggregate for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq3q6xjs0004puyandhbkv58 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq29f3oq0004tyn3frq35ppp -->
 
 ```scala
-
+case class HelloWorldAggregate(
+  helloWorldId: String,
+//    helloWorld: HelloWorld
+  helloWorldResource: HelloWorldResource,
+  clock: Int  // a monotonically increasing counter of transactions accepted by the DDD aggregate (state transitions in FSM)
+)
 ```
 
-<!--- transclude cjq3q6xjs0004puyandhbkv58 -->
+<!--- transclude cjq29f3oq0004tyn3frq35ppp -->
 
 The state for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq3q6xrb0005puya58kjtdlz -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq29f3ra0005tyn3rrrfidxm -->
 
 ```scala
-
+case class HelloWorldState(
+  helloWorldAggregate: HelloWorldAggregate,
+  status: HelloWorldStatus.Status = HelloWorldStatus.NONEXISTENT
+)
 ```
 
-<!--- transclude cjq3q6xrb0005puya58kjtdlz -->
+<!--- transclude cjq29f3ra0005tyn3rrrfidxm -->
 
 The possible statuses for the Hello World aggregate are defined to be:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq3q6xzi0006puya5agqkl2q -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq29f3u60006tyn39scmuyad -->
 
 ```scala
+object HelloWorldStatus extends Enumeration {
+  val NONEXISTENT, ACTIVE, ARCHIVED, UNKNOWN = Value
+  type Status = Value
 
+  implicit val format: Format[Value] = enumFormat(this)
+//  implicit val pathParamSerializer: PathParamSerializer[Status] =
+//    PathParamSerializer.required("helloWorldStatus")(withName)(_.toString)
+}
 ```
 
-<!--- transclude cjq3q6xzi0006puya5agqkl2q -->
+<!--- transclude cjq29f3u60006tyn39scmuyad -->
 
 The entity for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq3q6y6w0007puyamtwi3yva -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq29f3xg0007tyn395ibkk29 -->
 
 ```scala
 
 ```
 
-<!--- transclude cjq3q6y6w0007puyamtwi3yva -->
+<!--- transclude cjq29f3xg0007tyn395ibkk29 -->
 
 
 
