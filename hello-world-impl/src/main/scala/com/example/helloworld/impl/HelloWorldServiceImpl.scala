@@ -601,10 +601,8 @@ object HelloWorldStatus extends Enumeration {
 // Hello World Aggregate
 
 case class HelloWorldAggregate(
-  helloWorldId: String,
-//    helloWorld: HelloWorld
-  helloWorldResource: HelloWorldResource,
-  clock: Int  // a monotonically increasing counter of transactions accepted by the DDD aggregate (state transitions in FSM)
+  helloWorldIdentity: Identity,
+  helloWorldResource: HelloWorldResource
 )
 
 object HelloWorldAggregate {
@@ -619,6 +617,11 @@ case object GetHelloWorldQuery
     GetHelloWorldQuery)
 }
 
+case class CreateHelloWorldReply(helloWorldAggregate: HelloWorldAggregate)
+
+object CreateHelloWorldReply {
+  implicit val format: Format[CreateHelloWorldReply] = Json.format
+}
 /**
   * Create HelloWorld command
   *
@@ -631,7 +634,7 @@ case object GetHelloWorldQuery
   * @param helloWorldAggregate HelloWorld aggregate.
   */
 case class CreateHelloWorldCommand(helloWorldAggregate: HelloWorldAggregate)
-    extends HelloWorldCommand[Either[ServiceError, HelloWorldAggregate]]
+    extends HelloWorldCommand[Either[ServiceError, HelloWorldReply]]
 
 object CreateHelloWorldCommand {
   implicit val format: Format[CreateHelloWorldCommand] = Json.format
@@ -910,15 +913,17 @@ object HelloWorldSerializerRegistry extends JsonSerializerRegistry {
     JsonSerializer[HelloWorldResource],
     JsonSerializer[HelloWorldAggregate],
     // Create
-    JsonSerializer[CreateHelloWorldCommand],
     JsonSerializer[CreateHelloWorldRequest],
-    JsonSerializer[CreateHelloWorldResponse],
+    JsonSerializer[CreateHelloWorldCommand],
+    JsonSerializer[CreateHelloWorldReply],
     JsonSerializer[HelloWorldCreatedEvent],
+    JsonSerializer[CreateHelloWorldResponse],
     // Replace
-    JsonSerializer[ReplaceHelloWorldCommand],
     JsonSerializer[ReplaceHelloWorldRequest],
-    JsonSerializer[ReplaceHelloWorldResponse],
+    JsonSerializer[ReplaceHelloWorldCommand],
+    JsonSerializer[ReplaceHelloWorldReply],
     JsonSerializer[HelloWorldReplacedEvent],
+    JsonSerializer[ReplaceHelloWorldResponse],
     // Mutate
     // Deactivate
     // Reactivate

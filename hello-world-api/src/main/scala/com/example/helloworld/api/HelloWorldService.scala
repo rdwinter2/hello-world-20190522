@@ -221,7 +221,7 @@ object HelloWorld {
 // Supporting algebraic data types {
 case class Identity(
   identifier: String,
-  revision: Option[Int],
+  revision: Option[Int],    // a monotonically increasing counter of changes
   hash: Option[String])
 
 object Identity {
