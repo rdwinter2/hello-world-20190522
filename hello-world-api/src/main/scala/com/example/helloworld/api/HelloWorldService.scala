@@ -45,7 +45,8 @@ trait HelloWorldService extends Service {
     // @formatter:off
     named("hello-world").withCalls(
       // CRUDy REST
-      restCall(Method.POST,   "/api/hello-worlds",       postHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds",       postHelloWorld1 _),
+      restCall(Method.POST,   "/api/hello-worlds/:id",   postHelloWorld2 _),
       restCall(Method.PUT,    "/api/hello-worlds/:id",   putHelloWorld _),
       //restCall(Method.PATCH,  "/api/hello-worlds/:id",   patchHelloWorld _),
       //restCall(Method.DELETE, "/api/hello-worlds/:id",   deleteHelloWorld _),
@@ -94,7 +95,8 @@ trait HelloWorldService extends Service {
     * Example:
     * curl -H "Content-Type: application/json" -X POST -d '{"helloWorld": {"name": "test", "description": "test description"}}' http://localhost:9000/api/hello-worlds
     */
-  def postHelloWorld: ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def postHelloWorld1: ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def postHelloWorld2(helloWorldId: String): ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
 
   def putHelloWorld(helloWorldId: String): ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]]
   //def patchHelloWorld(helloWorldId: String): ServiceCall[PatchHelloWorldRequest, Either[ErrorResponse, PatchHelloWorldResponse]]
