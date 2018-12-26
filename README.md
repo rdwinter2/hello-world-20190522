@@ -17,46 +17,52 @@ After running `git init` or cloning from a repository `cd` into the directory an
 
 The REST call identifiers for the Hello World project are defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq5lla2i0000nsya88yy5brt -->
+<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq5oanrt00000syamml29v77 -->
 
 ```scala
   override final def descriptor = {
     import Service._
     // @formatter:off
     named("hello-world").withCalls(
-      // CRUDy REST
-      restCall(Method.POST,   "/api/hello-worlds",       postHelloWorld1 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id",   postHelloWorld2 _),
-      restCall(Method.PUT,    "/api/hello-worlds/:id",   putHelloWorld _),
-      restCall(Method.PATCH,  "/api/hello-worlds/:id",   patchHelloWorld _),
-      restCall(Method.DELETE, "/api/hello-worlds/:id",   deleteHelloWorld _),
-
-      restCall(Method.GET,    "/api/hello-worlds/:id",   getHelloWorld _),
-      //restCall(Method.GET,    "/api/hello-worlds",       getAllHelloWorlds _),
+      // CRUDy plain REST
+      restCall(Method.POST,   "/api/hello-worlds",     postHelloWorld1 _),
+      restCall(Method.POST,   "/api/hello-worlds/:id", postHelloWorld2 _),
+      restCall(Method.PUT,    "/api/hello-worlds/:id", putHelloWorld _),
+      restCall(Method.PATCH,  "/api/hello-worlds/:id", patchHelloWorld _),
+      restCall(Method.DELETE, "/api/hello-worlds/:id", deleteHelloWorld _),
+      restCall(Method.GET,    "/api/hello-worlds/:id", getHelloWorld _),
+      restCall(Method.GET,    "/api/hello-worlds",     getAllHelloWorlds _),
       // CRUDy DDDified REST without a proper ubiquitious language
-      restCall(Method.POST,   "/api/hello-worlds/creation",                         createHelloWorld1 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/creation",                     createHelloWorld2 _),
-      restCall(Method.POST,   "/api/hello-worlds/creation/:creationId",             createHelloWorld3 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/creation/:creationId",         createHelloWorld4 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/replacement",                  replaceHelloWorld1 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/replacement/:replacementId",   replaceHelloWorld2 _),
-      restCall(Method.GET,    "/api/hello-worlds/:id/mutation",                     mutateHelloWorld1 _),
-      restCall(Method.GET,    "/api/hello-worlds/:id/mutation/:mutationId",         mutateHelloWorld2 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/deactivation",                 deactivateHelloWorld1 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/deactivation/:deactivationId", deactivateHelloWorld2 _),
-      //restCall(Method.POST,   "/api/hello-worlds/:id/reactivation/:reactivationId", reactivateHelloWorld _),
-      //restCall(Method.GET,    "/api/hello-worlds/:id/creation/:creationId",         getCreateHelloWorld _),
-      //restCall(Method.GET,    "/api/hello-worlds/:id/deactivation/:deactivationId", getDeactivateHelloWorld _),
-      //restCall(Method.GET,    "/api/hello-worlds/:id/reactivation/:reactivationId", getReactivateHelloWorld _)
+      // Create
+      restCall(Method.POST, "/api/hello-worlds/creation",                                createHelloWorld1 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/creation",                            createHelloWorld2 _),
+      restCall(Method.POST, "/api/hello-worlds/creation/:creationId",                    createHelloWorld3 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/creation/:creationId",                createHelloWorld4 _),
+      restCall(Method.GET,  "/api/hello-worlds/:id/creation/:creationId",                getCreationHelloWorld _),
+      pathCall(             "/api/hello-worlds/:id/creation/:creationId/stream",         streamCreationHelloWorld _),
+      // Read
+      // Update
+      restCall(Method.POST, "/api/hello-worlds/:id/replacement",                         replaceHelloWorld1 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/replacement/:replacementId",          replaceHelloWorld2 _),
+      restCall(Method.GET,  "/api/hello-worlds/:id/replacement/:replacementId",          getReplacementHelloWorld _),
+      pathCall(             "/api/hello-worlds/:id/replacement/:replacementId/stream",   streamReplacementHelloWorld _),
+      restCall(Method.POST, "/api/hello-worlds/:id/mutation",                            mutateHelloWorld1 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/mutation/:mutationId",                mutateHelloWorld2 _),
+      restCall(Method.GET,  "/api/hello-worlds/:id/mutation/:mutationId",                getMutationHelloWorld _),
+      pathCall(             "/api/hello-worlds/:id/mutation/:mutationId/stream",         streamMutationHelloWorld _),
+      // Delete
+      restCall(Method.POST, "/api/hello-worlds/:id/deactivation",                        deactivateHelloWorld1 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/deactivation/:deactivationId",        deactivateHelloWorld2 _),
+      restCall(Method.GET,  "/api/hello-worlds/:id/deactivation/:deactivationId",        getDeactivationHelloWorld _),
+      pathCall(             "/api/hello-worlds/:id/deactivation/:deactivationId/stream", streamDeactivationHelloWorld _),
+      // Undelete
+      restCall(Method.POST, "/api/hello-worlds/:id/reactivation",                        reactivateHelloWorld1 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/reactivation/:reactivationId",        reactivateHelloWorld2 _),
+      restCall(Method.GET,  "/api/hello-worlds/:id/reactivation/:reactivationId",        getReactivationHelloWorld _),
+      pathCall(             "/api/hello-worlds/:id/reactivation/:reactivationId/stream", streamReactivationHelloWorld _),
       // DDDified REST using the bounded context's ubiquitious language
-      //restCall(Method.POST,    "/api/hello-worlds",                     createHelloWorldWithSystemGeneratedId _),
-      //restCall(Method.POST,    "/api/hello-worlds/:id/creation/:creationId",   createHelloWorld _),
-      //restCall(Method.POST, "/api/hello-worlds/:id/archival/:archivalId", archiveHelloWorld _),
-      //restCall(Method.POST, "/api/hello-worlds/:id/reactivation/:reactivationId", reactivateHelloWorld _),
-      //restCall(Method.POST, "/api/hello-worlds/:id/enhancement/:enhancementId", enhanceHelloWorld _),
-//      pathCall("/api/hello-worlds/stream", streamHelloWorlds _),
-      //restCall(Method.GET, "/api/hello-worlds/:id", getHelloWorld _),
-      //restCall(Method.GET, "/api/hello-worlds", getAllHelloWorlds _)
+      //restCall(Method.POST, "/api/hello-worlds/:id/description-enhancement/:enhancementId", enhanceDescriptionHelloWorld _),
+//      pathCall("/api/ff hello-worlds/stream", streamHelloWorlds _),
     )
       .withAutoAcl(true)
       .withExceptionSerializer(new DefaultExceptionSerializer(Environment.simple(mode = Mode.Prod)))
@@ -67,12 +73,12 @@ The REST call identifiers for the Hello World project are defined as:
   }
 ```
 
-<!--- transclude cjq5lla2i0000nsya88yy5brt -->
+<!--- transclude cjq5oanrt00000syamml29v77 -->
 NOTE: For naming resources in a DDD way follow recommendations in https://www.thoughtworks.com/insights/blog/rest-api-design-resource-modeling.
 
 The algebraic data type for Hello World is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq5llaab0001nsyawf98ptdx -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq5oanzm00010syamldun1ak -->
 
 ```scala
 // Hello World algebraic data type {
@@ -106,11 +112,11 @@ object HelloWorld {
 // }
 ```
 
-<!--- transclude cjq5llaab0001nsyawf98ptdx -->
+<!--- transclude cjq5oanzm00010syamldun1ak -->
 
 With regular expression validation matchers:
 
-<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq5llai70002nsyaxf2fl6t3 -->
+<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq5oao7200020syaqqqgszax -->
 
 ```scala
 object Matchers {
@@ -123,11 +129,11 @@ object Matchers {
 }
 ```
 
-<!--- transclude cjq5llai70002nsyaxf2fl6t3 -->
+<!--- transclude cjq5oao7200020syaqqqgszax -->
 
 And supporting algebraic data types:
 
-<!--- transclude::api/HelloWorldService.scala::[Supporting algebraic data types {] cjq5llapt0003nsyadbdapqfv -->
+<!--- transclude::api/HelloWorldService.scala::[Supporting algebraic data types {] cjq5oaoep00030sya8t14ew3e -->
 
 ```scala
 // Supporting algebraic data types {
@@ -182,11 +188,11 @@ object HalLink {
 // }
 ```
 
-<!--- transclude cjq5llapt0003nsyadbdapqfv -->
+<!--- transclude cjq5oaoep00030sya8t14ew3e -->
 
 The REST resource for Hello World is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq5llaxm0004nsya66x54uox -->
+<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq5oaomi00040syayalaf2s6 -->
 
 ```scala
 case class HelloWorldResource(
@@ -194,11 +200,11 @@ case class HelloWorldResource(
 )
 ```
 
-<!--- transclude cjq5llaxm0004nsya66x54uox -->
+<!--- transclude cjq5oaomi00040syayalaf2s6 -->
 
 The DDD aggregate for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq5llb5a0005nsyagdadmeys -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq5oaoum00050syac96e8pwm -->
 
 ```scala
 case class HelloWorldAggregate(
@@ -207,11 +213,11 @@ case class HelloWorldAggregate(
 )
 ```
 
-<!--- transclude cjq5llb5a0005nsyagdadmeys -->
+<!--- transclude cjq5oaoum00050syac96e8pwm -->
 
 The state for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq5llbcs0006nsyar76ojf78 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq5oap2h00060syangq5a5vr -->
 
 ```scala
 case class HelloWorldState(
@@ -220,11 +226,11 @@ case class HelloWorldState(
 )
 ```
 
-<!--- transclude cjq5llbcs0006nsyar76ojf78 -->
+<!--- transclude cjq5oap2h00060syangq5a5vr -->
 
 The possible statuses for the Hello World aggregate are defined to be:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq5llbkp0007nsyayudxh0iz -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq5oapbd00070sya9sw7baw6 -->
 
 ```scala
 object HelloWorldStatus extends Enumeration {
@@ -237,17 +243,17 @@ object HelloWorldStatus extends Enumeration {
 }
 ```
 
-<!--- transclude cjq5llbkp0007nsyayudxh0iz -->
+<!--- transclude cjq5oapbd00070sya9sw7baw6 -->
 
 The entity for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq5llbt30008nsyaj8c7xk3h -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq5oapj500080syau8l850yl -->
 
 ```scala
 
 ```
 
-<!--- transclude cjq5llbt30008nsyaj8c7xk3h -->
+<!--- transclude cjq5oapj500080syau8l850yl -->
 
 For CRUDy operations the following subordinate, nounified, resources are created:
 * Creation
@@ -260,7 +266,7 @@ Creation
 --------
 A Creation request takes a desired HelloWorld algebraic data type and responds with the created HelloWorldResource plus the supporing algebraic data types of Identity and HypertextApplicationLanguage. If the Hello World resource is not created the service responses with an ErrorResponse. The following REST calls can be used. Identifiers are optional. If specified all identifiers must adhere to the Matcher for Id. Otherwise, the service will create and use a collision resistant unique identifier.
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Creation Calls {] cjq5llc170009nsyalxlbt0fz -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Creation Calls {] cjq5oapqo00090sya7j8e89ek -->
 
 ```scala
 // Hello World Creation Calls {
@@ -270,7 +276,8 @@ A Creation request takes a desired HelloWorld algebraic data type and responds w
     * @param  helloWorldId  Optional unique identifier of the "Hello World"
     *         creationId    Optional unique identifier of the creation subordinate resource
     *
-    * @return HTTP 200 OK                    if the "Hello World" was created successfully
+    * @return HTTP 201 Created               if the "Hello World" was created successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
     *         HTTP 400 Bad Request           if domain validation of the [[CreateHelloWorldRequest]] failed
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure
@@ -297,25 +304,27 @@ A Creation request takes a desired HelloWorld algebraic data type and responds w
   def createHelloWorld2(helloWorldId: String):                     ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
   def createHelloWorld3(creationId: String):                       ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
   def createHelloWorld4(helloWorldId: String, creationId: String): ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-
+  // Retrieve status of creation request
+  def getCreationHelloWorld(helloWorldId: String, creationId: String):    ServiceCall[NotUsed, Either[ErrorResponse, CreationHelloWorldResponse]]
+  def streamCreationHelloWorld(helloWorldId: String, creationId: String): ServiceCall[NotUsed, Source[CreationHelloWorldResponse, NotUsed]]
 // }
 ```
 
-<!--- transclude cjq5llc170009nsyalxlbt0fz -->
+<!--- transclude cjq5oapqo00090sya7j8e89ek -->
 
 The Matcher for identifiers is defined to be:
 
-<!--- transclude::api/HelloWorldService.scala::[val Id = .*] cjq5llc8n000ansyapuavt4lb -->
+<!--- transclude::api/HelloWorldService.scala::[val Id = .*] cjq5oapya000a0sya8ca4vpu1 -->
 
 ```scala
   val Id = """^[a-zA-Z0-9\-\.\_\~]{1,64}$"""
 ```
 
-<!--- transclude cjq5llc8n000ansyapuavt4lb -->
+<!--- transclude cjq5oapya000a0sya8ca4vpu1 -->
 
 The create Hello World request is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldRequest(] cjq5llcg1000bnsyaet120mto -->
+<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldRequest(] cjq5oaq5w000b0syaea3ncmp2 -->
 
 ```scala
 case class CreateHelloWorldRequest(
@@ -323,11 +332,11 @@ case class CreateHelloWorldRequest(
 )
 ```
 
-<!--- transclude cjq5llcg1000bnsyaet120mto -->
+<!--- transclude cjq5oaq5w000b0syaea3ncmp2 -->
 
 And the create Hello World response is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldResponse(] cjq5llcns000cnsyayv1y0n51 -->
+<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldResponse(] cjq5oaqd8000c0syakzyt8lkn -->
 
 ```scala
 case class CreateHelloWorldResponse(
@@ -337,13 +346,13 @@ case class CreateHelloWorldResponse(
 )
 ```
 
-<!--- transclude cjq5llcns000cnsyayv1y0n51 -->
+<!--- transclude cjq5oaqd8000c0syakzyt8lkn -->
 
 Replacement
 -----------
 A Replacement request takes the new desired HelloWorld algebraic data type and responds with the replaced HelloWorldResource plus the supporing algebraic data types of Identity and HypertextApplicationLanguage. If the Hello World resource is not replaced the service responses with an ErrorResponse. The following REST calls can be used. The Hello World identifier is required, but the replacementId is optional. If specified all identifiers must adhere to the Matcher for Id.
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Replacement Calls {] cjq5llcw6000dnsyaspm3ixpc -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Replacement Calls {] cjq5oaqkn000d0syaicp4x4w7 -->
 
 ```scala
 // Hello World Replacement Calls {
@@ -354,6 +363,7 @@ A Replacement request takes the new desired HelloWorld algebraic data type and r
     *         replacementId  Optional unique identifier of the replacement subordinate resource
     *
     * @return HTTP 200 OK                    if the "Hello World" was replaced successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
     *         HTTP 400 Bad Request           if domain validation of the [[ReplaceHelloWorldRequest]] failed
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
@@ -374,15 +384,17 @@ A Replacement request takes the new desired HelloWorld algebraic data type and r
   def putHelloWorld(helloWorldId: String):                             ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]]
   def replaceHelloWorld1(helloWorldId: String):                        ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]]
   def replaceHelloWorld2(helloWorldId: String, replacementId: String): ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]]
-
+  // Retrieve status of replacement request
+  def getReplacementHelloWorld(helloWorldId: String, replacementId: String):    ServiceCall[NotUsed, Either[ErrorResponse, ReplacementHelloWorldResponse]]
+  def streamReplacementHelloWorld(helloWorldId: String, replacementId: String): ServiceCall[NotUsed, Source[ReplacementHelloWorldResponse, NotUsed]]
 // }
 ```
 
-<!--- transclude cjq5llcw6000dnsyaspm3ixpc -->
+<!--- transclude cjq5oaqkn000d0syaicp4x4w7 -->
 
 The replace Hello World request is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldRequest(] cjq5lld43000ensyat7vlgny9 -->
+<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldRequest(] cjq5oaqsi000e0syadej3gn5o -->
 
 ```scala
 case class ReplaceHelloWorldRequest(
@@ -391,11 +403,11 @@ case class ReplaceHelloWorldRequest(
 )
 ```
 
-<!--- transclude cjq5lld43000ensyat7vlgny9 -->
+<!--- transclude cjq5oaqsi000e0syadej3gn5o -->
 
 And the replace Hello World response is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldResponse(] cjq5lldby000fnsya95lw533e -->
+<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldResponse(] cjq5oar02000f0syaq0k2g6zp -->
 
 ```scala
 case class ReplaceHelloWorldResponse(
@@ -405,12 +417,12 @@ case class ReplaceHelloWorldResponse(
 )
 ```
 
-<!--- transclude cjq5lldby000fnsya95lw533e -->
+<!--- transclude cjq5oar02000f0syaq0k2g6zp -->
 
 Mutation
 --------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Mutation Calls {] cjq5lldjk000gnsya06qx2629 -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Mutation Calls {] cjq5oar85000g0sya3j03mgsq -->
 
 ```scala
 // Hello World Mutation Calls {
@@ -421,6 +433,7 @@ Mutation
     *         mutationId    Optional unique identifier of the mutation subordinate resource
     *
     * @return HTTP 200 OK                    if the "Hello World" was mutated successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
     *         HTTP 400 Bad Request           if domain validation of the [[MutateHelloWorldRequest]] failed
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
@@ -441,17 +454,19 @@ Mutation
   def patchHelloWorld(helloWorldId: String):                       ServiceCall[MutateHelloWorldRequest, Either[ErrorResponse, MutateHelloWorldResponse]]
   def mutateHelloWorld1(helloWorldId: String):                     ServiceCall[MutateHelloWorldRequest, Either[ErrorResponse, MutateHelloWorldResponse]]
   def mutateHelloWorld2(helloWorldId: String, mutationId: String): ServiceCall[MutateHelloWorldRequest, Either[ErrorResponse, MutateHelloWorldResponse]]
-
+  // Retrieve status of mutation request
+  def getMutationHelloWorld(helloWorldId: String, mutationId: String):    ServiceCall[NotUsed, Either[ErrorResponse, MutationHelloWorldResponse]]
+  def streamMutationHelloWorld(helloWorldId: String, mutationId: String): ServiceCall[NotUsed, Source[MutationHelloWorldResponse, NotUsed]]
 // }
 ```
 
-<!--- transclude cjq5lldjk000gnsya06qx2629 -->
+<!--- transclude cjq5oar85000g0sya3j03mgsq -->
 
 
 Deactivation
 ------------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Deactivation Calls {] cjq5lldrj000hnsya4hsvae7k -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Deactivation Calls {] cjq5oarfi000h0syamitl5p4u -->
 
 ```scala
 // Hello World Deactivation Calls {
@@ -462,6 +477,7 @@ Deactivation
     *         deactivationId  Optional unique identifier of the deactivation subordinate resource
     *
     * @return HTTP 200 OK                    if the "Hello World" was deactivated successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
     *         HTTP 400 Bad Request           if domain validation of the [[DeactivateHelloWorldRequest]] failed
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
@@ -481,16 +497,18 @@ Deactivation
   def patchHelloWorld(helloWorldId: String):                               ServiceCall[DeactivateHelloWorldRequest, Either[ErrorResponse, DeactivateHelloWorldResponse]]
   def deactivateHelloWorld1(helloWorldId: String):                         ServiceCall[DeactivateHelloWorldRequest, Either[ErrorResponse, DeactivateHelloWorldResponse]]
   def deactivateHelloWorld2(helloWorldId: String, deactivationId: String): ServiceCall[DeactivateHelloWorldRequest, Either[ErrorResponse, DeactivateHelloWorldResponse]]
-
+  // Retrieve status of deactivation request
+  def getDeactivationHelloWorld(helloWorldId: String, deactivationId: String):    ServiceCall[NotUsed, Either[ErrorResponse, DeactivationHelloWorldResponse]]
+  def streamDeactivationHelloWorld(helloWorldId: String, deactivationId: String): ServiceCall[NotUsed, Source[DeactivationHelloWorldResponse, NotUsed]]
 // }
 ```
 
-<!--- transclude cjq5lldrj000hnsya4hsvae7k -->
+<!--- transclude cjq5oarfi000h0syamitl5p4u -->
 
 Reactivation
 ------------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Reactivation Calls {] cjq5lldz3000insyartu0qwf4 -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Reactivation Calls {] cjq5oarnu000i0syaqiqahnen -->
 
 ```scala
 // Hello World Reactivation Calls {
@@ -501,6 +519,7 @@ Reactivation
     *         reactivationId  Optional unique identifier of the reactivation subordinate resource
     *
     * @return HTTP 200 OK                    if the "Hello World" was reactivated successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
     *         HTTP 400 Bad Request           if domain validation of the [[ReactivateHelloWorldRequest]] failed
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
@@ -518,38 +537,48 @@ Reactivation
   def patchHelloWorld(helloWorldId: String):                               ServiceCall[ReactivateHelloWorldRequest, Either[ErrorResponse, ReactivateHelloWorldResponse]]
   def reactivateHelloWorld1(helloWorldId: String):                         ServiceCall[ReactivateHelloWorldRequest, Either[ErrorResponse, ReactivateHelloWorldResponse]]
   def reactivateHelloWorld2(helloWorldId: String, reactivationId: String): ServiceCall[ReactivateHelloWorldRequest, Either[ErrorResponse, ReactivateHelloWorldResponse]]
-
+  // Retrieve status of reactivation request
+  def getReactivationHelloWorld(helloWorldId: String, reactivationId: String):    ServiceCall[NotUsed, Either[ErrorResponse, ReactivationHelloWorldResponse]]
+  def streamReactivationHelloWorld(helloWorldId: String, reactivationId: String): ServiceCall[NotUsed, Source[ReactivationHelloWorldResponse, NotUsed]]
 // }
 ```
 
-<!--- transclude cjq5lldz3000insyartu0qwf4 -->
+<!--- transclude cjq5oarnu000i0syaqiqahnen -->
 
 Read
 ----
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Get Calls {] cjq5lle6x000jnsyaaunhfcsm -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Get Calls {] cjq5oarvw000j0syae543xc5p -->
 
 ```scala
 // Hello World Get Calls {
   /**
     * Rest api allowing an authenticated user to get a "Hello World" with the given surrogate key.
     *
-    * @param helloWorldId The ID of the "Hello World" to get
+    * @param helloWorldId    The unique identifier of the "Hello World"
     *
-    * @return HTTP 200 status code with the current state of the "Hello World" resource.
+    * @return HTTP 200 OK                    if the "Hello World" was retrieved successfully
     *
     * Example:
-    * curl http://localhost:9000/api/hello-worlds/123e4567-e89b-12d3-a456-426655440000
+    * CT="Content-Type: application/json"
+    * curl -H $CT http://localhost:9000/api/hello-worlds/cjq5au9sr000caqyayo9uktss
     */
   def getHelloWorld(helloWorldId: String): ServiceCall[NotUsed, Either[ErrorResponse, GetHelloWorldResponse]]
 
-  //def getHelloWorld(
-  //    helloWorldId: String): ServiceCall[NotUsed, GetHelloWorldResponse]
-
+  /**
+    * Get all "Hello Worlds".
+    *
+    * @return A list of "Hello World" resources.
+    *
+    * Example:
+    * curl http://localhost:9000/api/hello-worlds
+    */
+  def getAllHelloWorlds(page: Option[String]): ServiceCall[NotUsed, utils.PagingState[GetAllHelloWorldsResponse]]
+  def getAllHelloWorlds:                       ServiceCall[NotUsed, GetAllHelloWorldsResponse]
 // }
 ```
 
-<!--- transclude cjq5lle6x000jnsyaaunhfcsm -->
+<!--- transclude cjq5oarvw000j0syae543xc5p -->
 
 ```bash
 -- With Bearer Auth Token

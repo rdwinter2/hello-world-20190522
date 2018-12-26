@@ -44,39 +44,45 @@ trait HelloWorldService extends Service {
     import Service._
     // @formatter:off
     named("hello-world").withCalls(
-      // CRUDy REST
-      restCall(Method.POST,   "/api/hello-worlds",       postHelloWorld1 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id",   postHelloWorld2 _),
-      restCall(Method.PUT,    "/api/hello-worlds/:id",   putHelloWorld _),
-      restCall(Method.PATCH,  "/api/hello-worlds/:id",   patchHelloWorld _),
-      restCall(Method.DELETE, "/api/hello-worlds/:id",   deleteHelloWorld _),
-
-      restCall(Method.GET,    "/api/hello-worlds/:id",   getHelloWorld _),
-      //restCall(Method.GET,    "/api/hello-worlds",       getAllHelloWorlds _),
+      // CRUDy plain REST
+      restCall(Method.POST,   "/api/hello-worlds",     postHelloWorld1 _),
+      restCall(Method.POST,   "/api/hello-worlds/:id", postHelloWorld2 _),
+      restCall(Method.PUT,    "/api/hello-worlds/:id", putHelloWorld _),
+      restCall(Method.PATCH,  "/api/hello-worlds/:id", patchHelloWorld _),
+      restCall(Method.DELETE, "/api/hello-worlds/:id", deleteHelloWorld _),
+      restCall(Method.GET,    "/api/hello-worlds/:id", getHelloWorld _),
+      restCall(Method.GET,    "/api/hello-worlds",     getAllHelloWorlds _),
       // CRUDy DDDified REST without a proper ubiquitious language
-      restCall(Method.POST,   "/api/hello-worlds/creation",                         createHelloWorld1 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/creation",                     createHelloWorld2 _),
-      restCall(Method.POST,   "/api/hello-worlds/creation/:creationId",             createHelloWorld3 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/creation/:creationId",         createHelloWorld4 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/replacement",                  replaceHelloWorld1 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/replacement/:replacementId",   replaceHelloWorld2 _),
-      restCall(Method.GET,    "/api/hello-worlds/:id/mutation",                     mutateHelloWorld1 _),
-      restCall(Method.GET,    "/api/hello-worlds/:id/mutation/:mutationId",         mutateHelloWorld2 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/deactivation",                 deactivateHelloWorld1 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id/deactivation/:deactivationId", deactivateHelloWorld2 _),
-      //restCall(Method.POST,   "/api/hello-worlds/:id/reactivation/:reactivationId", reactivateHelloWorld _),
-      //restCall(Method.GET,    "/api/hello-worlds/:id/creation/:creationId",         getCreateHelloWorld _),
-      //restCall(Method.GET,    "/api/hello-worlds/:id/deactivation/:deactivationId", getDeactivateHelloWorld _),
-      //restCall(Method.GET,    "/api/hello-worlds/:id/reactivation/:reactivationId", getReactivateHelloWorld _)
+      // Create
+      restCall(Method.POST, "/api/hello-worlds/creation",                                createHelloWorld1 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/creation",                            createHelloWorld2 _),
+      restCall(Method.POST, "/api/hello-worlds/creation/:creationId",                    createHelloWorld3 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/creation/:creationId",                createHelloWorld4 _),
+      restCall(Method.GET,  "/api/hello-worlds/:id/creation/:creationId",                getCreationHelloWorld _),
+      pathCall(             "/api/hello-worlds/:id/creation/:creationId/stream",         streamCreationHelloWorld _),
+      // Read
+      // Update
+      restCall(Method.POST, "/api/hello-worlds/:id/replacement",                         replaceHelloWorld1 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/replacement/:replacementId",          replaceHelloWorld2 _),
+      restCall(Method.GET,  "/api/hello-worlds/:id/replacement/:replacementId",          getReplacementHelloWorld _),
+      pathCall(             "/api/hello-worlds/:id/replacement/:replacementId/stream",   streamReplacementHelloWorld _),
+      restCall(Method.POST, "/api/hello-worlds/:id/mutation",                            mutateHelloWorld1 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/mutation/:mutationId",                mutateHelloWorld2 _),
+      restCall(Method.GET,  "/api/hello-worlds/:id/mutation/:mutationId",                getMutationHelloWorld _),
+      pathCall(             "/api/hello-worlds/:id/mutation/:mutationId/stream",         streamMutationHelloWorld _),
+      // Delete
+      restCall(Method.POST, "/api/hello-worlds/:id/deactivation",                        deactivateHelloWorld1 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/deactivation/:deactivationId",        deactivateHelloWorld2 _),
+      restCall(Method.GET,  "/api/hello-worlds/:id/deactivation/:deactivationId",        getDeactivationHelloWorld _),
+      pathCall(             "/api/hello-worlds/:id/deactivation/:deactivationId/stream", streamDeactivationHelloWorld _),
+      // Undelete
+      restCall(Method.POST, "/api/hello-worlds/:id/reactivation",                        reactivateHelloWorld1 _),
+      restCall(Method.POST, "/api/hello-worlds/:id/reactivation/:reactivationId",        reactivateHelloWorld2 _),
+      restCall(Method.GET,  "/api/hello-worlds/:id/reactivation/:reactivationId",        getReactivationHelloWorld _),
+      pathCall(             "/api/hello-worlds/:id/reactivation/:reactivationId/stream", streamReactivationHelloWorld _),
       // DDDified REST using the bounded context's ubiquitious language
-      //restCall(Method.POST,    "/api/hello-worlds",                     createHelloWorldWithSystemGeneratedId _),
-      //restCall(Method.POST,    "/api/hello-worlds/:id/creation/:creationId",   createHelloWorld _),
-      //restCall(Method.POST, "/api/hello-worlds/:id/archival/:archivalId", archiveHelloWorld _),
-      //restCall(Method.POST, "/api/hello-worlds/:id/reactivation/:reactivationId", reactivateHelloWorld _),
-      //restCall(Method.POST, "/api/hello-worlds/:id/enhancement/:enhancementId", enhanceHelloWorld _),
-//      pathCall("/api/hello-worlds/stream", streamHelloWorlds _),
-      //restCall(Method.GET, "/api/hello-worlds/:id", getHelloWorld _),
-      //restCall(Method.GET, "/api/hello-worlds", getAllHelloWorlds _)
+      //restCall(Method.POST, "/api/hello-worlds/:id/description-enhancement/:enhancementId", enhanceDescriptionHelloWorld _),
+//      pathCall("/api/ff hello-worlds/stream", streamHelloWorlds _),
     )
       .withAutoAcl(true)
       .withExceptionSerializer(new DefaultExceptionSerializer(Environment.simple(mode = Mode.Prod)))
@@ -95,7 +101,8 @@ trait HelloWorldService extends Service {
     * @param  helloWorldId  Optional unique identifier of the "Hello World"
     *         creationId    Optional unique identifier of the creation subordinate resource
     *
-    * @return HTTP 200 OK                    if the "Hello World" was created successfully
+    * @return HTTP 201 Created               if the "Hello World" was created successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
     *         HTTP 400 Bad Request           if domain validation of the [[CreateHelloWorldRequest]] failed
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure
@@ -122,7 +129,9 @@ trait HelloWorldService extends Service {
   def createHelloWorld2(helloWorldId: String):                     ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
   def createHelloWorld3(creationId: String):                       ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
   def createHelloWorld4(helloWorldId: String, creationId: String): ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-
+  // Retrieve status of creation request
+  def getCreationHelloWorld(helloWorldId: String, creationId: String):    ServiceCall[NotUsed, Either[ErrorResponse, CreationHelloWorldResponse]]
+  def streamCreationHelloWorld(helloWorldId: String, creationId: String): ServiceCall[NotUsed, Source[CreationHelloWorldResponse, NotUsed]]
 // }
 
 // Hello World Replacement Calls {
@@ -133,6 +142,7 @@ trait HelloWorldService extends Service {
     *         replacementId  Optional unique identifier of the replacement subordinate resource
     *
     * @return HTTP 200 OK                    if the "Hello World" was replaced successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
     *         HTTP 400 Bad Request           if domain validation of the [[ReplaceHelloWorldRequest]] failed
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
@@ -153,7 +163,9 @@ trait HelloWorldService extends Service {
   def putHelloWorld(helloWorldId: String):                             ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]]
   def replaceHelloWorld1(helloWorldId: String):                        ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]]
   def replaceHelloWorld2(helloWorldId: String, replacementId: String): ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]]
-
+  // Retrieve status of replacement request
+  def getReplacementHelloWorld(helloWorldId: String, replacementId: String):    ServiceCall[NotUsed, Either[ErrorResponse, ReplacementHelloWorldResponse]]
+  def streamReplacementHelloWorld(helloWorldId: String, replacementId: String): ServiceCall[NotUsed, Source[ReplacementHelloWorldResponse, NotUsed]]
 // }
 
 // Hello World Mutation Calls {
@@ -164,6 +176,7 @@ trait HelloWorldService extends Service {
     *         mutationId    Optional unique identifier of the mutation subordinate resource
     *
     * @return HTTP 200 OK                    if the "Hello World" was mutated successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
     *         HTTP 400 Bad Request           if domain validation of the [[MutateHelloWorldRequest]] failed
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
@@ -184,7 +197,9 @@ trait HelloWorldService extends Service {
   def patchHelloWorld(helloWorldId: String):                       ServiceCall[MutateHelloWorldRequest, Either[ErrorResponse, MutateHelloWorldResponse]]
   def mutateHelloWorld1(helloWorldId: String):                     ServiceCall[MutateHelloWorldRequest, Either[ErrorResponse, MutateHelloWorldResponse]]
   def mutateHelloWorld2(helloWorldId: String, mutationId: String): ServiceCall[MutateHelloWorldRequest, Either[ErrorResponse, MutateHelloWorldResponse]]
-
+  // Retrieve status of mutation request
+  def getMutationHelloWorld(helloWorldId: String, mutationId: String):    ServiceCall[NotUsed, Either[ErrorResponse, MutationHelloWorldResponse]]
+  def streamMutationHelloWorld(helloWorldId: String, mutationId: String): ServiceCall[NotUsed, Source[MutationHelloWorldResponse, NotUsed]]
 // }
 
 // Hello World Deactivation Calls {
@@ -195,6 +210,7 @@ trait HelloWorldService extends Service {
     *         deactivationId  Optional unique identifier of the deactivation subordinate resource
     *
     * @return HTTP 200 OK                    if the "Hello World" was deactivated successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
     *         HTTP 400 Bad Request           if domain validation of the [[DeactivateHelloWorldRequest]] failed
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
@@ -214,7 +230,9 @@ trait HelloWorldService extends Service {
   def patchHelloWorld(helloWorldId: String):                               ServiceCall[DeactivateHelloWorldRequest, Either[ErrorResponse, DeactivateHelloWorldResponse]]
   def deactivateHelloWorld1(helloWorldId: String):                         ServiceCall[DeactivateHelloWorldRequest, Either[ErrorResponse, DeactivateHelloWorldResponse]]
   def deactivateHelloWorld2(helloWorldId: String, deactivationId: String): ServiceCall[DeactivateHelloWorldRequest, Either[ErrorResponse, DeactivateHelloWorldResponse]]
-
+  // Retrieve status of deactivation request
+  def getDeactivationHelloWorld(helloWorldId: String, deactivationId: String):    ServiceCall[NotUsed, Either[ErrorResponse, DeactivationHelloWorldResponse]]
+  def streamDeactivationHelloWorld(helloWorldId: String, deactivationId: String): ServiceCall[NotUsed, Source[DeactivationHelloWorldResponse, NotUsed]]
 // }
 
 // Hello World Reactivation Calls {
@@ -225,6 +243,7 @@ trait HelloWorldService extends Service {
     *         reactivationId  Optional unique identifier of the reactivation subordinate resource
     *
     * @return HTTP 200 OK                    if the "Hello World" was reactivated successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
     *         HTTP 400 Bad Request           if domain validation of the [[ReactivateHelloWorldRequest]] failed
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
@@ -242,26 +261,24 @@ trait HelloWorldService extends Service {
   def patchHelloWorld(helloWorldId: String):                               ServiceCall[ReactivateHelloWorldRequest, Either[ErrorResponse, ReactivateHelloWorldResponse]]
   def reactivateHelloWorld1(helloWorldId: String):                         ServiceCall[ReactivateHelloWorldRequest, Either[ErrorResponse, ReactivateHelloWorldResponse]]
   def reactivateHelloWorld2(helloWorldId: String, reactivationId: String): ServiceCall[ReactivateHelloWorldRequest, Either[ErrorResponse, ReactivateHelloWorldResponse]]
-
+  // Retrieve status of reactivation request
+  def getReactivationHelloWorld(helloWorldId: String, reactivationId: String):    ServiceCall[NotUsed, Either[ErrorResponse, ReactivationHelloWorldResponse]]
+  def streamReactivationHelloWorld(helloWorldId: String, reactivationId: String): ServiceCall[NotUsed, Source[ReactivationHelloWorldResponse, NotUsed]]
 // }
 
 // Hello World Get Calls {
   /**
     * Rest api allowing an authenticated user to get a "Hello World" with the given surrogate key.
     *
-    * @param helloWorldId The ID of the "Hello World" to get
+    * @param helloWorldId    The unique identifier of the "Hello World"
     *
-    * @return HTTP 200 status code with the current state of the "Hello World" resource.
+    * @return HTTP 200 OK                    if the "Hello World" was retrieved successfully
     *
     * Example:
-    * curl http://localhost:9000/api/hello-worlds/123e4567-e89b-12d3-a456-426655440000
+    * CT="Content-Type: application/json"
+    * curl -H $CT http://localhost:9000/api/hello-worlds/cjq5au9sr000caqyayo9uktss
     */
   def getHelloWorld(helloWorldId: String): ServiceCall[NotUsed, Either[ErrorResponse, GetHelloWorldResponse]]
-
-  //def getHelloWorld(
-  //    helloWorldId: String): ServiceCall[NotUsed, GetHelloWorldResponse]
-
-// }
 
   /**
     * Get all "Hello Worlds".
@@ -271,8 +288,9 @@ trait HelloWorldService extends Service {
     * Example:
     * curl http://localhost:9000/api/hello-worlds
     */
-//  def getAllHelloWorlds(page: Option[String]): ServiceCall[NotUsed, utils.PagingState[GetAllHelloWorldsResponse]]
-  //def getAllHelloWorlds: ServiceCall[NotUsed, GetAllHelloWorldsResponse]
+  def getAllHelloWorlds(page: Option[String]): ServiceCall[NotUsed, utils.PagingState[GetAllHelloWorldsResponse]]
+  def getAllHelloWorlds:                       ServiceCall[NotUsed, GetAllHelloWorldsResponse]
+// }
 
 //  def streamHelloWorlds
 //    : ServiceCall[NotUsed, Source[HelloWorldResource, NotUsed]]
