@@ -17,7 +17,7 @@ After running `git init` or cloning from a repository `cd` into the directory an
 
 The REST call identifiers for the Hello World project are defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq5oanrt00000syamml29v77 -->
+<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq5ol3lh0000c4yajkttpj7l -->
 
 ```scala
   override final def descriptor = {
@@ -73,12 +73,12 @@ The REST call identifiers for the Hello World project are defined as:
   }
 ```
 
-<!--- transclude cjq5oanrt00000syamml29v77 -->
+<!--- transclude cjq5ol3lh0000c4yajkttpj7l -->
 NOTE: For naming resources in a DDD way follow recommendations in https://www.thoughtworks.com/insights/blog/rest-api-design-resource-modeling.
 
 The algebraic data type for Hello World is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq5oanzm00010syamldun1ak -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq5ol3u60001c4yakka5ujee -->
 
 ```scala
 // Hello World algebraic data type {
@@ -112,11 +112,11 @@ object HelloWorld {
 // }
 ```
 
-<!--- transclude cjq5oanzm00010syamldun1ak -->
+<!--- transclude cjq5ol3u60001c4yakka5ujee -->
 
 With regular expression validation matchers:
 
-<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq5oao7200020syaqqqgszax -->
+<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq5ol41r0002c4yas46of4ge -->
 
 ```scala
 object Matchers {
@@ -129,11 +129,11 @@ object Matchers {
 }
 ```
 
-<!--- transclude cjq5oao7200020syaqqqgszax -->
+<!--- transclude cjq5ol41r0002c4yas46of4ge -->
 
 And supporting algebraic data types:
 
-<!--- transclude::api/HelloWorldService.scala::[Supporting algebraic data types {] cjq5oaoep00030sya8t14ew3e -->
+<!--- transclude::api/HelloWorldService.scala::[Supporting algebraic data types {] cjq5ol49g0003c4ya66htlvh2 -->
 
 ```scala
 // Supporting algebraic data types {
@@ -188,11 +188,11 @@ object HalLink {
 // }
 ```
 
-<!--- transclude cjq5oaoep00030sya8t14ew3e -->
+<!--- transclude cjq5ol49g0003c4ya66htlvh2 -->
 
 The REST resource for Hello World is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq5oaomi00040syayalaf2s6 -->
+<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq5ol4hu0004c4ya2w8sencb -->
 
 ```scala
 case class HelloWorldResource(
@@ -200,11 +200,11 @@ case class HelloWorldResource(
 )
 ```
 
-<!--- transclude cjq5oaomi00040syayalaf2s6 -->
+<!--- transclude cjq5ol4hu0004c4ya2w8sencb -->
 
 The DDD aggregate for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq5oaoum00050syac96e8pwm -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq5ol4po0005c4yag16n6cnh -->
 
 ```scala
 case class HelloWorldAggregate(
@@ -213,11 +213,27 @@ case class HelloWorldAggregate(
 )
 ```
 
-<!--- transclude cjq5oaoum00050syac96e8pwm -->
+<!--- transclude cjq5ol4po0005c4yag16n6cnh -->
 
 The state for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq5oap2h00060syangq5a5vr -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[override type State = .*] cjq5ol4xc0006c4yan4681sql -->
+
+```scala
+  override type State = Option[HelloWorldState]
+```
+
+<!--- transclude cjq5ol4xc0006c4yan4681sql -->
+
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[override def initialState: .*] cjq5ol5560007c4yarz0zkgdz -->
+
+```scala
+  override def initialState: Option[HelloWorldState] = None
+```
+
+<!--- transclude cjq5ol5560007c4yarz0zkgdz -->
+
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq5ol5ct0008c4yaoh0wwfhz -->
 
 ```scala
 case class HelloWorldState(
@@ -226,11 +242,11 @@ case class HelloWorldState(
 )
 ```
 
-<!--- transclude cjq5oap2h00060syangq5a5vr -->
+<!--- transclude cjq5ol5ct0008c4yaoh0wwfhz -->
 
 The possible statuses for the Hello World aggregate are defined to be:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq5oapbd00070sya9sw7baw6 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq5ol5ku0009c4ya6m99bp5b -->
 
 ```scala
 object HelloWorldStatus extends Enumeration {
@@ -243,17 +259,32 @@ object HelloWorldStatus extends Enumeration {
 }
 ```
 
-<!--- transclude cjq5oapbd00070sya9sw7baw6 -->
+<!--- transclude cjq5ol5ku0009c4ya6m99bp5b -->
+
+The finite state machine (FSM) for the DDD aggregate is:
+
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[override def behavior: Behavior = {] cjq5ol5te000ac4ya6urit1mz -->
+
+```scala
+  override def behavior: Behavior = {
+    case None => nonexistentHelloWorld
+    case Some(state) if state.status == HelloWorldStatus.ACTIVE => activeHelloWorld
+    case Some(state) if state.status == HelloWorldStatus.ARCHIVED => archivedHelloWorld
+    case Some(state) => unknownHelloWorld
+  }
+```
+
+<!--- transclude cjq5ol5te000ac4ya6urit1mz -->
 
 The entity for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq5oapj500080syau8l850yl -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq5ol616000bc4ya8udw26o6 -->
 
 ```scala
 
 ```
 
-<!--- transclude cjq5oapj500080syau8l850yl -->
+<!--- transclude cjq5ol616000bc4ya8udw26o6 -->
 
 For CRUDy operations the following subordinate, nounified, resources are created:
 * Creation
@@ -266,7 +297,7 @@ Creation
 --------
 A Creation request takes a desired HelloWorld algebraic data type and responds with the created HelloWorldResource plus the supporing algebraic data types of Identity and HypertextApplicationLanguage. If the Hello World resource is not created the service responses with an ErrorResponse. The following REST calls can be used. Identifiers are optional. If specified all identifiers must adhere to the Matcher for Id. Otherwise, the service will create and use a collision resistant unique identifier.
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Creation Calls {] cjq5oapqo00090sya7j8e89ek -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Creation Calls {] cjq5ol68m000cc4yak7v0v04w -->
 
 ```scala
 // Hello World Creation Calls {
@@ -310,21 +341,21 @@ A Creation request takes a desired HelloWorld algebraic data type and responds w
 // }
 ```
 
-<!--- transclude cjq5oapqo00090sya7j8e89ek -->
+<!--- transclude cjq5ol68m000cc4yak7v0v04w -->
 
 The Matcher for identifiers is defined to be:
 
-<!--- transclude::api/HelloWorldService.scala::[val Id = .*] cjq5oapya000a0sya8ca4vpu1 -->
+<!--- transclude::api/HelloWorldService.scala::[val Id = .*] cjq5ol6go000dc4yac7wx6x67 -->
 
 ```scala
   val Id = """^[a-zA-Z0-9\-\.\_\~]{1,64}$"""
 ```
 
-<!--- transclude cjq5oapya000a0sya8ca4vpu1 -->
+<!--- transclude cjq5ol6go000dc4yac7wx6x67 -->
 
 The create Hello World request is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldRequest(] cjq5oaq5w000b0syaea3ncmp2 -->
+<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldRequest(] cjq5ol6ot000ec4ya3a2e7wsi -->
 
 ```scala
 case class CreateHelloWorldRequest(
@@ -332,11 +363,11 @@ case class CreateHelloWorldRequest(
 )
 ```
 
-<!--- transclude cjq5oaq5w000b0syaea3ncmp2 -->
+<!--- transclude cjq5ol6ot000ec4ya3a2e7wsi -->
 
 And the create Hello World response is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldResponse(] cjq5oaqd8000c0syakzyt8lkn -->
+<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldResponse(] cjq5ol6wu000fc4ya8o371n8t -->
 
 ```scala
 case class CreateHelloWorldResponse(
@@ -346,13 +377,13 @@ case class CreateHelloWorldResponse(
 )
 ```
 
-<!--- transclude cjq5oaqd8000c0syakzyt8lkn -->
+<!--- transclude cjq5ol6wu000fc4ya8o371n8t -->
 
 Replacement
 -----------
 A Replacement request takes the new desired HelloWorld algebraic data type and responds with the replaced HelloWorldResource plus the supporing algebraic data types of Identity and HypertextApplicationLanguage. If the Hello World resource is not replaced the service responses with an ErrorResponse. The following REST calls can be used. The Hello World identifier is required, but the replacementId is optional. If specified all identifiers must adhere to the Matcher for Id.
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Replacement Calls {] cjq5oaqkn000d0syaicp4x4w7 -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Replacement Calls {] cjq5ol74e000gc4yamewcmexm -->
 
 ```scala
 // Hello World Replacement Calls {
@@ -390,11 +421,11 @@ A Replacement request takes the new desired HelloWorld algebraic data type and r
 // }
 ```
 
-<!--- transclude cjq5oaqkn000d0syaicp4x4w7 -->
+<!--- transclude cjq5ol74e000gc4yamewcmexm -->
 
 The replace Hello World request is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldRequest(] cjq5oaqsi000e0syadej3gn5o -->
+<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldRequest(] cjq5ol7c8000hc4yanxbvszrl -->
 
 ```scala
 case class ReplaceHelloWorldRequest(
@@ -403,11 +434,11 @@ case class ReplaceHelloWorldRequest(
 )
 ```
 
-<!--- transclude cjq5oaqsi000e0syadej3gn5o -->
+<!--- transclude cjq5ol7c8000hc4yanxbvszrl -->
 
 And the replace Hello World response is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldResponse(] cjq5oar02000f0syaq0k2g6zp -->
+<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldResponse(] cjq5ol7jw000ic4yarqt1qpgp -->
 
 ```scala
 case class ReplaceHelloWorldResponse(
@@ -417,12 +448,12 @@ case class ReplaceHelloWorldResponse(
 )
 ```
 
-<!--- transclude cjq5oar02000f0syaq0k2g6zp -->
+<!--- transclude cjq5ol7jw000ic4yarqt1qpgp -->
 
 Mutation
 --------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Mutation Calls {] cjq5oar85000g0sya3j03mgsq -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Mutation Calls {] cjq5ol7rs000jc4yakyorghpr -->
 
 ```scala
 // Hello World Mutation Calls {
@@ -460,13 +491,13 @@ Mutation
 // }
 ```
 
-<!--- transclude cjq5oar85000g0sya3j03mgsq -->
+<!--- transclude cjq5ol7rs000jc4yakyorghpr -->
 
 
 Deactivation
 ------------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Deactivation Calls {] cjq5oarfi000h0syamitl5p4u -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Deactivation Calls {] cjq5ol7zd000kc4ya5m07ve4b -->
 
 ```scala
 // Hello World Deactivation Calls {
@@ -503,12 +534,12 @@ Deactivation
 // }
 ```
 
-<!--- transclude cjq5oarfi000h0syamitl5p4u -->
+<!--- transclude cjq5ol7zd000kc4ya5m07ve4b -->
 
 Reactivation
 ------------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Reactivation Calls {] cjq5oarnu000i0syaqiqahnen -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Reactivation Calls {] cjq5ol872000lc4yam4swugvh -->
 
 ```scala
 // Hello World Reactivation Calls {
@@ -543,12 +574,12 @@ Reactivation
 // }
 ```
 
-<!--- transclude cjq5oarnu000i0syaqiqahnen -->
+<!--- transclude cjq5ol872000lc4yam4swugvh -->
 
 Read
 ----
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Get Calls {] cjq5oarvw000j0syae543xc5p -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Get Calls {] cjq5ol8f0000mc4yau5x5nqrj -->
 
 ```scala
 // Hello World Get Calls {
@@ -578,7 +609,7 @@ Read
 // }
 ```
 
-<!--- transclude cjq5oarvw000j0syae543xc5p -->
+<!--- transclude cjq5ol8f0000mc4yau5x5nqrj -->
 
 ```bash
 -- With Bearer Auth Token
