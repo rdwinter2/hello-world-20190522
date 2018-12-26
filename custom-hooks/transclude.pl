@@ -17,7 +17,7 @@ while(<>) {
     # currently only one level of directory with the file
     my @real_file = split(/\//, $transcluded_file);
     my $real_file = `find . -name ${real_file[0]} -type d -print0 | xargs -0 -I % find % -name ${real_file[1]}`;
-print "\n\n$real_file\n\n";
+#print "\n\n$real_file\n\n";
     my @transcluded_file = split(/\./, $transcluded_file);
     my $regexp = $2;
     my $id = cuid();
@@ -32,7 +32,7 @@ print "\n\n$real_file\n\n";
       #print $last;
       my $z = substr $regexp, -1, 1, "({(?:[^{}]++|(?1))*})" if ($last eq "{");
       my $z = substr $regexp, -1, 1, "(\\((?:[^()]++|(?1))*\\))" if ($last eq "(");
-print "\n\nregexp $regexp\n\n$last last\n\nz $z\n\n";
+#print "\n\nregexp $regexp\n\n$last last\n\nz $z\n\n";
       #print $regexp;
       my $data = `perl -0777 -ne 'print \$& if /$regexp/' $real_file`;
       print $data;

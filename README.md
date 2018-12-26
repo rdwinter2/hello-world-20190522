@@ -28,18 +28,9 @@ The REST call identifiers for the Hello World project are defined as:
 
 
 
-<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq4dds0f0000pzyahgez8nc1 -->
+<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq56wn1s0000tlyacd2habrj -->
 
 ```scala
-
-
-regexp .*override final def descriptor = ({(?:[^{}]++|(?1))*})
-
-{ last
-
-z 
-
-
   override final def descriptor = {
     import Service._
     // @formatter:off
@@ -83,7 +74,7 @@ z
   }
 ```
 
-<!--- transclude cjq4dds0f0000pzyahgez8nc1 -->
+<!--- transclude cjq56wn1s0000tlyacd2habrj -->
 NOTE: For naming resources in a DDD way follow recommendations in https://www.thoughtworks.com/insights/blog/rest-api-design-resource-modeling.
 
 The algebraic data type for Hello World is defined as:
@@ -99,18 +90,9 @@ The algebraic data type for Hello World is defined as:
 
 
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq4dds8h0001pzyapuqg2i32 -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq56wn9n0001tlya4wgl8hru -->
 
 ```scala
-
-
-regexp .*Hello World algebraic data type ({(?:[^{}]++|(?1))*})
-
-{ last
-
-z 
-
-
 // Hello World algebraic data type {
 //
 // An algebraic data type is a kind of composite type.
@@ -142,7 +124,7 @@ object HelloWorld {
 // }
 ```
 
-<!--- transclude cjq4dds8h0001pzyapuqg2i32 -->
+<!--- transclude cjq56wn9n0001tlya4wgl8hru -->
 
 With regular expression validation matchers:
 
@@ -157,18 +139,9 @@ With regular expression validation matchers:
 
 
 
-<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq4ddsfp0002pzya12df71sv -->
+<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq56wnh00002tlya4zdx9ga5 -->
 
 ```scala
-
-
-regexp .*object Matchers ({(?:[^{}]++|(?1))*})
-
-{ last
-
-z 
-
-
 object Matchers {
   val Email =
     """^[a-zA-Z0-9\.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"""
@@ -179,7 +152,7 @@ object Matchers {
 }
 ```
 
-<!--- transclude cjq4ddsfp0002pzya12df71sv -->
+<!--- transclude cjq56wnh00002tlya4zdx9ga5 -->
 
 The REST resource for Hello World is defined as:
 
@@ -195,24 +168,15 @@ The REST resource for Hello World is defined as:
 
 
 
-<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq4ddsnh0003pzyazpyhp531 -->
+<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq56wnos0003tlyaxlq6c2ij -->
 
 ```scala
-
-
-regexp .*case class HelloWorldResource(\((?:[^()]++|(?1))*\))
-
-( last
-
-z (
-
-
 case class HelloWorldResource(
   helloWorld: HelloWorld
 )
 ```
 
-<!--- transclude cjq4ddsnh0003pzyazpyhp531 -->
+<!--- transclude cjq56wnos0003tlyaxlq6c2ij -->
 
 The DDD aggregate for Hello World is defined as:
 
@@ -228,25 +192,16 @@ The DDD aggregate for Hello World is defined as:
 
 
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq4ddsvl0004pzyazfgfr3q5 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq56wnwf0004tlya5ixdsyrk -->
 
 ```scala
-
-
-regexp .*case class HelloWorldAggregate(\((?:[^()]++|(?1))*\))
-
-( last
-
-z (
-
-
 case class HelloWorldAggregate(
   helloWorldIdentity: Identity,
   helloWorldResource: HelloWorldResource
 )
 ```
 
-<!--- transclude cjq4ddsvl0004pzyazfgfr3q5 -->
+<!--- transclude cjq56wnwf0004tlya5ixdsyrk -->
 
 The state for Hello World is defined as:
 
@@ -262,25 +217,16 @@ The state for Hello World is defined as:
 
 
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq4ddt3w0005pzyajbb5ecy7 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq56wo3z0005tlyauc2mgsv6 -->
 
 ```scala
-
-
-regexp .*case class HelloWorldState(\((?:[^()]++|(?1))*\))
-
-( last
-
-z (
-
-
 case class HelloWorldState(
   helloWorldAggregate: HelloWorldAggregate,
   status: HelloWorldStatus.Status = HelloWorldStatus.NONEXISTENT
 )
 ```
 
-<!--- transclude cjq4ddt3w0005pzyajbb5ecy7 -->
+<!--- transclude cjq56wo3z0005tlyauc2mgsv6 -->
 
 The possible statuses for the Hello World aggregate are defined to be:
 
@@ -296,18 +242,9 @@ The possible statuses for the Hello World aggregate are defined to be:
 
 
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq4ddtbx0006pzyaghrki27t -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq56wobw0006tlyajd6jn1id -->
 
 ```scala
-
-
-regexp .*object HelloWorldStatus extends Enumeration ({(?:[^{}]++|(?1))*})
-
-{ last
-
-z 
-
-
 object HelloWorldStatus extends Enumeration {
   val NONEXISTENT, ACTIVE, ARCHIVED, UNKNOWN = Value
   type Status = Value
@@ -318,7 +255,7 @@ object HelloWorldStatus extends Enumeration {
 }
 ```
 
-<!--- transclude cjq4ddtbx0006pzyaghrki27t -->
+<!--- transclude cjq56wobw0006tlyajd6jn1id -->
 
 The entity for Hello World is defined as:
 
@@ -334,22 +271,13 @@ The entity for Hello World is defined as:
 
 
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq4ddtjg0007pzya04dl09nc -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq56wojg0007tlya6yw0t8b2 -->
 
 ```scala
 
-
-regexp .*final class HelloWorldEntity extends PersistentEntity ({(?:[^{}]++|(?1))*})
-
-{ last
-
-z 
-
-
-
 ```
 
-<!--- transclude cjq4ddtjg0007pzya04dl09nc -->
+<!--- transclude cjq56wojg0007tlya6yw0t8b2 -->
 
 
 
