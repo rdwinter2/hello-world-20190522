@@ -83,8 +83,9 @@ trait HelloWorldService extends Service {
     // @formatter:on
   }
 
-// Hello World Service Call
+// Hello World Service Calls
 
+// Hello World Creation Calls {
   /**
     * Rest api allowing an authenticated user to create a "Hello World" aggregate.
     *
@@ -92,11 +93,25 @@ trait HelloWorldService extends Service {
     *         HTTP 404 status code if one or more items in the [[CreateHelloWorldRequest]] failed vaildation.
     *         HTTP 409 status code if the "Hello World" already exists with the same identity.
     *
+    * REST POST endpoints:
+    *   /api/hello-worlds
+    *   /api/hello-worlds/:id
+    *   /api/hello-worlds/creation
+    *   /api/hello-worlds/:id/creation
+    *   /api/hello-worlds/creation/:creationId
+    *   /api/hello-worlds/:id/creation/:creationId
+    *
     * Example:
     * curl -H "Content-Type: application/json" -X POST -d '{"helloWorld": {"name": "test", "description": "test description"}}' http://localhost:9000/api/hello-worlds
     */
-  def postHelloWorld1: ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-  def postHelloWorld2(helloWorldId: String): ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def postHelloWorld1:                                             ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def postHelloWorld2(helloWorldId: String):                       ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def createHelloWorld1:                                           ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def createHelloWorld2(helloWorldId: String):                     ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def createHelloWorld3(creationId: String):                       ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def createHelloWorld4(helloWorldId: String, creationId: String): ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+
+// }
 
   def putHelloWorld(helloWorldId: String): ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]]
   //def patchHelloWorld(helloWorldId: String): ServiceCall[PatchHelloWorldRequest, Either[ErrorResponse, PatchHelloWorldResponse]]
@@ -116,30 +131,6 @@ trait HelloWorldService extends Service {
     */
   //def createHelloWorldWithSystemGeneratedId
   //  : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-
-  /**
-    * Rest api allowing an authenticated user to create a "Hello World" aggregate.
-    *
-    * @param helloWorldId unique identifier of the "Hello World" to be created.
-    * @return HTTP 200 status code if the "Hello World" was created successfully.
-    *         HTTP 404 status code if one or more items in the [[CreateHelloWorldRequest]] failed vaildation.
-    *
-    * Example:
-    * curl -H "Content-Type: application/json" -X POST -d '{"helloWorld": {"name": "test", "description": "test description"}}' http://localhost:9000/api/hello-worlds/{id}/creation/{creationId}
-    */
-
-  //  restCall(Method.POST,   "/api/hello-worlds/creation",                         createHelloWorld1 _),
-  def createHelloWorld1
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-  //  restCall(Method.POST,   "/api/hello-worlds/:id/creation",                     createHelloWorld2 _),
-  def createHelloWorld2(helloWorldId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-  //  restCall(Method.POST,   "/api/hello-worlds/creation/:creationId",             createHelloWorld3 _),
-  def createHelloWorld3(creationId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-  //  restCall(Method.POST,   "/api/hello-worlds/:id/creation/:creationId",         createHelloWorld4 _),
-  def createHelloWorld4(helloWorldId: String, creationId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
 
   //def destroyHelloWorld(helloWorldId: String)
   //  : ServiceCall[NotUsed, Done]
@@ -239,6 +230,7 @@ object Identity {
 }
 
 case class HypertextApplicationLanguage(
+  halLinks: Seq[HalLink]
   )
 
 case class HalLink(
@@ -318,8 +310,9 @@ case object ReplaceHelloWorldRequest {
 // Response
 
 case class CreateHelloWorldResponse(
-    helloWorldId: String,
-    helloWorld: HelloWorld
+    helloWorldId: Identity,
+    helloWorld: HelloWorld,
+    helloWorldHal: HypertextApplicationLanguage
 )
 
 object CreateHelloWorldResponse {
