@@ -310,6 +310,7 @@ object Matchers {
   val Name = """^[a-zA-Z0-9\-\.\_\~]{1,128}$"""
   val Description = """^.{1,2048}$"""
   val Motivation = """^.{1,2048}$"""
+  val Op = """^add|remove|replace|move|copy|test$"""
 }
 
 // Hello World algebraic data type {
@@ -391,6 +392,22 @@ object HalLink {
   implicit val format: Format[HalLink] = Jsonx.formatCaseClass
 }
 
+case class Mutation(
+  op: String,
+  path: String,
+  value: Option[String]
+  )
+
+object Mutation {
+  implicit val format: Format[Mutation] = Jsonx.formatCaseClass
+
+  val mutationValidator: Validator[Mutation] =
+    validator[Mutation] { mutation =>
+      mutation.op is notEmpty
+      mutation.path is notEmpty
+      mutation.op should matchRegexFully(Matchers.Op)
+    }
+}
 // }
 
 // Resource
@@ -439,6 +456,22 @@ case object ReplaceHelloWorldRequest {
     validator[ReplaceHelloWorldRequest] { replaceHelloWorldRequest =>
       replaceHelloWorldRequest.replacementHelloWorld is valid(HelloWorld.helloWorldValidator)
       replaceHelloWorldRequest.motivation.each should matchRegexFully(Matchers.Motivation)
+    }
+}
+
+case class MutateHelloWorldRequest(
+    mutations: Seq[Mutation],
+    motivation: Option[String]
+) {}
+
+case object MutateHelloWorldRequest {
+  implicit val format: Format[MutateHelloWorldRequest] = Jsonx.formatCaseClass
+
+  implicit val mutateHelloWorldRequestValidator
+    : Validator[MutateHelloWorldRequest] =
+    validator[MutateHelloWorldRequest] { mutateHelloWorldRequest =>
+      mutateHelloWorldRequest.mutations.each is valid(Mutation.mutationValidator)
+      mutateHelloWorldRequest.motivation.each should matchRegexFully(Matchers.Motivation)
     }
 }
 
