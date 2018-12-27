@@ -17,7 +17,7 @@ After running `git init` or cloning from a repository `cd` into the directory an
 
 The REST call identifiers for the Hello World project are defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq712drj000096yayluvkpqt -->
+<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjq71a90q000097yaydggnrc1 -->
 
 ```scala
   override final def descriptor = {
@@ -73,7 +73,7 @@ The REST call identifiers for the Hello World project are defined as:
   }
 ```
 
-<!--- transclude cjq712drj000096yayluvkpqt -->
+<!--- transclude cjq71a90q000097yaydggnrc1 -->
 NOTE: For naming resources in a domain driven design (DDD) manner, focus on domain events not low-level create, read, update, and delete (CRUD) operations.
 
 From [Roy Fielding's dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#sec_5_2_1_1):
@@ -85,7 +85,7 @@ From [REST API Design - Resource Modeling](https://www.thoughtworks.com/insights
 
 The algebraic data type for Hello World is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq712dzb000196yacybtff7y -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjq71a98y000197ya4mcenquo -->
 
 ```scala
 // Hello World algebraic data type {
@@ -119,11 +119,11 @@ object HelloWorld {
 // }
 ```
 
-<!--- transclude cjq712dzb000196yacybtff7y -->
+<!--- transclude cjq71a98y000197ya4mcenquo -->
 
 With regular expression validation matchers:
 
-<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq712e7h000296yapfe0jlvo -->
+<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjq71a9gy000297ya1tznvepf -->
 
 ```scala
 object Matchers {
@@ -137,11 +137,11 @@ object Matchers {
 }
 ```
 
-<!--- transclude cjq712e7h000296yapfe0jlvo -->
+<!--- transclude cjq71a9gy000297ya1tznvepf -->
 
 And supporting algebraic data types:
 
-<!--- transclude::api/HelloWorldService.scala::[Supporting algebraic data types {] cjq712efv000396ya7j7b3j2o -->
+<!--- transclude::api/HelloWorldService.scala::[Supporting algebraic data types {] cjq71a9p2000397yaeydo9qgw -->
 
 ```scala
 // Supporting algebraic data types {
@@ -212,11 +212,11 @@ object Mutation {
 // }
 ```
 
-<!--- transclude cjq712efv000396ya7j7b3j2o -->
+<!--- transclude cjq71a9p2000397yaeydo9qgw -->
 
 The REST resource for Hello World is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq712enu000496yagg9ofmtb -->
+<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjq71a9xm000497yak8mjn7c1 -->
 
 ```scala
 case class HelloWorldResource(
@@ -224,11 +224,11 @@ case class HelloWorldResource(
 )
 ```
 
-<!--- transclude cjq712enu000496yagg9ofmtb -->
+<!--- transclude cjq71a9xm000497yak8mjn7c1 -->
 
 The DDD aggregate for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq712evy000596ya564e6irf -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjq71aa63000597ya2dqf8ynw -->
 
 ```scala
 case class HelloWorldAggregate(
@@ -237,21 +237,21 @@ case class HelloWorldAggregate(
 )
 ```
 
-<!--- transclude cjq712evy000596ya564e6irf -->
+<!--- transclude cjq71aa63000597ya2dqf8ynw -->
 
 The state for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[override type State = .*] cjq712f3r000696yawp9ws28m -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[override type State = .*] cjq71aae4000697yajpzye8v7 -->
 
 ```scala
   override type State = Option[HelloWorldState]
 ```
 
-<!--- transclude cjq712f3r000696yawp9ws28m -->
+<!--- transclude cjq71aae4000697yajpzye8v7 -->
 
 And uses the following HelloWorldState algebraic data type:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq712fbt000796yawom5nmdq -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjq71aam1000797ya48jk16u0 -->
 
 ```scala
 case class HelloWorldState(
@@ -260,21 +260,21 @@ case class HelloWorldState(
 )
 ```
 
-<!--- transclude cjq712fbt000796yawom5nmdq -->
+<!--- transclude cjq71aam1000797ya48jk16u0 -->
 
 The initial state for all DDD aggregates is:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[override def initialState: .*] cjq712fke000896yaa3whv1q5 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[override def initialState: .*] cjq71aats000897yarkoljew6 -->
 
 ```scala
   override def initialState: Option[HelloWorldState] = None
 ```
 
-<!--- transclude cjq712fke000896yaa3whv1q5 -->
+<!--- transclude cjq71aats000897yarkoljew6 -->
 
 The possible statuses for the Hello World aggregate are defined to be:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq712fs1000996yavlu2tj1p -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjq71ab1u000997yad8zrjbt6 -->
 
 ```scala
 object HelloWorldStatus extends Enumeration {
@@ -287,652 +287,23 @@ object HelloWorldStatus extends Enumeration {
 }
 ```
 
-<!--- transclude cjq712fs1000996yavlu2tj1p -->
+<!--- transclude cjq71ab1u000997yad8zrjbt6 -->
 
 The finite state machine (FSM) for the DDD aggregate is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[Finite State Machine (FSM) {] cjq712fzw000a96yalbthyiq7 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[Finite State Machine (FSM) {] cjq71ab9w000a97ya43dutzfb -->
 
 ```scala
 
 ```
 
-<!--- transclude cjq712fzw000a96yalbthyiq7 -->
+<!--- transclude cjq71ab9w000a97ya43dutzfb -->
 
 The entity for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq712g8u000b96yalle0g8xr -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjq71abi1000b97yallo4tzjd -->
 
 ```scala
-
-```
-
-<!--- transclude cjq712g8u000b96yalle0g8xr -->
-
-For CRUDy operations the following subordinate, nounified, resources are created:
-* Creation
-* Replacement
-* Mutation: http://jsonpatch.com/
-* Deactivation
-* Reactivation
-
-Creation
---------
-A Creation request takes a desired HelloWorld algebraic data type and responds with the created HelloWorldResource plus the supporing algebraic data types of Identity and HypertextApplicationLanguage. If the Hello World resource is not created the service responses with an ErrorResponse. The following REST calls can be used. Identifiers are optional. If specified all identifiers must adhere to the Matcher for Id. Otherwise, the service will create and use a collision resistant unique identifier.
-
-<!--- transclude::api/HelloWorldService.scala::[Hello World Creation Calls {] cjq712gh3000c96yay7rhzwli -->
-
-```scala
-// Hello World Creation Calls {
-  /**
-    * Rest api allowing an authenticated user to create a "Hello World" aggregate.
-    *
-    * @param  helloWorldId  Optional unique identifier of the "Hello World"
-    *         creationId    Optional unique identifier of the creation subordinate resource
-    *
-    * @return HTTP 201 Created               if the "Hello World" was created successfully
-    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
-    *         HTTP 400 Bad Request           if domain validation of the [[CreateHelloWorldRequest]] failed
-    *         HTTP 401 Unauthorized          if JSON Web Token is missing
-    *         HTTP 403 Forbidden             if authorization failure
-    *         HTTP 404 Not Found             if requested resource doesn't exist, or so as to not reveal a 401 or 403
-    *         HTTP 409 Conflict              if the "Hello World" already exists with the same unique identity
-    *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action.
-    *
-    * REST POST endpoints:
-    *   /api/hello-worlds
-    *   /api/hello-worlds/:id
-    *   /api/hello-worlds/creation
-    *   /api/hello-worlds/:id/creation
-    *   /api/hello-worlds/creation/:creationId
-    *   /api/hello-worlds/:id/creation/:creationId
-    *
-    * Examples:
-    * CT="Content-Type: application/json"
-    * DATA='{"helloWorld": {"name": "test", "description": "test description"}}'
-    * curl -H $CT -X POST -d $DATA http://localhost:9000/api/hello-worlds
-    */
-  def postHelloWorld1:                                             ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-  def postHelloWorld2(helloWorldId: String):                       ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-  def createHelloWorld1:                                           ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-  def createHelloWorld2(helloWorldId: String):                     ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-  def createHelloWorld3(creationId: String):                       ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-  def createHelloWorld4(helloWorldId: String, creationId: String): ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
-  // Retrieve status of creation request
-  def getCreationHelloWorld(helloWorldId: String, creationId: String):    ServiceCall[NotUsed, Either[ErrorResponse, CreationHelloWorldResponse]]
-  def streamCreationHelloWorld(helloWorldId: String, creationId: String): ServiceCall[NotUsed, Source[CreationHelloWorldResponse, NotUsed]]
-// }
-```
-
-<!--- transclude cjq712gh3000c96yay7rhzwli -->
-
-The Matcher for identifiers is defined to be:
-
-<!--- transclude::api/HelloWorldService.scala::[val Id = .*] cjq712goy000d96yai01moimp -->
-
-```scala
-  val Id = """^[a-zA-Z0-9\-\.\_\~]{1,64}$"""
-```
-
-<!--- transclude cjq712goy000d96yai01moimp -->
-
-The create Hello World request is defined as:
-
-<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldRequest(] cjq712gxu000e96yat2hz1m13 -->
-
-```scala
-case class CreateHelloWorldRequest(
-    helloWorld: HelloWorld
-)
-```
-
-<!--- transclude cjq712gxu000e96yat2hz1m13 -->
-
-And the create Hello World response is defined as:
-
-<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldResponse(] cjq712h5x000f96yapecu53jh -->
-
-```scala
-case class CreateHelloWorldResponse(
-    helloWorldId: Identity,
-    helloWorld: HelloWorld,
-    helloWorldHal: Option[HypertextApplicationLanguage]
-)
-```
-
-<!--- transclude cjq712h5x000f96yapecu53jh -->
-
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[Hello World Creation Calls {] cjq712he2000g96ya9kd1u0qb -->
-
-```scala
-// Hello World Creation Calls {
-  override def postHelloWorld
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val helloWorldId = Cuid.createCuid()
-        val creationId = Cuid.createCuid()
-        logger.info(
-          s"Posting 'Hello World' with identifier $helloWorldId...")
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-
-  override def createHelloWorld1
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val helloWorldId = Cuid.createCuid()
-        val creationId = Cuid.createCuid()
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-  override def createHelloWorld2(helloWorldId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val creationId = Cuid.createCuid()
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-
-  override def createHelloWorld3(creationId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val helloWorldId = Cuid.createCuid()
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-
-  override def createHelloWorld4(helloWorldId: String, creationId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-
-  def createHelloWorldInternal(helloWorldId: String, creationId: String)
-    : ServerServiceCall[CreateHelloWorldRequest, CreateHelloWorldResponse] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { createHelloWorldRequest =>
-        val username = tokenContent.username
-        logger.info(s"User $username is creating a Hello World ")
-        logger.info(
-          s"Creating 'Hello World' with input $createHelloWorldRequest...")
-        val validationResult = validate(createHelloWorldRequest)
-        validationResult match {
-          case failure: Failure =>
-            throw new TransportException(TransportErrorCode.BadRequest,
-                                         "request validation failure")
-          case _ =>
-        }
-        val helloWorldAggregate =
-          HelloWorldAggregate(helloWorldId, HelloWorldResource(createHelloWorldRequest.helloWorld))
-        val helloWorldResource =
-          HelloWorldResource(createHelloWorldRequest.helloWorld)
-        val helloWorldEntityRef =
-          registry.refFor[HelloWorldEntity](helloWorldId.toString)
-        logger.info(s"Publishing event $helloWorldAggregate")
-        val topic = pubSubRegistry.refFor(TopicId[HelloWorldResource])
-        topic.publish(helloWorldResource)
-        helloWorldEntityRef
-          .ask(CreateHelloWorldCommand(helloWorldAggregate))
-          .map { _ =>
-            mapToCreateHelloWorldResponse(helloWorldId, helloWorldResource)
-          }
-      }
-    }
-
-  private def mapToCreateHelloWorldResponse(
-      helloWorldId: String,
-      helloWorldResource: HelloWorldResource): CreateHelloWorldResponse = {
-    CreateHelloWorldResponse(helloWorldId,
-                             helloWorldResource.helloWorld)
-  }
-
-  private def mapToCreateHelloWorldResponse(
-      helloWorldState: HelloWorldState): CreateHelloWorldResponse = {
-    CreateHelloWorldResponse(helloWorldState.helloWorldAggregate map { _.helloWorldId } getOrElse "No identifier",
-                             helloWorldState.helloWorldAggregate map { _.helloWorldResource.helloWorld} getOrElse HelloWorld("No name", Some("No description")))
-  }
-// }
-```
-
-<!--- transclude cjq712he2000g96ya9kd1u0qb -->
-
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[The create Hello World command {] cjq712hmf000h96yaf3tu88pw -->
-
-```scala
-// The create Hello World command {
-case class CreateHelloWorldCommand(
-  helloWorldAggregate: HelloWorldAggregate)
-    extends HelloWorldCommand[Either[ServiceError, CreateHelloWorldReply]]
-
-object CreateHelloWorldCommand {
-  implicit val format: Format[CreateHelloWorldCommand] = Json.format
-}
-// }
-```
-
-<!--- transclude cjq712hmf000h96yaf3tu88pw -->
-
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[The create Hello World reply {] cjq712hu1000i96yarucgtrsn -->
-
-```scala
-// The create Hello World reply {
-case class CreateHelloWorldReply(
-  helloWorldAggregate: HelloWorldAggregate)
-
-object CreateHelloWorldReply {
-  implicit val format: Format[CreateHelloWorldReply] = Json.format
-}
-// }
-```
-
-<!--- transclude cjq712hu1000i96yarucgtrsn -->
-
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[private def createHelloWorldCommand: OnCommandHandler[Either[ServiceError, HelloWorldAggregate]] = {] cjq712i28000j96yakf000bxz -->
-
-```scala
-
-```
-
-<!--- transclude cjq712i28000j96yakf000bxz -->
-
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[] cjq712iag000k96yaifqppiop -->
-
-```scala
-package com.example.helloworld.impl
-
-import com.example.common.authentication.AuthenticationServiceComposition._
-import com.example.common.authentication.TokenContent
-import com.example.common.utils.JsonFormats._
-import com.example.common.response.{
-  ErrorResponse,
-  ErrorResponses => ER
-}
-import com.example.common.utils.Marshaller
-//import com.example.common.validation.ValidationUtil._
-import com.example.helloworld.api._
-import com.example.helloworld.impl.ServiceErrors._
-import com.example.helloworld.impl.ServiceErrors.ServiceError
-
-import akka.{Done, NotUsed}
-import akka.persistence.query.Offset
-import akka.stream.Materializer
-import akka.stream.scaladsl.Source
-import com.datastax.driver.core._
-import com.datastax.driver.core.utils.UUIDs
-import com.lightbend.lagom.internal.client.CircuitBreakerMetricsProviderImpl
-import com.lightbend.lagom.scaladsl.api.ServiceCall
-import com.lightbend.lagom.scaladsl.api.broker.Topic
-import com.lightbend.lagom.scaladsl.api.transport.{
-  TransportErrorCode,
-  TransportException,
-  NotFound,
-  RequestHeader,
-  ResponseHeader
-}
-import com.lightbend.lagom.scaladsl.broker.TopicProducer
-import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaComponents
-import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
-import com.lightbend.lagom.scaladsl.persistence.cassandra.{
-  CassandraReadSide,
-  CassandraSession,
-  CassandraPersistenceComponents
-}
-import com.lightbend.lagom.scaladsl.persistence.PersistentEntity.ReplyType
-import com.lightbend.lagom.scaladsl.persistence.{
-  AggregateEvent,
-  AggregateEventShards,
-  AggregateEventTag,
-  EventStreamElement,
-  PersistentEntity,
-  PersistentEntityRegistry,
-  ReadSideProcessor
-}
-import com.lightbend.lagom.scaladsl.playjson.{
-  JsonSerializer,
-  JsonSerializerRegistry
-}
-import com.lightbend.lagom.scaladsl.pubsub.{
-  PubSubComponents,
-  PubSubRegistry,
-  TopicId
-}
-import com.lightbend.lagom.scaladsl.server._
-import com.lightbend.rp.servicediscovery.lagom.scaladsl.LagomServiceLocatorComponents
-import com.softwaremill.macwire._
-import com.wix.accord._
-import com.wix.accord.dsl._
-import com.wix.accord.Descriptions._
-import cool.graph.cuid._
-import scala.util.Try
-import java.util.UUID
-import julienrf.json.derived
-import org.slf4j.LoggerFactory
-import play.api.{Environment, LoggerConfigurator}
-import play.api.libs.json._
-import play.api.libs.ws.ahc.AhcWSComponents
-import play.api.http.HeaderNames
-import scala.collection.immutable
-import scala.concurrent.{ExecutionContext, Future}
-
-// Hello World Service Implementation
-
-class HelloWorldServiceImpl(
-    registry: PersistentEntityRegistry,
-    helloWorldRepository: HelloWorldRepository,
-    pubSubRegistry: PubSubRegistry //,
-//    helloWorldService: HelloWorldService
-)(implicit ec: ExecutionContext)
-    extends HelloWorldService
-    with Marshaller {
-  private val logger = LoggerFactory.getLogger(classOf[HelloWorldServiceImpl])
-
-// Hello World Creation Calls {
-  override def postHelloWorld
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val helloWorldId = Cuid.createCuid()
-        val creationId = Cuid.createCuid()
-        logger.info(
-          s"Posting 'Hello World' with identifier $helloWorldId...")
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-
-  override def createHelloWorld1
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val helloWorldId = Cuid.createCuid()
-        val creationId = Cuid.createCuid()
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-  override def createHelloWorld2(helloWorldId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val creationId = Cuid.createCuid()
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-
-  override def createHelloWorld3(creationId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val helloWorldId = Cuid.createCuid()
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-
-  override def createHelloWorld4(helloWorldId: String, creationId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-
-  def createHelloWorldInternal(helloWorldId: String, creationId: String)
-    : ServerServiceCall[CreateHelloWorldRequest, CreateHelloWorldResponse] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { createHelloWorldRequest =>
-        val username = tokenContent.username
-        logger.info(s"User $username is creating a Hello World ")
-        logger.info(
-          s"Creating 'Hello World' with input $createHelloWorldRequest...")
-        val validationResult = validate(createHelloWorldRequest)
-        validationResult match {
-          case failure: Failure =>
-            throw new TransportException(TransportErrorCode.BadRequest,
-                                         "request validation failure")
-          case _ =>
-        }
-        val helloWorldAggregate =
-          HelloWorldAggregate(helloWorldId, HelloWorldResource(createHelloWorldRequest.helloWorld))
-        val helloWorldResource =
-          HelloWorldResource(createHelloWorldRequest.helloWorld)
-        val helloWorldEntityRef =
-          registry.refFor[HelloWorldEntity](helloWorldId.toString)
-        logger.info(s"Publishing event $helloWorldAggregate")
-        val topic = pubSubRegistry.refFor(TopicId[HelloWorldResource])
-        topic.publish(helloWorldResource)
-        helloWorldEntityRef
-          .ask(CreateHelloWorldCommand(helloWorldAggregate))
-          .map { _ =>
-            mapToCreateHelloWorldResponse(helloWorldId, helloWorldResource)
-          }
-      }
-    }
-
-  private def mapToCreateHelloWorldResponse(
-      helloWorldId: String,
-      helloWorldResource: HelloWorldResource): CreateHelloWorldResponse = {
-    CreateHelloWorldResponse(helloWorldId,
-                             helloWorldResource.helloWorld)
-  }
-
-  private def mapToCreateHelloWorldResponse(
-      helloWorldState: HelloWorldState): CreateHelloWorldResponse = {
-    CreateHelloWorldResponse(helloWorldState.helloWorldAggregate map { _.helloWorldId } getOrElse "No identifier",
-                             helloWorldState.helloWorldAggregate map { _.helloWorldResource.helloWorld} getOrElse HelloWorld("No name", Some("No description")))
-  }
-// }
-
-  val Ok: ResponseHeader =  ResponseHeader.Ok
-        .withHeader("Server", "Hello World service")
-
-  override def putHelloWorld(helloWorldId: String): ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, replaceHelloWorldRequest) =>
-        val replacementId = Cuid.createCuid()
-        logger.info(
-          s"Putting 'Hello World' with identifier $helloWorldId...")
-        this
-          .replaceHelloWorldInternal(helloWorldId, replacementId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, replaceHelloWorldRequest).map {
-            case (responseHeader, Right(response)) => (Ok, Right(response))
-          }
-      }
-    }
-
-  def replaceHelloWorldInternal(helloWorldId: String, replacementId: String)
-    : ServerServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { replaceHelloWorldRequest =>
-        val username = tokenContent.username
-        logger.info(s"User $username is replacing Hello World $helloWorldId with a successor resource ...")
-        logger.info(
-          s"Replacing 'Hello World' with input $replaceHelloWorldRequest...")
-        val validationResult = validate(replaceHelloWorldRequest)
-        validationResult match {
-          case failure: Failure =>
-            throw new TransportException(TransportErrorCode.BadRequest,
-                                        "request validation failure")
-          case _ =>
-        }
-//        val helloWorldAggregate =
-//          HelloWorldAggregate(helloWorldId, replaceHelloWorldRequest.helloWorld)
-//        val helloWorldResource =
-//          HelloWorldResource(replaceHelloWorldRequest.helloWorld)
-      val helloWorldEntityRef =
-          registry.refFor[HelloWorldEntity](helloWorldId.toString)
-//        logger.info(s"Publishing event $helloWorldAggregate")
-        helloWorldEntityRef
-          .ask(ReplaceHelloWorldCommand(helloWorldId, replaceHelloWorldRequest))
-          .map {
-            case Right(replaceHelloWorldRequest) =>
-              mapToReplaceHelloWorldResponse(replaceHelloWorldRequest)
-//            case Left(errorResponse) => throw CommandFailed(???)
-          }
-//        val topic = pubSubRegistry.refFor(TopicId[HelloWorldResource])
-//        topic.publish(helloWorldResource)
-      }
-    }
-//  override def improveHelloWorldDescription(helloWorldId: String)
-//    : ServiceCall[ImproveHelloWorldDescriptionRequest, ImproveHelloWorldDescriptionResponse]
-//    authenticated { (tokenContent, _) =>
-//      ServerServiceCall { (helloWorldId, improveHelloWorldDescriptionRequest: ImproveHelloWorldDescriptionRequest) =>
-//      logger.info(
-//        s"Improving the description of 'Hello World' with id $helloWorldId by setting it to $improveHelloWorldDescriptionRequest.description...")
-//      val validationResult = validate(improveHelloWorldDescriptionRequest)
-//      validationResult match {
-//        case failure: Failure =>
-//          throw new TransportException(TransportErrorCode.BadRequest,
-//                                       "request validation failure")
-//        case _ =>
-//      }
-//      val helloWorldEntityRef =
-//        registry.refFor[HelloWorldEntity](helloWorldId.toString)
-//      helloWorldEntityRef.ask(ImproveHelloWorldDescriptionCommand(ImproveHelloWorldDescriptionRequest))
-//          .map { _ =>
-//            mapToImproveHelloWorldDescriptionResponse(helloWorldResource)
-//          }
-//      }
-//    }
-
-  override def getHelloWorld(
-      helloWorldId: String): ServiceCall[NotUsed, Either[ErrorResponse, GetHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { _ =>
-        logger.info(s"Looking up 'Hello World' with ID $helloWorldId...")
-        val helloWorldEntityRef =
-          registry.refFor[HelloWorldEntity](helloWorldId.toString)
-        helloWorldEntityRef.ask(GetHelloWorldQuery).map {
-          case HelloWorldState(_, HelloWorldStatus.NONEXISTENT, _) =>
-            throw NotFound(s"Hello World $helloWorldId not found")
-          case HelloWorldState(Some(helloWorldAggregate), HelloWorldStatus.ACTIVE, _) =>
-            Right(mapToGetHelloWorldResponse(helloWorldAggregate))
-          case HelloWorldState(_, HelloWorldStatus.ARCHIVED, _) =>
-            throw NotFound(s"Hello World $helloWorldId archived")
-          case HelloWorldState(_, _, _) =>
-            throw NotFound(s"Hello World $helloWorldId in unknown state")
-        }
-      }
-    }
-
-  private def mapToGetHelloWorldResponse(
-      helloWorldAggregate: HelloWorldAggregate): GetHelloWorldResponse = {
-    GetHelloWorldResponse(helloWorldAggregate.helloWorldId,
-                          helloWorldAggregate.helloWorldResource.helloWorld)
-  }
-
-  //override def getAllHelloWorlds
-  //  : ServiceCall[NotUsed, GetAllHelloWorldsResponse] = ServiceCall { _ =>
-  //  logger.info("Looking up all 'Hello Worlds'...")
-  //  helloWorldRepository.selectAllHelloWorlds.map(helloWorlds =>
-  //    GetAllHelloWorldsResponse(helloWorlds.map(mapToHelloWorldResource)))
-  //}
-
-  private def mapToHelloWorldResource(
-      helloWorldAggregate: HelloWorldAggregate): HelloWorldResource = {
-    HelloWorldResource(helloWorldAggregate.helloWorldResource.helloWorld)
-  }
-
-  private def mapToReplaceHelloWorldResponse(replaceHelloWorldRequest: ReplaceHelloWorldRequest): ReplaceHelloWorldResponse = {
-    ReplaceHelloWorldResponse(helloWorldAggregate.helloWorldId,
-                              helloWorldAggregate.helloWorldResource.helloWorld)
-  }
-
-  override def helloWorldMessageBrokerEvents
-    : Topic[HelloWorldMessageBrokerEvent] =
-    TopicProducer.taggedStreamWithOffset(HelloWorldEvent.Tag.allTags.toList) {
-      (tag, offset) =>
-        logger.info("Creating HelloWorldEvent Topic...")
-        registry
-          .eventStream(tag, offset)
-          .filter {
-            _.event match {
-              case x @ (_: HelloWorldCreatedEvent) => true
-              case _                               => false
-            }
-          }
-          .mapAsync(1)(convertEvent)
-    }
-
-  private def convertEvent(
-      eventStreamElement: EventStreamElement[HelloWorldEvent])
-    : Future[(HelloWorldMessageBrokerEvent, Offset)] = {
-    eventStreamElement match {
-      case EventStreamElement(id, HelloWorldCreatedEvent(helloWorldAggregate), offset) =>
-        Future.successful {
-          (HelloWorldCreated(
-             helloWorldAggregate.helloWorldId,
-             helloWorldAggregate.helloWorldResource.helloWorld
-           ),
-           offset)
-        }
-    }
-  }
-
-//  override def streamHelloWorlds
-//    : ServiceCall[NotUsed, Source[HelloWorldResource, NotUsed]] = ServiceCall {
-//    _ =>
-      //val topic = pubSubRegistry.refFor(TopicId[HelloWorldResource])
-//      Future.successful(topicHelloWorldCreatedEvent.subscriber)
-//  }
-}
-
-// Hello World Entity
-
 final class HelloWorldEntity extends PersistentEntity {
 
   //private val publishedHelloWorldCreatedEvent = pubSubRegistry.refFor(TopicId[HelloWorldCreatedEvent])
@@ -953,6 +324,7 @@ final class HelloWorldEntity extends PersistentEntity {
     case Some(state) if state.status == HelloWorldStatus.ARCHIVED => archivedHelloWorld
     case Some(state) => unknownHelloWorld
   }
+  // }
 
   private val nonexistentHelloWorld = {
     getHelloWorldAction orElse {
@@ -973,7 +345,6 @@ final class HelloWorldEntity extends PersistentEntity {
         .onCommand[ReplaceHelloWorldCommand, Either[ServiceError, HelloWorldAggregate]] { replaceHelloWorldCommand }
         .onEvent {
           case (HelloWorldReplacedEvent(helloWorldId, replacementHelloWorldResource, motivation), state) =>
-          // for {state(Some(a),_,_)<-
             HelloWorldState(Some(HelloWorldAggregate(helloWorldId, replacementHelloWorldResource)), HelloWorldStatus.ACTIVE, 1)
           case (_, state) => state
         }
@@ -997,7 +368,6 @@ final class HelloWorldEntity extends PersistentEntity {
         .onCommand[ReplaceHelloWorldCommand, Either[ServiceError, HelloWorldAggregate]] { replyConflict }
     }
   }
-  // }
 
   private def getHelloWorldAction = Actions()
     .onReadOnlyCommand[GetHelloWorldQuery.type, HelloWorldState] {
@@ -1065,60 +435,231 @@ final class HelloWorldEntity extends PersistentEntity {
   }
 
 }
+```
 
-// Hello World State
+<!--- transclude cjq71abi1000b97yallo4tzjd -->
 
-case class HelloWorldState(
-  helloWorldAggregate: HelloWorldAggregate,
-  status: HelloWorldStatus.Status = HelloWorldStatus.NONEXISTENT
-) {
-  def withStatus (status: HelloWorldStatus.Status) = copy(status = status)
-}
+For CRUDy operations the following subordinate, nounified, resources are created:
+* Creation
+* Replacement
+* Mutation: http://jsonpatch.com/
+* Deactivation
+* Reactivation
 
-object HelloWorldState {
-  implicit val format: Format[HelloWorldState] = Json.format
-  val nonexistent = HelloWorldState(None, HelloWorldStatus.NONEXISTENT, 0)
-}
+Creation
+--------
+A Creation request takes a desired HelloWorld algebraic data type and responds with the created HelloWorldResource plus the supporing algebraic data types of Identity and HypertextApplicationLanguage. If the Hello World resource is not created the service responses with an ErrorResponse. The following REST calls can be used. Identifiers are optional. If specified all identifiers must adhere to the Matcher for Id. Otherwise, the service will create and use a collision resistant unique identifier.
 
-// Hello World Status
+<!--- transclude::api/HelloWorldService.scala::[Hello World Creation Calls {] cjq71abq3000c97yay5e58ly2 -->
 
-object HelloWorldStatus extends Enumeration {
-  val NONEXISTENT, ACTIVE, ARCHIVED, UNKNOWN = Value
-  type Status = Value
-
-  implicit val format: Format[Value] = enumFormat(this)
-//  implicit val pathParamSerializer: PathParamSerializer[Status] =
-//    PathParamSerializer.required("helloWorldStatus")(withName)(_.toString)
-}
-
-// Hello World Aggregate
-
-case class HelloWorldAggregate(
-  helloWorldIdentity: Identity,
-  helloWorldResource: HelloWorldResource
-)
-
-object HelloWorldAggregate {
-  implicit val format: Format[HelloWorldAggregate] = Json.format
-}
-
-sealed trait HelloWorldCommand[R] extends ReplyType[R]
-
-case object GetHelloWorldQuery
-    extends HelloWorldCommand[HelloWorldState] {
-  implicit val format: Format[GetHelloWorldQuery.type] = singletonFormat(
-    GetHelloWorldQuery)
-}
-
-// The create Hello World reply {
-case class CreateHelloWorldReply(
-  helloWorldAggregate: HelloWorldAggregate)
-
-object CreateHelloWorldReply {
-  implicit val format: Format[CreateHelloWorldReply] = Json.format
-}
+```scala
+// Hello World Creation Calls {
+  /**
+    * Rest api allowing an authenticated user to create a "Hello World" aggregate.
+    *
+    * @param  helloWorldId  Optional unique identifier of the "Hello World"
+    *         creationId    Optional unique identifier of the creation subordinate resource
+    *
+    * @return HTTP 201 Created               if the "Hello World" was created successfully
+    *         HTTP 202 Accepted              if the request has been accepted, but the processing is not complete
+    *         HTTP 400 Bad Request           if domain validation of the [[CreateHelloWorldRequest]] failed
+    *         HTTP 401 Unauthorized          if JSON Web Token is missing
+    *         HTTP 403 Forbidden             if authorization failure
+    *         HTTP 404 Not Found             if requested resource doesn't exist, or so as to not reveal a 401 or 403
+    *         HTTP 409 Conflict              if the "Hello World" already exists with the same unique identity
+    *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action.
+    *
+    * REST POST endpoints:
+    *   /api/hello-worlds
+    *   /api/hello-worlds/:id
+    *   /api/hello-worlds/creation
+    *   /api/hello-worlds/:id/creation
+    *   /api/hello-worlds/creation/:creationId
+    *   /api/hello-worlds/:id/creation/:creationId
+    *
+    * Examples:
+    * CT="Content-Type: application/json"
+    * DATA='{"helloWorld": {"name": "test", "description": "test description"}}'
+    * curl -H $CT -X POST -d $DATA http://localhost:9000/api/hello-worlds
+    */
+  def postHelloWorld1:                                             ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def postHelloWorld2(helloWorldId: String):                       ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def createHelloWorld1:                                           ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def createHelloWorld2(helloWorldId: String):                     ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def createHelloWorld3(creationId: String):                       ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  def createHelloWorld4(helloWorldId: String, creationId: String): ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
+  // Retrieve status of creation request
+  def getCreationHelloWorld(helloWorldId: String, creationId: String):    ServiceCall[NotUsed, Either[ErrorResponse, CreationHelloWorldResponse]]
+  def streamCreationHelloWorld(helloWorldId: String, creationId: String): ServiceCall[NotUsed, Source[CreationHelloWorldResponse, NotUsed]]
 // }
+```
 
+<!--- transclude cjq71abq3000c97yay5e58ly2 -->
+
+The Matcher for identifiers is defined to be:
+
+<!--- transclude::api/HelloWorldService.scala::[val Id = .*] cjq71abyu000d97yamd3lsr3j -->
+
+```scala
+  val Id = """^[a-zA-Z0-9\-\.\_\~]{1,64}$"""
+```
+
+<!--- transclude cjq71abyu000d97yamd3lsr3j -->
+
+The create Hello World request is defined as:
+
+<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldRequest(] cjq71ac6i000e97ya1uw99tg7 -->
+
+```scala
+case class CreateHelloWorldRequest(
+    helloWorld: HelloWorld
+)
+```
+
+<!--- transclude cjq71ac6i000e97ya1uw99tg7 -->
+
+And the create Hello World response is defined as:
+
+<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldResponse(] cjq71acee000f97yadbimcpwg -->
+
+```scala
+case class CreateHelloWorldResponse(
+    helloWorldId: Identity,
+    helloWorld: HelloWorld,
+    helloWorldHal: Option[HypertextApplicationLanguage]
+)
+```
+
+<!--- transclude cjq71acee000f97yadbimcpwg -->
+
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[Hello World Creation Calls {] cjq71acmc000g97ya4ipam19u -->
+
+```scala
+// Hello World Creation Calls {
+  override def postHelloWorld
+    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
+    authenticated { (tokenContent, _) =>
+      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
+        val helloWorldId = Cuid.createCuid()
+        val creationId = Cuid.createCuid()
+        logger.info(
+          s"Posting 'Hello World' with identifier $helloWorldId...")
+        this
+          .createHelloWorldInternal(helloWorldId, creationId)
+          .handleRequestHeader(requestHeader => requestHeader)
+          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
+            case (responseHeader, response) => (Ok, Right(response))
+          }
+      }
+    }
+
+  override def createHelloWorld1
+    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
+    authenticated { (tokenContent, _) =>
+      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
+        val helloWorldId = Cuid.createCuid()
+        val creationId = Cuid.createCuid()
+        this
+          .createHelloWorldInternal(helloWorldId, creationId)
+          .handleRequestHeader(requestHeader => requestHeader)
+          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
+            case (responseHeader, response) => (Ok, Right(response))
+          }
+      }
+    }
+  override def createHelloWorld2(helloWorldId: String)
+    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
+    authenticated { (tokenContent, _) =>
+      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
+        val creationId = Cuid.createCuid()
+        this
+          .createHelloWorldInternal(helloWorldId, creationId)
+          .handleRequestHeader(requestHeader => requestHeader)
+          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
+            case (responseHeader, response) => (Ok, Right(response))
+          }
+      }
+    }
+
+  override def createHelloWorld3(creationId: String)
+    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
+    authenticated { (tokenContent, _) =>
+      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
+        val helloWorldId = Cuid.createCuid()
+        this
+          .createHelloWorldInternal(helloWorldId, creationId)
+          .handleRequestHeader(requestHeader => requestHeader)
+          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
+            case (responseHeader, response) => (Ok, Right(response))
+          }
+      }
+    }
+
+  override def createHelloWorld4(helloWorldId: String, creationId: String)
+    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
+    authenticated { (tokenContent, _) =>
+      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
+        this
+          .createHelloWorldInternal(helloWorldId, creationId)
+          .handleRequestHeader(requestHeader => requestHeader)
+          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
+            case (responseHeader, response) => (Ok, Right(response))
+          }
+      }
+    }
+
+  def createHelloWorldInternal(helloWorldId: String, creationId: String)
+    : ServerServiceCall[CreateHelloWorldRequest, CreateHelloWorldResponse] =
+    authenticated { (tokenContent, _) =>
+      ServerServiceCall { createHelloWorldRequest =>
+        val username = tokenContent.username
+        logger.info(s"User $username is creating a Hello World ")
+        logger.info(
+          s"Creating 'Hello World' with input $createHelloWorldRequest...")
+        val validationResult = validate(createHelloWorldRequest)
+        validationResult match {
+          case failure: Failure =>
+            throw new TransportException(TransportErrorCode.BadRequest,
+                                         "request validation failure")
+          case _ =>
+        }
+        val helloWorldAggregate =
+          HelloWorldAggregate(helloWorldId, HelloWorldResource(createHelloWorldRequest.helloWorld))
+        val helloWorldResource =
+          HelloWorldResource(createHelloWorldRequest.helloWorld)
+        val helloWorldEntityRef =
+          registry.refFor[HelloWorldEntity](helloWorldId.toString)
+        logger.info(s"Publishing event $helloWorldAggregate")
+        val topic = pubSubRegistry.refFor(TopicId[HelloWorldResource])
+        topic.publish(helloWorldResource)
+        helloWorldEntityRef
+          .ask(CreateHelloWorldCommand(helloWorldAggregate))
+          .map { _ =>
+            mapToCreateHelloWorldResponse(helloWorldId, helloWorldResource)
+          }
+      }
+    }
+
+  private def mapToCreateHelloWorldResponse(
+      helloWorldId: String,
+      helloWorldResource: HelloWorldResource): CreateHelloWorldResponse = {
+    CreateHelloWorldResponse(helloWorldId,
+                             helloWorldResource.helloWorld)
+  }
+
+  private def mapToCreateHelloWorldResponse(
+      helloWorldState: HelloWorldState): CreateHelloWorldResponse = {
+    CreateHelloWorldResponse(helloWorldState.helloWorldAggregate map { _.helloWorldId } getOrElse "No identifier",
+                             helloWorldState.helloWorldAggregate map { _.helloWorldResource.helloWorld} getOrElse HelloWorld("No name", Some("No description")))
+  }
+// }
+```
+
+<!--- transclude cjq71acmc000g97ya4ipam19u -->
+
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[The create Hello World command {] cjq71acus000h97yauiho6uax -->
+
+```scala
 // The create Hello World command {
 case class CreateHelloWorldCommand(
   helloWorldAggregate: HelloWorldAggregate)
@@ -1128,338 +669,46 @@ object CreateHelloWorldCommand {
   implicit val format: Format[CreateHelloWorldCommand] = Json.format
 }
 // }
-
-//case object DestroyHelloWorldCommand
-//    extends HelloWorldCommand
-//    with ReplyType[Done] {
-//  implicit val format: Format[DestroyHelloWorldCommand.type] = singletonFormat(DestroyHelloWorldCommand)
-//}
-
-case class ReplaceHelloWorldCommand(ReplaceHelloWorldCommand: String, replaceHelloWorldRequest: ReplaceHelloWorldRequest)
-    extends HelloWorldCommand[Either[ServiceError, HelloWorldAggregate]]
-
-object ReplaceHelloWorldCommand {
-  implicit val format: Format[ReplaceHelloWorldCommand] = Json.format
-}
-
-sealed trait HelloWorldEvent extends AggregateEvent[HelloWorldEvent] {
-  override def aggregateTag = HelloWorldEvent.Tag
-}
-
-object HelloWorldEvent {
-  val NumShards = 4
-  val Tag: AggregateEventShards[HelloWorldEvent] =
-    AggregateEventTag.sharded[HelloWorldEvent](NumShards)
-
-  implicit val format: Format[HelloWorldEvent] =
-    derived.flat.oformat((__ \ "type").format[String])
-}
-
-case class HelloWorldCreatedEvent(helloWorldAggregate: HelloWorldAggregate)
-    extends HelloWorldEvent
-
-object HelloWorldCreatedEvent {
-  implicit val format: Format[HelloWorldCreatedEvent] = Json.format
-}
-
-//case class HelloWorldDestroyedEvent(helloWorldId: String)
-//    extends HelloWorldEvent
-//
-//object HelloWorldDestroyedEvent {
-//  implicit val format: Format[HelloWorldDestroyedEvent] = Json.format
-//}
-
-case class HelloWorldReplacedEvent(
-  helloWorldId: String,
-  replacementHelloWorldResource: HelloWorldResource,
-  motivation: Option[String])
-    extends HelloWorldEvent
-
-object HelloWorldReplacedEvent {
-  implicit val format: Format[HelloWorldReplacedEvent] = Json.format
-}
-
-// Hello World Application Loader
-
-trait HelloWorldComponents
-    extends LagomServerComponents
-    with CassandraPersistenceComponents
-    with PubSubComponents {
-  implicit def executionContext: ExecutionContext
-
-  def environment: Environment
-
-  override lazy val lagomServer: LagomServer =
-    serverFor[HelloWorldService](wire[HelloWorldServiceImpl])
-  lazy val helloWorldRepository: HelloWorldRepository =
-    wire[HelloWorldRepository]
-  override lazy val jsonSerializerRegistry: HelloWorldSerializerRegistry.type =
-    HelloWorldSerializerRegistry
-
-  persistentEntityRegistry.register(wire[HelloWorldEntity])
-  readSide.register(wire[HelloWorldEventProcessor])
-}
-
-abstract class HelloWorldApplication(context: LagomApplicationContext)
-    extends LagomApplication(context)
-    with HelloWorldComponents
-    with AhcWSComponents
-    with LagomKafkaComponents {
-
-  // To bind to another Lagom service
-  // lazy val otherService = serviceClient.implement[OtherService]
-  //lazy val helloWorldService: HelloWorldService = serviceClient.implement[HelloWorldService]
-}
-
-class HelloWorldApplicationLoader extends LagomApplicationLoader {
-  override def loadDevMode(
-      context: LagomApplicationContext): LagomApplication = {
-    // Workaround for logback.xml not being detected, see https://github.com/lagom/lagom/issues/534
-    val environment = context.playContext.environment
-    LoggerConfigurator(environment.classLoader).foreach {
-      _.configure(environment)
-    }
-    // end workaround
-    new HelloWorldApplication(context) with LagomDevModeComponents
-  }
-
-  override def load(context: LagomApplicationContext): LagomApplication =
-    new HelloWorldApplication(context) with LagomServiceLocatorComponents {
-      override lazy val circuitBreakerMetricsProvider =
-        new CircuitBreakerMetricsProviderImpl(actorSystem)
-    }
-
-  override def describeService = Some(readDescriptor[HelloWorldService])
-}
-
-// Hello World Repository
-
-private[impl] class HelloWorldRepository(session: CassandraSession)(
-    implicit ec: ExecutionContext) {
-  private val logger = LoggerFactory.getLogger(classOf[HelloWorldRepository])
-
-  def selectAllHelloWorlds: Future[Seq[HelloWorldAggregate]] = {
-    logger.info("Querying all 'Hello Worlds'...")
-    session.selectAll("""
-      SELECT id, hello_world FROM hello_world
-    """).map(rows => rows.map(row => convertToHelloWorldAggregate(row)))
-  }
-
-  def selectHelloWorld(id: String) = {
-    logger.info(s"Querying 'Hello World' with ID $id...")
-    session.selectOne("SELECT id, hello_world FROM hello_world WHERE id = ?",
-                      id)
-  }
-
-  private def convertToHelloWorldAggregate(
-      helloWorldRow: Row): HelloWorldAggregate = {
-    HelloWorldAggregate(
-      helloWorldRow.getString("id"),
-      HelloWorldResource(
-      Json
-        .fromJson[HelloWorld](
-          Json.parse(helloWorldRow.getString("hello_world")))
-        .get
-      )
-//      implicitly[Format[HelloWorld]].reads(Json.parse(helloWorldRow.getString("hello-world")))
-//          .toOption
-//          .flatten
-//          .getOrElse(Set.empty[HelloWorld])
-    )
-  }
-}
-
-private[impl] class HelloWorldEventProcessor(
-    session: CassandraSession,
-    readSide: CassandraReadSide)(implicit ec: ExecutionContext)
-    extends ReadSideProcessor[HelloWorldEvent] {
-  private val logger =
-    LoggerFactory.getLogger(classOf[HelloWorldEventProcessor])
-
-  private var insertHelloWorldStatement: PreparedStatement = _
-  private var destroyHelloWorldStatement: PreparedStatement = _
-  private var insertHelloWorldByNameStatement: PreparedStatement = _
-  private var insertHelloWorldSummaryStatement: PreparedStatement = _
-
-  override def buildHandler
-    : ReadSideProcessor.ReadSideHandler[HelloWorldEvent] = {
-    readSide
-      .builder[HelloWorldEvent]("helloWorldEventOffset")
-      .setGlobalPrepare(createTables)
-      .setPrepare(_ => prepareStatements())
-      .setEventHandler[HelloWorldCreatedEvent](e => {
-        insertHelloWorld(e.event.helloWorldAggregate)
-      })
-//      .setEventHandler[HelloWorldDestroyedEvent](e => {
-//        destroyHelloWorld(e.event.helloWorldId)
-//      })
-      .build
-  }
-
-  override def aggregateTags: Set[AggregateEventTag[HelloWorldEvent]] =
-    HelloWorldEvent.Tag.allTags
-
-  private def createTables() = {
-    logger.info("Creating tables...")
-    for {
-      _ <- session.executeCreateTable("""
-          |CREATE TABLE IF NOT EXISTS hello_world (
-          | id text PRIMARY KEY,
-          | hello_world text
-          |);
-        """.stripMargin)
-      _ <- session.executeCreateTable(
-        """
-          |CREATE TABLE IF NOT EXISTS hello_world_summary (
-          | id text PRIMARY KEY,
-          | name text
-          |);
-        """.stripMargin)
-      _ <- session.executeCreateTable(
-        """
-          |CREATE TABLE IF NOT EXISTS hello_world_by_name (
-          | id text,
-          | name text PRIMARY KEY
-          |);
-        """.stripMargin)
-    } yield Done
-  }
-
-  private def prepareStatements() = {
-    logger.info("Preparing statements...")
-    for {
-      insertHelloWorld <- session.prepare("""
-          |INSERT INTO hello_world(
-          | id,
-          | hello_world
-          | ) VALUES (
-          | ?, ?);
-        """.stripMargin)
-      destroyHelloWorld <- session.prepare("""
-          |DELETE FROM hello_world
-          |WHERE id = ?;
-        """.stripMargin)
-      insertHelloWorldSummary <- session.prepare(
-        """
-          |INSERT INTO hello_world_summary(
-          | id,
-          | name
-          | ) VALUES (
-          | ?, ?);
-        """.stripMargin)
-      insertHelloWorldByName <- session.prepare(
-        """
-          |INSERT INTO hello_world_by_name(
-          | id,
-          | name
-          | ) VALUES (
-          | ?, ?);
-        """.stripMargin)
-    } yield {
-      insertHelloWorldStatement = insertHelloWorld
-      destroyHelloWorldStatement = destroyHelloWorld
-      insertHelloWorldSummaryStatement = insertHelloWorldSummary
-      insertHelloWorldByNameStatement = insertHelloWorldByName
-      Done
-    }
-  }
-
-  private def insertHelloWorld(helloWorldAggregate: HelloWorldAggregate) = {
-    logger.info(s"Inserting $helloWorldAggregate...")
-    Future.successful(
-      List(
-        insertHelloWorldStatement.bind(helloWorldAggregate.helloWorldId,
-                                       implicitly[Format[HelloWorld]]
-                                         .writes(helloWorldAggregate.helloWorldResource.helloWorld)
-                                         .toString)
-        //insertHelloWorldSummaryStatement
-        //  .bind(helloWorldAggregate.id, helloWorldAggregate.helloWorld.name),
-        //insertHelloWorldByNameStatement
-        //  .bind(helloWorldAggregate.id, helloWorldAggregate.helloWorld.name)
-      ))
-  }
-
-  private def destroyHelloWorld(helloWorldId: String) = {
-    logger.info(s"Deleting $helloWorldId...")
-    Future.successful(
-      List(
-        destroyHelloWorldStatement.bind(helloWorldId)
-        //insertHelloWorldSummaryStatement
-        //  .bind(helloWorldAggregate.id, helloWorldAggregate.helloWorld.name),
-        //insertHelloWorldByNameStatement
-        //  .bind(helloWorldAggregate.id, helloWorldAggregate.helloWorld.name)
-      ))
-  }
-
-}
-
-// Hello World Serializer Registry
-
-object HelloWorldSerializerRegistry extends JsonSerializerRegistry {
-  override def serializers = List(
-    // Data structures
-    JsonSerializer[HelloWorld],
-    JsonSerializer[HelloWorldResource],
-    JsonSerializer[HelloWorldAggregate],
-    // Create
-    JsonSerializer[CreateHelloWorldRequest],
-    JsonSerializer[CreateHelloWorldCommand],
-    JsonSerializer[CreateHelloWorldReply],
-    JsonSerializer[HelloWorldCreatedEvent],
-    JsonSerializer[CreateHelloWorldResponse],
-    // Replace
-    JsonSerializer[ReplaceHelloWorldRequest],
-    JsonSerializer[ReplaceHelloWorldCommand],
-    JsonSerializer[ReplaceHelloWorldReply],
-    JsonSerializer[HelloWorldReplacedEvent],
-    JsonSerializer[ReplaceHelloWorldResponse],
-    // Mutate
-    // Deactivate
-    // Reactivate
-    //
-
-//    JsonSerializer[HelloWorldStatus],
-    // Get One
-    JsonSerializer[HelloWorldCreated],
-    JsonSerializer[GetHelloWorldQuery.type],
-    JsonSerializer[GetHelloWorldResponse],
-    // Get All
-    JsonSerializer[GetAllHelloWorldsResponse]
-  )
-}
-
-/**
-  * ServiceErrors object acts as a enumeration of pre-defined errors that can be used as response for the public REST api.
-  *
-  * Internally these errors can be created by a read action to the Read-side or a message sent to the persistent entities.
-  * It defines all errors related to [[Cart]], [[Bundle]] and [[Item]].
-  */
-object ServiceErrors {
-  type ServiceError = ErrorResponse
-
-  final val CartNotFound: ServiceError = ErrorResponse(404, "Not found", "Cart not found.")
-  final val HelloWorldConflict: ServiceError = ErrorResponse(409, "Conflict", "Hello World already exists for this user.")
-  final val HelloWorldDoesNotExist: ServiceError = ErrorResponse(404, "Not found", "Hello World does not exist.")
-  final val CartCannotBeUpdated: ServiceError = ErrorResponse(400, "Bad request", "Cart cannot be updated.")
-
-  final val BundleNotFound: ServiceError = ErrorResponse(404, "Not Found", "Bundle not found.")
-  final val BundleConflict: ServiceError = ErrorResponse(409, "Conflict", "Bundle already exists with this name.")
-
-  final val ItemsNotFoundInInventory: ServiceError = ErrorResponse(404, "Not Found", "One or more items were not found in the inventory.")
-  final val ItemCannotBeRemoved: ServiceError = ErrorResponse(400, "Bad request", "Item is being used by a bundle, remove bundle first.")
-  final val ItemNotFound: ServiceError = ErrorResponse(404, "Not Found", "Item not found.")
-  final val ItemConflict: ServiceError = ErrorResponse(409, "Conflict", "Item already exists with this name.")
-  final val ItemNegativeQuantity: ServiceError = ErrorResponse(400, "Bad request", "Item quantity cannot be negative.")
-}
 ```
 
-<!--- transclude cjq712iag000k96yaifqppiop -->
+<!--- transclude cjq71acus000h97yauiho6uax -->
+
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[The create Hello World reply {] cjq71ad31000i97yazjbi1671 -->
+
+```scala
+// The create Hello World reply {
+case class CreateHelloWorldReply(
+  helloWorldAggregate: HelloWorldAggregate)
+
+object CreateHelloWorldReply {
+  implicit val format: Format[CreateHelloWorldReply] = Json.format
+}
+// }
+```
+
+<!--- transclude cjq71ad31000i97yazjbi1671 -->
+
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[private def createHelloWorldCommand: OnCommandHandler[Either[ServiceError, HelloWorldAggregate]] = {] cjq71adbn000j97yawfrmlckq -->
+
+```scala
+
+```
+
+<!--- transclude cjq71adbn000j97yawfrmlckq -->
+
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[private def createHelloWorldCommand: OnCommandHandler[Either[ServiceError, HelloWorldAggregate]] = {] cjq71adjs000k97yak9e346p6 -->
+
+```scala
+
+```
+
+<!--- transclude cjq71adjs000k97yak9e346p6 -->
 
 Replacement
 -----------
 A Replacement request takes the new desired HelloWorld algebraic data type and responds with the replaced HelloWorldResource plus the supporing algebraic data types of Identity and HypertextApplicationLanguage. If the Hello World resource is not replaced the service responses with an ErrorResponse. The following REST calls can be used. The Hello World identifier is required, but the replacementId is optional. If specified all identifiers must adhere to the Matcher for Id.
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Replacement Calls {] cjq712iho000l96yavqvs9a2l -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Replacement Calls {] cjq71ads5000l97yaccsxw273 -->
 
 ```scala
 // Hello World Replacement Calls {
@@ -1497,11 +746,11 @@ A Replacement request takes the new desired HelloWorld algebraic data type and r
 // }
 ```
 
-<!--- transclude cjq712iho000l96yavqvs9a2l -->
+<!--- transclude cjq71ads5000l97yaccsxw273 -->
 
 The replace Hello World request is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldRequest(] cjq712ipm000m96yajb9sdnlq -->
+<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldRequest(] cjq71ae0m000m97yak9fxde6z -->
 
 ```scala
 case class ReplaceHelloWorldRequest(
@@ -1510,11 +759,11 @@ case class ReplaceHelloWorldRequest(
 )
 ```
 
-<!--- transclude cjq712ipm000m96yajb9sdnlq -->
+<!--- transclude cjq71ae0m000m97yak9fxde6z -->
 
 And the replace Hello World response is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldResponse(] cjq712ixg000n96yaef5av2d9 -->
+<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldResponse(] cjq71ae8i000n97yaopc3u86p -->
 
 ```scala
 case class ReplaceHelloWorldResponse(
@@ -1524,12 +773,12 @@ case class ReplaceHelloWorldResponse(
 )
 ```
 
-<!--- transclude cjq712ixg000n96yaef5av2d9 -->
+<!--- transclude cjq71ae8i000n97yaopc3u86p -->
 
 Mutation
 --------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Mutation Calls {] cjq712j5h000o96ya9m4he4jb -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Mutation Calls {] cjq71aegq000o97ya8wcf9vgy -->
 
 ```scala
 // Hello World Mutation Calls {
@@ -1567,13 +816,13 @@ Mutation
 // }
 ```
 
-<!--- transclude cjq712j5h000o96ya9m4he4jb -->
+<!--- transclude cjq71aegq000o97ya8wcf9vgy -->
 
 
 Deactivation
 ------------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Deactivation Calls {] cjq712jdv000p96yajft1r6ou -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Deactivation Calls {] cjq71aep2000p97yaz6s85xcs -->
 
 ```scala
 // Hello World Deactivation Calls {
@@ -1610,12 +859,12 @@ Deactivation
 // }
 ```
 
-<!--- transclude cjq712jdv000p96yajft1r6ou -->
+<!--- transclude cjq71aep2000p97yaz6s85xcs -->
 
 Reactivation
 ------------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Reactivation Calls {] cjq712jmn000q96yaa94hsyhq -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Reactivation Calls {] cjq71aexj000q97ya1jpyquwr -->
 
 ```scala
 // Hello World Reactivation Calls {
@@ -1650,12 +899,12 @@ Reactivation
 // }
 ```
 
-<!--- transclude cjq712jmn000q96yaa94hsyhq -->
+<!--- transclude cjq71aexj000q97ya1jpyquwr -->
 
 Read
 ----
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Get Calls {] cjq712jv8000r96yav03e67u2 -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Get Calls {] cjq71af5y000r97ya5l4t4gsa -->
 
 ```scala
 // Hello World Get Calls {
@@ -1685,7 +934,7 @@ Read
 // }
 ```
 
-<!--- transclude cjq712jv8000r96yav03e67u2 -->
+<!--- transclude cjq71af5y000r97ya5l4t4gsa -->
 
 ```bash
 -- With Bearer Auth Token

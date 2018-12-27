@@ -382,6 +382,7 @@ final class HelloWorldEntity extends PersistentEntity {
     case Some(state) if state.status == HelloWorldStatus.ARCHIVED => archivedHelloWorld
     case Some(state) => unknownHelloWorld
   }
+  // }
 
   private val nonexistentHelloWorld = {
     getHelloWorldAction orElse {
@@ -402,7 +403,6 @@ final class HelloWorldEntity extends PersistentEntity {
         .onCommand[ReplaceHelloWorldCommand, Either[ServiceError, HelloWorldAggregate]] { replaceHelloWorldCommand }
         .onEvent {
           case (HelloWorldReplacedEvent(helloWorldId, replacementHelloWorldResource, motivation), state) =>
-          // for {state(Some(a),_,_)<-
             HelloWorldState(Some(HelloWorldAggregate(helloWorldId, replacementHelloWorldResource)), HelloWorldStatus.ACTIVE, 1)
           case (_, state) => state
         }
@@ -426,7 +426,6 @@ final class HelloWorldEntity extends PersistentEntity {
         .onCommand[ReplaceHelloWorldCommand, Either[ServiceError, HelloWorldAggregate]] { replyConflict }
     }
   }
-  // }
 
   private def getHelloWorldAction = Actions()
     .onReadOnlyCommand[GetHelloWorldQuery.type, HelloWorldState] {
