@@ -375,18 +375,13 @@ final class HelloWorldEntity extends PersistentEntity {
 
   override def initialState: Option[HelloWorldState] = None
 
-  // FSM
+  // Finite State Machine (FSM) {
   override def behavior: Behavior = {
     case None => nonexistentHelloWorld
     case Some(state) if state.status == HelloWorldStatus.ACTIVE => activeHelloWorld
     case Some(state) if state.status == HelloWorldStatus.ARCHIVED => archivedHelloWorld
     case Some(state) => unknownHelloWorld
   }
-
-  private def getHelloWorldAction = Actions()
-    .onReadOnlyCommand[GetHelloWorldQuery.type, HelloWorldState] {
-      case (GetHelloWorldQuery, ctx, state) => ctx.reply(state)
-    }
 
   private val nonexistentHelloWorld = {
     getHelloWorldAction orElse {
@@ -418,12 +413,7 @@ final class HelloWorldEntity extends PersistentEntity {
     getHelloWorldAction orElse {
       Actions()
         .onCommand[CreateHelloWorldCommand, Either[ServiceError, HelloWorldAggregate]] { replyConflict }
-//        .onCommand[ReplaceHelloWorldCommand, Either[ServiceError, HelloWorldAggregate]] { replyConflict }
         .onEvent {
-//          case (HelloWorldReplacedEvent(
-//              replaceHelloWorldRequest.successorHelloWorldResource,
-//              replaceHelloWorldRequest.motivation),
-//            state) => HelloWorldState(Some(helloWorldAggregate), HelloWorldStatus.ACTIVE, 1)
           case (_, state) => state
         }
     }
@@ -436,6 +426,12 @@ final class HelloWorldEntity extends PersistentEntity {
         .onCommand[ReplaceHelloWorldCommand, Either[ServiceError, HelloWorldAggregate]] { replyConflict }
     }
   }
+  // }
+
+  private def getHelloWorldAction = Actions()
+    .onReadOnlyCommand[GetHelloWorldQuery.type, HelloWorldState] {
+      case (GetHelloWorldQuery, ctx, state) => ctx.reply(state)
+    }
 
   private def createHelloWorldCommand: OnCommandHandler[Either[ServiceError, HelloWorldAggregate]] = {
     case (CreateHelloWorldCommand(helloWorldAggregate), ctx, state) =>
@@ -543,12 +539,16 @@ case object GetHelloWorldQuery
     GetHelloWorldQuery)
 }
 
-case class CreateHelloWorldReply(helloWorldAggregate: HelloWorldAggregate)
+// The create Hello World reply {
+case class CreateHelloWorldReply(
+  helloWorldAggregate: HelloWorldAggregate)
 
 object CreateHelloWorldReply {
   implicit val format: Format[CreateHelloWorldReply] = Json.format
 }
+// }
 
+// The create Hello World command {
 case class CreateHelloWorldCommand(
   helloWorldAggregate: HelloWorldAggregate)
     extends HelloWorldCommand[Either[ServiceError, CreateHelloWorldReply]]
@@ -556,6 +556,7 @@ case class CreateHelloWorldCommand(
 object CreateHelloWorldCommand {
   implicit val format: Format[CreateHelloWorldCommand] = Json.format
 }
+// }
 
 //case object DestroyHelloWorldCommand
 //    extends HelloWorldCommand
