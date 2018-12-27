@@ -86,6 +86,7 @@ class HelloWorldServiceImpl(
     with Marshaller {
   private val logger = LoggerFactory.getLogger(classOf[HelloWorldServiceImpl])
 
+// Hello World Creation Calls {
   override def postHelloWorld
     : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
     authenticated { (tokenContent, _) =>
@@ -103,8 +104,60 @@ class HelloWorldServiceImpl(
       }
     }
 
-  val Ok: ResponseHeader =  ResponseHeader.Ok
-        .withHeader("Server", "Hello World service")
+  override def createHelloWorld1
+    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
+    authenticated { (tokenContent, _) =>
+      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
+        val helloWorldId = Cuid.createCuid()
+        val creationId = Cuid.createCuid()
+        this
+          .createHelloWorldInternal(helloWorldId, creationId)
+          .handleRequestHeader(requestHeader => requestHeader)
+          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
+            case (responseHeader, response) => (Ok, Right(response))
+          }
+      }
+    }
+  override def createHelloWorld2(helloWorldId: String)
+    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
+    authenticated { (tokenContent, _) =>
+      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
+        val creationId = Cuid.createCuid()
+        this
+          .createHelloWorldInternal(helloWorldId, creationId)
+          .handleRequestHeader(requestHeader => requestHeader)
+          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
+            case (responseHeader, response) => (Ok, Right(response))
+          }
+      }
+    }
+
+  override def createHelloWorld3(creationId: String)
+    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
+    authenticated { (tokenContent, _) =>
+      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
+        val helloWorldId = Cuid.createCuid()
+        this
+          .createHelloWorldInternal(helloWorldId, creationId)
+          .handleRequestHeader(requestHeader => requestHeader)
+          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
+            case (responseHeader, response) => (Ok, Right(response))
+          }
+      }
+    }
+
+  override def createHelloWorld4(helloWorldId: String, creationId: String)
+    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
+    authenticated { (tokenContent, _) =>
+      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
+        this
+          .createHelloWorldInternal(helloWorldId, creationId)
+          .handleRequestHeader(requestHeader => requestHeader)
+          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
+            case (responseHeader, response) => (Ok, Right(response))
+          }
+      }
+    }
 
   def createHelloWorldInternal(helloWorldId: String, creationId: String)
     : ServerServiceCall[CreateHelloWorldRequest, CreateHelloWorldResponse] =
@@ -138,137 +191,23 @@ class HelloWorldServiceImpl(
       }
     }
 
-//  override def createHelloWorldWithSystemGeneratedId
-//    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-//    authenticated { (tokenContent, _) =>
-//      ServerServiceCall { createHelloWorldRequest =>
-//        val username = tokenContent.username
-//        logger.info(s"User $username is ... ")
-//        val helloWorldId = Cuid.createCuid()
-//        val commandId = Cuid.createCuid()
-//        logger.info(
-//          s"Creating 'Hello World' with a system generated identifier helloWorldId...")
-//        this
-//          .createHelloWorld(helloWorldId, commandId)
-//          .handleRequestHeader(requestHeader => requestHeader)
-//          .invoke(createHelloWorldRequest).map { response =>
-//            Right(response)
-//          }
-//      }
-//    }
+  private def mapToCreateHelloWorldResponse(
+      helloWorldId: String,
+      helloWorldResource: HelloWorldResource): CreateHelloWorldResponse = {
+    CreateHelloWorldResponse(helloWorldId,
+                             helloWorldResource.helloWorld)
+  }
 
-//  override def createHelloWorld(helloWorldId: Option[String], creationId: Option[String])
-//    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-//    authenticated { (tokenContent, _) =>
-//      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-//        val username = tokenContent.username
-//        logger.info(s"User $username is ... ")
-//        this
-//          .createHelloWorldInternal(
-//            helloWorldId.getOrElse(Cuid.createCuid()),
-//            creationId.getOrElse(Cuid.createCuid()))
-//          .handleRequestHeader(requestHeader => requestHeader)
-//          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-//            case (responseHeader, response) => (Ok, Right(response))
-//          }
-//      }
-//    }
+  private def mapToCreateHelloWorldResponse(
+      helloWorldState: HelloWorldState): CreateHelloWorldResponse = {
+    CreateHelloWorldResponse(helloWorldState.helloWorldAggregate map { _.helloWorldId } getOrElse "No identifier",
+                             helloWorldState.helloWorldAggregate map { _.helloWorldResource.helloWorld} getOrElse HelloWorld("No name", Some("No description")))
+  }
+// }
 
-  //  restCall(Method.POST,   "/api/hello-worlds/creation",                         createHelloWorld1 _),
-  override def createHelloWorld1
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val helloWorldId = Cuid.createCuid()
-        val creationId = Cuid.createCuid()
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-  //  restCall(Method.POST,   "/api/hello-worlds/:id/creation",                     createHelloWorld2 _),
-  override def createHelloWorld2(helloWorldId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val creationId = Cuid.createCuid()
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-  //  restCall(Method.POST,   "/api/hello-worlds/creation/:creationId",             createHelloWorld3 _),
-  override def createHelloWorld3(creationId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        val helloWorldId = Cuid.createCuid()
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
-  //  restCall(Method.POST,   "/api/hello-worlds/:id/creation/:creationId",         createHelloWorld4 _),
-  override def createHelloWorld4(helloWorldId: String, creationId: String)
-    : ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]] =
-    authenticated { (tokenContent, _) =>
-      ServerServiceCall { (requestHeader, createHelloWorldRequest) =>
-        this
-          .createHelloWorldInternal(helloWorldId, creationId)
-          .handleRequestHeader(requestHeader => requestHeader)
-          .invokeWithHeaders(requestHeader, createHelloWorldRequest).map {
-            case (responseHeader, response) => (Ok, Right(response))
-          }
-      }
-    }
+  val Ok: ResponseHeader =  ResponseHeader.Ok
+        .withHeader("Server", "Hello World service")
 
-//      ServerServiceCall { createHelloWorldRequest =>
-//        logger.info(
-//          s"Creating 'Hello World' with input $createHelloWorldRequest...")
-//        val validationResult = validate(createHelloWorldRequest)
-//        validationResult match {
-//          case failure: Failure =>
-//            throw new TransportException(TransportErrorCode.BadRequest,
-//                                         "request validation failure")
-//          case _ =>
-//        }
-//        val helloWorldAggregate =
-//          HelloWorldAggregate(helloWorldId, createHelloWorldRequest.helloWorld)
-//        val helloWorldResource =
-//          HelloWorldResource(createHelloWorldRequest.helloWorld)
-//        val helloWorldEntityRef =
-//          registry.refFor[HelloWorldEntity](helloWorldId.toString)
-//        logger.info(s"Publishing event $helloWorldAggregate")
-//        val topic = pubSubRegistry.refFor(TopicId[HelloWorldResource])
-//        topic.publish(helloWorldResource)
-//        helloWorldEntityRef
-//          .ask(CreateHelloWorldCommand(helloWorldAggregate))
-//          .map { _ =>
-//            mapToCreateHelloWorldResponse(helloWorldId, helloWorldResource)
-//          }
-//      }
-//    }
-
-//  override def destroyHelloWorld(helloWorldId: String)
-//    : ServiceCall[NotUsed, Done] =
-//    authenticated { (tokenContent, _) =>
-//      ServerServiceCall { _ =>
-//      logger.info(
-//        s"Deleting 'Hello World' with id $helloWorldId...")
-//      val helloWorldEntityRef =
-//        registry.refFor[HelloWorldEntity](helloWorldId.toString)
-//      helloWorldEntityRef.ask(DestroyHelloWorldCommand)
-//      }
-//    }
   override def putHelloWorld(helloWorldId: String): ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]] =
     authenticated { (tokenContent, _) =>
       ServerServiceCall { (requestHeader, replaceHelloWorldRequest) =>
@@ -375,19 +314,6 @@ class HelloWorldServiceImpl(
   private def mapToHelloWorldResource(
       helloWorldAggregate: HelloWorldAggregate): HelloWorldResource = {
     HelloWorldResource(helloWorldAggregate.helloWorldResource.helloWorld)
-  }
-
-  private def mapToCreateHelloWorldResponse(
-      helloWorldId: String,
-      helloWorldResource: HelloWorldResource): CreateHelloWorldResponse = {
-    CreateHelloWorldResponse(helloWorldId,
-                             helloWorldResource.helloWorld)
-  }
-
-  private def mapToCreateHelloWorldResponse(
-      helloWorldState: HelloWorldState): CreateHelloWorldResponse = {
-    CreateHelloWorldResponse(helloWorldState.helloWorldAggregate map { _.helloWorldId } getOrElse "No identifier",
-                             helloWorldState.helloWorldAggregate map { _.helloWorldResource.helloWorld} getOrElse HelloWorld("No name", Some("No description")))
   }
 
   private def mapToReplaceHelloWorldResponse(replaceHelloWorldRequest: ReplaceHelloWorldRequest): ReplaceHelloWorldResponse = {
@@ -622,19 +548,10 @@ case class CreateHelloWorldReply(helloWorldAggregate: HelloWorldAggregate)
 object CreateHelloWorldReply {
   implicit val format: Format[CreateHelloWorldReply] = Json.format
 }
-/**
-  * Create HelloWorld command
-  *
-  * This command represent a request to create a HelloWorld.
-  *
-  * The Command is invalid if an item with the same name already exists.
-  *
-  * If the command is accepted, a [[HelloWorldCreated]] event will be persisted.
-  *
-  * @param helloWorldAggregate HelloWorld aggregate.
-  */
-case class CreateHelloWorldCommand(helloWorldAggregate: HelloWorldAggregate)
-    extends HelloWorldCommand[Either[ServiceError, HelloWorldReply]]
+
+case class CreateHelloWorldCommand(
+  helloWorldAggregate: HelloWorldAggregate)
+    extends HelloWorldCommand[Either[ServiceError, CreateHelloWorldReply]]
 
 object CreateHelloWorldCommand {
   implicit val format: Format[CreateHelloWorldCommand] = Json.format
