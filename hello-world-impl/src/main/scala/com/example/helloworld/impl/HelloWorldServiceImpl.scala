@@ -375,14 +375,13 @@ final class HelloWorldEntity extends PersistentEntity {
 
   override def initialState: Option[HelloWorldState] = None
 
-  // Finite State Machine (FSM) {
+  // Finite State Machine (FSM)
   override def behavior: Behavior = {
     case None => nonexistentHelloWorld
     case Some(state) if state.status == HelloWorldStatus.ACTIVE => activeHelloWorld
     case Some(state) if state.status == HelloWorldStatus.ARCHIVED => archivedHelloWorld
     case Some(state) => unknownHelloWorld
   }
-  // }
 
   private val nonexistentHelloWorld = {
     getHelloWorldAction orElse {
