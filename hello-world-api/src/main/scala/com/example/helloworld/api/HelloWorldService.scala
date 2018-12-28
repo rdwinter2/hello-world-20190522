@@ -437,7 +437,12 @@ val maxRequestSize = 10485760 // 10M
 // TODO: include span ID as the unique identity of a CreateHelloWorldRequest
 
 // Create Hello World Request payload {
-type CreateHelloWorldRequest = String Refined MaxSize[maxRequestSize]
+type CreateHelloWorldRequest = String
+implicit val createHelloWorldRequestValidator
+    : Validator[CreateHelloWorldRequest] { r =>
+    r has size > 0
+    r has size <= maxRequestSize
+    }
 
 case class ValidCreateHelloWorldRequest(
     helloWorld: HelloWorld
@@ -446,7 +451,7 @@ case class ValidCreateHelloWorldRequest(
 case object ValidCreateHelloWorldRequest {
   implicit val format: Format[ValidCreateHelloWorldRequest] = Jsonx.formatCaseClass
 
-  implicit val createHelloWorldRequestValidator
+  implicit val validCreateHelloWorldRequestValidator
     : Validator[ValidCreateHelloWorldRequest] =
     validator[ValidCreateHelloWorldRequest] { createHelloWorldRequest =>
       createHelloWorldRequest.helloWorld is valid(HelloWorld.helloWorldValidator)
