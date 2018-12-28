@@ -108,6 +108,7 @@ trait HelloWorldService extends Service {
     *         HTTP 403 Forbidden             if authorization failure
     *         HTTP 404 Not Found             if requested resource doesn't exist, or so as to not reveal a 401 or 403
     *         HTTP 409 Conflict              if the "Hello World" already exists with the same unique identity
+    *         HTTP 413 Payload Too Large     if request size exceeds a defined limit
     *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action.
     *
     * REST POST endpoints:
@@ -147,6 +148,7 @@ trait HelloWorldService extends Service {
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
     *         HTTP 404 Not Found             if requested resource doesn't exist, or so as to not reveal a 401 or 403
+    *         HTTP 413 Payload Too Large     if request size exceeds a defined limit
     *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action
     *
     * REST PUT endpoint:
@@ -181,6 +183,7 @@ trait HelloWorldService extends Service {
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
     *         HTTP 404 Not Found             if requested resource doesn't exist, or so as to not reveal a 401 or 403
+    *         HTTP 413 Payload Too Large     if request size exceeds a defined limit
     *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action
     *
     * REST PATCH endpoint:
@@ -215,6 +218,7 @@ trait HelloWorldService extends Service {
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
     *         HTTP 404 Not Found             if requested resource doesn't exist, or so as to not reveal a 401 or 403
+    *         HTTP 413 Payload Too Large     if request size exceeds a defined limit
     *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action
     *
     * REST DELETE endpoint:
@@ -248,6 +252,7 @@ trait HelloWorldService extends Service {
     *         HTTP 401 Unauthorized          if JSON Web Token is missing
     *         HTTP 403 Forbidden             if authorization failure (use 404 if authz failure shouldn't be revealed)
     *         HTTP 404 Not Found             if requested resource doesn't exist, or so as to not reveal a 401 or 403
+    *         HTTP 413 Payload Too Large     if request size exceeds a defined limit
     *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action
     *
     * REST POST endpoints:
@@ -427,21 +432,27 @@ object HelloWorldResource {
 
 // Request
 
+val maxRequestSize = 10485760 // 10M
+
 // TODO: include span ID as the unique identity of a CreateHelloWorldRequest
 
-case class CreateHelloWorldRequest(
+// Create Hello World Request payload {
+type CreateHelloWorldRequest = String Refined MaxSize[maxRequestSize]
+
+case class ValidCreateHelloWorldRequest(
     helloWorld: HelloWorld
 ) {}
 
-case object CreateHelloWorldRequest {
-  implicit val format: Format[CreateHelloWorldRequest] = Jsonx.formatCaseClass
+case object ValidCreateHelloWorldRequest {
+  implicit val format: Format[ValidCreateHelloWorldRequest] = Jsonx.formatCaseClass
 
   implicit val createHelloWorldRequestValidator
-    : Validator[CreateHelloWorldRequest] =
-    validator[CreateHelloWorldRequest] { createHelloWorldRequest =>
+    : Validator[ValidCreateHelloWorldRequest] =
+    validator[ValidCreateHelloWorldRequest] { createHelloWorldRequest =>
       createHelloWorldRequest.helloWorld is valid(HelloWorld.helloWorldValidator)
     }
 }
+// }
 
 case class ReplaceHelloWorldRequest(
     replacementHelloWorld: HelloWorld,
