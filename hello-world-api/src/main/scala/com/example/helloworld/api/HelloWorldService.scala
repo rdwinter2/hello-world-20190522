@@ -432,17 +432,17 @@ object HelloWorldResource {
 
 // Request
 
-val maxRequestSize = 10485760 // 10M
+//val maxRequestSize = 10485760 // 10M
 
 // TODO: include span ID as the unique identity of a CreateHelloWorldRequest
 
 // Create Hello World Request payload {
-type CreateHelloWorldRequest = String
-implicit val createHelloWorldRequestValidator
-    : Validator[CreateHelloWorldRequest] { r =>
-    r has size > 0
-    r has size <= maxRequestSize
-    }
+//type CreateHelloWorldRequest = String
+//implicit val createHelloWorldRequestValidator
+//    : Validator[CreateHelloWorldRequest] { r =>
+//    r has size > 0
+//    r has size <= maxRequestSize
+//    }
 
 case class ValidCreateHelloWorldRequest(
     helloWorld: HelloWorld

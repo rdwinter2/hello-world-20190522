@@ -3,6 +3,30 @@
 Hello World
 =============
 
+## <a name="overview"></a>Overview
+
+This is a simple Hello World self-contained system (SCS) to demonstrate the use of the Lagom framework. It has a simple CRUD interface as well as methods for doing a proper Domain Driven Design (DDD) ubiquitious language (UL).
+
+## Table of Contents
+1. [Overview](#overview)
+2. [Description](#description)
+3. [System Design](#systemdesign)
+3. [Domain Model](#domainmodel)
+   * [External Event Flow](#externaleventflow)
+   * [Internal Event Flow](#internaleventflow)
+   * [Conceptual Data Model](#conceptualdatamodel)
+2. [Microservices](#microservices)
+   * [Hello World](#helloworldmicroservice)
+   * [Tag](#tagmicroservice)
+   * [Tag Hello World Saga](#taghelloworldsagamicroservice)
+   * [Authorization](#authorizationmicroservice)
+2. [Glossary - Domain](#glossarydomain)
+2. [Glossary - Technical](#glossarytechnical)
+3. [References](#references)
+4. [Notes](#notes)
+
+## <a name="description"></a>Description
+
 This project has been generated using the rdwinter2/lagom-scala.g8 template.
 
 For instructions on running and testing the project, see [Using Lagom with Scala](https://www.lagomframework.com/get-started-scala.html).
@@ -15,9 +39,91 @@ sbt new rdwinter2/lagom-scala.g8
 
 After running `git init` or cloning from a repository `cd` into the directory and run `./custom-hooks/run-after-clone.sh`.
 
+## <a name="systemdesign"></a>System Design
+
+The design of Hello World is modeled using an Events-First Domain Driven Design (E1DDD). By focusing on events first, we can better understand the essence of the domain. "When you start modeling events, it forces you to think about the behavior of the system, as opposed to thinking about structure inside the system." [Greg Young](https://www.youtube.com/watch?v=LDW0QWie21s)
+
+Hello World is designed as a [Self Contained System](#selfcontainedsystem) (SCS) and uses the [autonomous bubble pattern](#autonomousbubblepattern) to isolate itself from other systems within the System of Systems.
+
+As a SCS Hello World adheres to certain characteristics to promote autonomy. The [first three SCS characteristics](https://scs-architecture.org/) are:
+> 1. Each SCS is an [autonomous web application](https://scs-architecture.org/#autonomous). For the SCS's domain, all data, the logic to process that data and all code to render the web interface is contained within the SCS. An SCS can fulfill its primary use cases on its own, without having to rely on other systems being available.
+> 2. Each SCS is owned by [one team](https://scs-architecture.org/#one-team). This does not necessarily mean that only one team can change the code, but the owning team has the final say on what goes into the code base, for example by merging pull-requests.
+> 3. Communication with other SCSs or 3rd party systems is [asynchronous wherever possible](https://scs-architecture.org/#async). Specifically, other SCSs or external systems should not be accessed synchronously within the SCS's own request/response cycle. This decouples the systems, reduces the effects of failure, and thus supports autonomy. The goal is decoupling concerning time: An SCS should work even if other SCSs are temporarily offline. This can be achieved even if the communication on the technical level is synchronous, e.g. by replicating data or buffering requests.
+
+Another important aspect of SCS is that it follows [Promise Theory](http://markburgess.org/PromiseMethod.pdf). Autonomous agents that make voluntarily promises tend to converge to a desired state. When obligations are imposed the system transitions from a state of certainty to one that is less certain. What this means for our SCS is that its primary capabilities should take in to account methods for making progress even when external dependencies are unavailable.
+
+By using the [autonomous bubble pattern](#autonomousbubblepattern) Hello World is [shielded from the entanglements of the legacy world](https://www.thoughtworks.com/radar/techniques/autonomous-bubble-pattern). This increases autonomy, reduces development friction, and improves architecture modernization efforts.
+
+From [Eric Evans](http://domainlanguage.com/wp-content/uploads/2016/04/GettingStartedWithDDDWhenSurroundedByLegacySystemsV1.pdf)
+> The bubble isolates that work so the team can evolve a model that addresses the chosen area, relatively unconstrained by the concepts of the legacy systems.
+> The context boundary of the bubble is established with the popular anticorruption layer (ACL). This boundary isolates your new work from the larger system, allowing you to have a very different model in your context than exists just on the other side of the border.
+
+## <a name="domainmodel"></a>Domain Model
+
+### <a name="externaleventflow"></a>External Event Flow
+
+
+
+### <a name="internaleventflow"></a>Internal Event Flow
+
+### <a name="conceptualdatamodel"></a>Conceptual Data Model
+
+
+## <a name="microservices"></a>Microservices
+
+### <a name="helloworldmicroservice"></a>Hello World
+
+### <a name="tagmicroservice"></a>Tag
+
+### <a name="taghelloworldsagamicroservice"></a>Tag Hello World Saga
+
+### <a name="authorizationmicroservice"></a>Authorization
+
+The authorization microservice exchanges an authentication token attesting to the identity of the user, for an authorization token which includes claims for what the user is allowed to do in this SCS.
+
+The SCS can be programmed to accept a variety of authentication tokens or tickets. For now, it just accepts a JSON Web Token (JWT) with a user name claim.
+
+The token given during the exchange is also a JWT and includes role names this user is authorized to have.
+
+The authorization microservice also has commands for an administrative user to add roles and to assign roles to users.
+
+### <a name="authenticationmicroservice"></a>Authentication
+
+The Hello World SCS includes a simple username/password login authentication microservice. It is included only for completeness and actually belongs in an enterprise or federated identity service.
+
+
+## <a name="glossarydomain"></a>Glossary - Domain
+
+## <a name="glossarytechnical"></a>Glossary - Technical
+
+<a name="autonomousbubblepattern"></a>Autonomous Bubble Pattern
+  : "This approach involves creating a fresh context for new application development that is shielded from the entanglements of the legacy world. This is a step beyond just using an anticorruption layer. It gives the new bubble context full control over its backing data, which is then asynchronously kept up-to-date with the legacy systems. It requires some work to protect the boundaries of the bubble and keep both worlds consistent, but the resulting autonomy and reduction in development friction is a first bold step toward a modernized future architecture." [ThoughtWorks](https://www.thoughtworks.com/radar/techniques/autonomous-bubble-pattern)
+
+<a name="domaindrivendesign"></a>Domain Driven Design (DDD)
+  : "an approach to software development for complex needs by connecting the implementation to an evolving model. The premise of domain-driven design is the following: (1) placing the project's primary focus on the core domain and domain logic; (2) basing complex designs on a model of the domain; (3) initiating a creative collaboration between technical and domain experts to iteratively refine a conceptual model that addresses particular domain problems." [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design)
+
+<a name="eventsfirstdomaindrivendesign"></a>Events-First Domain Driven Design (E1DDD)
+  : "The term Events-First Domain-Driven Design was coined by Russ Miles, and is the name for set of design principles that has emerged in our industry over the last few years and has proven to be very useful in building distributed systems at scale. These principles help us to shift the focus from the nouns (the domain objects) to the verbs (the events) in the domain. A shift of focus gives us a greater starting point for understanding the essence of the domain from a data flow and communications perspective, and puts us on the path toward a scalable event-driven design." [Reactive Microsystems](https://www.oreilly.com/library/view/reactive-microsystems/9781491994368/ch04.html)
+
+<a name="promisetheory"></a>Promise Theory
+  : "Promise theory is about modelling causation, change and balance between communicating agents (human or machine), It is about finding the necessary and sufficient conditions for cooperation between distributed agents.[Some Notes about Promise Theory](http://markburgess.org/PromiseMethod.pdf)
+
+<a name="selfcontainedsystem"></a>Self-contained System (SCS)
+  : "The Self-contained System (SCS) approach is an architecture that focuses on a separation of the functionality into many independent systems, making the complete logical system a collaboration of many smaller software systems." [scs-architecture.org](https://scs-architecture.org/index.html)
+
+Domain Model
+  : "A conceptual model of the domain that incorporates both behavior and data." [Wikipedia](https://en.wikipedia.org/wiki/Domain_model)
+
+## <a name="references"></a>References
+
+[Handling aggregate root with deep object hierarchy](https://softwareengineering.stackexchange.com/questions/355954/handling-aggregate-root-with-deep-object-hierarchy)
+
+## <a name="notes"></a>Notes
+
+
 The REST call identifiers for the Hello World project are defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjqgyw7dy0000oiya0ihyjlja -->
+<!--- transclude::api/HelloWorldService.scala::[override final def descriptor = {] cjqngqk030000t5yatj8hqrbi -->
 
 ```scala
   override final def descriptor = {
@@ -73,7 +179,7 @@ The REST call identifiers for the Hello World project are defined as:
   }
 ```
 
-<!--- transclude cjqgyw7dy0000oiya0ihyjlja -->
+<!--- transclude cjqngqk030000t5yatj8hqrbi -->
 NOTE: For naming resources in a domain driven design (DDD) manner, focus on domain events not low-level create, read, update, and delete (CRUD) operations.
 
 From [Roy Fielding's dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#sec_5_2_1_1):
@@ -97,7 +203,7 @@ From [DDD & REST - Domain-Driven APIs for the web](https://speakerdeck.com/olive
 
 The algebraic data type for Hello World is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjqgyw7nt0001oiyav2o4vttf -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World algebraic data type {] cjqngqk9t0001t5yabax9mp17 -->
 
 ```scala
 // Hello World algebraic data type {
@@ -131,11 +237,11 @@ object HelloWorld {
 // }
 ```
 
-<!--- transclude cjqgyw7nt0001oiyav2o4vttf -->
+<!--- transclude cjqngqk9t0001t5yabax9mp17 -->
 
 With regular expression validation matchers:
 
-<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjqgyw7wq0002oiyaut0k5ze7 -->
+<!--- transclude::api/HelloWorldService.scala::[object Matchers {] cjqngqki40002t5yaeqtxl654 -->
 
 ```scala
 object Matchers {
@@ -149,11 +255,11 @@ object Matchers {
 }
 ```
 
-<!--- transclude cjqgyw7wq0002oiyaut0k5ze7 -->
+<!--- transclude cjqngqki40002t5yaeqtxl654 -->
 
 And supporting algebraic data types:
 
-<!--- transclude::api/HelloWorldService.scala::[Supporting algebraic data types {] cjqgyw8680003oiyan8nf4ff6 -->
+<!--- transclude::api/HelloWorldService.scala::[Supporting algebraic data types {] cjqngqkql0003t5yao1cic6o7 -->
 
 ```scala
 // Supporting algebraic data types {
@@ -224,11 +330,11 @@ object Mutation {
 // }
 ```
 
-<!--- transclude cjqgyw8680003oiyan8nf4ff6 -->
+<!--- transclude cjqngqkql0003t5yao1cic6o7 -->
 
 The REST resource for Hello World is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjqgyw8fm0004oiyapyl9z1uj -->
+<!--- transclude::api/HelloWorldService.scala::[case class HelloWorldResource(] cjqngql050004t5yatjt6lqlh -->
 
 ```scala
 case class HelloWorldResource(
@@ -236,11 +342,11 @@ case class HelloWorldResource(
 )
 ```
 
-<!--- transclude cjqgyw8fm0004oiyapyl9z1uj -->
+<!--- transclude cjqngql050004t5yatjt6lqlh -->
 
 The DDD aggregate for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjqgyw8pb0005oiya0msihd1c -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldAggregate(] cjqngql910005t5yartwvf86y -->
 
 ```scala
 case class HelloWorldAggregate(
@@ -249,21 +355,21 @@ case class HelloWorldAggregate(
 )
 ```
 
-<!--- transclude cjqgyw8pb0005oiya0msihd1c -->
+<!--- transclude cjqngql910005t5yartwvf86y -->
 
 The state for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[override type State = .*] cjqgyw8z10006oiya42m6y01q -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[override type State = .*] cjqngqli70006t5yasu87gv72 -->
 
 ```scala
   override type State = Option[HelloWorldState]
 ```
 
-<!--- transclude cjqgyw8z10006oiya42m6y01q -->
+<!--- transclude cjqngqli70006t5yasu87gv72 -->
 
 And uses the following HelloWorldState algebraic data type:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjqgyw98j0007oiyawnni5rcy -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[case class HelloWorldState(] cjqngqlra0007t5yapsd9wx4k -->
 
 ```scala
 case class HelloWorldState(
@@ -272,21 +378,21 @@ case class HelloWorldState(
 )
 ```
 
-<!--- transclude cjqgyw98j0007oiyawnni5rcy -->
+<!--- transclude cjqngqlra0007t5yapsd9wx4k -->
 
 The initial state for all DDD aggregates is:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[override def initialState: .*] cjqgyw9hr0008oiyanwcjlaky -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[override def initialState: .*] cjqngqm1c0008t5yawwn44pc9 -->
 
 ```scala
   override def initialState: Option[HelloWorldState] = None
 ```
 
-<!--- transclude cjqgyw9hr0008oiyanwcjlaky -->
+<!--- transclude cjqngqm1c0008t5yawwn44pc9 -->
 
 The possible statuses for the Hello World aggregate are defined to be:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjqgyw9r60009oiya9ww6btur -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[object HelloWorldStatus extends Enumeration {] cjqngqmb50009t5ya2lxof9uc -->
 
 ```scala
 object HelloWorldStatus extends Enumeration {
@@ -299,11 +405,11 @@ object HelloWorldStatus extends Enumeration {
 }
 ```
 
-<!--- transclude cjqgyw9r60009oiya9ww6btur -->
+<!--- transclude cjqngqmb50009t5ya2lxof9uc -->
 
 The finite state machine (FSM) for the DDD aggregate is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[override def behavior: Behavior = {] cjqgywa0t000aoiya4pjys5rh -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[override def behavior: Behavior = {] cjqngqmk7000at5yauo78bbfx -->
 
 ```scala
   override def behavior: Behavior = {
@@ -314,11 +420,11 @@ The finite state machine (FSM) for the DDD aggregate is defined as:
   }
 ```
 
-<!--- transclude cjqgywa0t000aoiya4pjys5rh -->
+<!--- transclude cjqngqmk7000at5yauo78bbfx -->
 
 The persistent entity for Hello World is defined as:
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjqgywaa2000boiyau3m4op59 -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[final class HelloWorldEntity extends PersistentEntity {] cjqngqmst000bt5yajnrkdkpv -->
 
 ```scala
 final class HelloWorldEntity extends PersistentEntity {
@@ -453,7 +559,7 @@ final class HelloWorldEntity extends PersistentEntity {
 }
 ```
 
-<!--- transclude cjqgywaa2000boiyau3m4op59 -->
+<!--- transclude cjqngqmst000bt5yajnrkdkpv -->
 
 For CRUDy operations the following subordinate, nounified, resources are created:
 *   Creation
@@ -466,7 +572,7 @@ Creation
 --------
 A Creation request takes a desired HelloWorld algebraic data type and responds with the created HelloWorldResource plus the supporing algebraic data types of Identity and HypertextApplicationLanguage. If the Hello World resource is not created the service responses with an ErrorResponse. The following REST calls can be used. Identifiers are optional. If specified all identifiers must adhere to the Matcher for Id. Otherwise, the service will create and use a collision resistant unique identifier.
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Creation Calls {] cjqgywajo000coiyautqficki -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Creation Calls {] cjqngqn2d000ct5yae25sk72q -->
 
 ```scala
 // Hello World Creation Calls {
@@ -511,30 +617,30 @@ A Creation request takes a desired HelloWorld algebraic data type and responds w
 // }
 ```
 
-<!--- transclude cjqgywajo000coiyautqficki -->
+<!--- transclude cjqngqn2d000ct5yae25sk72q -->
 
 The Matcher for identifiers is defined to be:
 
-<!--- transclude::api/HelloWorldService.scala::[val Id = .*] cjqgywatc000doiyapcoybic7 -->
+<!--- transclude::api/HelloWorldService.scala::[val Id = .*] cjqngqncc000dt5yaep9v2ulo -->
 
 ```scala
   val Id = """^[a-zA-Z0-9\-\.\_\~]{1,64}$"""
 ```
 
-<!--- transclude cjqgywatc000doiyapcoybic7 -->
+<!--- transclude cjqngqncc000dt5yaep9v2ulo -->
 
 The create Hello World request is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[Create Hello World Request payload {] cjqgywb37000eoiyargipnjm7 -->
+<!--- transclude::api/HelloWorldService.scala::[Create Hello World Request payload {] cjqngqnly000et5yaxngu80jc -->
 
 ```scala
 // Create Hello World Request payload {
-type CreateHelloWorldRequest = String
-implicit val createHelloWorldRequestValidator
-    : Validator[CreateHelloWorldRequest] { r =>
-    r has size > 0
-    r has size <= maxRequestSize
-    }
+//type CreateHelloWorldRequest = String
+//implicit val createHelloWorldRequestValidator
+//    : Validator[CreateHelloWorldRequest] { r =>
+//    r has size > 0
+//    r has size <= maxRequestSize
+//    }
 
 case class ValidCreateHelloWorldRequest(
     helloWorld: HelloWorld
@@ -552,11 +658,11 @@ case object ValidCreateHelloWorldRequest {
 // }
 ```
 
-<!--- transclude cjqgywb37000eoiyargipnjm7 -->
+<!--- transclude cjqngqnly000et5yaxngu80jc -->
 
 And the create Hello World response is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldResponse(] cjqgywbc4000foiya1b602j1v -->
+<!--- transclude::api/HelloWorldService.scala::[case class CreateHelloWorldResponse(] cjqngqnur000ft5yao2dz6odg -->
 
 ```scala
 case class CreateHelloWorldResponse(
@@ -566,9 +672,9 @@ case class CreateHelloWorldResponse(
 )
 ```
 
-<!--- transclude cjqgywbc4000foiya1b602j1v -->
+<!--- transclude cjqngqnur000ft5yao2dz6odg -->
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[Hello World Creation Calls {] cjqgywblq000goiya39sbkozv -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[Hello World Creation Calls {] cjqngqo3d000gt5yaqixemen3 -->
 
 ```scala
 // Hello World Creation Calls {
@@ -691,9 +797,9 @@ case class CreateHelloWorldResponse(
 // }
 ```
 
-<!--- transclude cjqgywblq000goiya39sbkozv -->
+<!--- transclude cjqngqo3d000gt5yaqixemen3 -->
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[The create Hello World command {] cjqgywbv7000hoiya8hacv3fx -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[The create Hello World command {] cjqngqoc0000ht5yafcc7eova -->
 
 ```scala
 // The create Hello World command {
@@ -707,9 +813,9 @@ object CreateHelloWorldCommand {
 // }
 ```
 
-<!--- transclude cjqgywbv7000hoiya8hacv3fx -->
+<!--- transclude cjqngqoc0000ht5yafcc7eova -->
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[The create Hello World reply {] cjqgywc4o000ioiyacmg2njfx -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[The create Hello World reply {] cjqngqokc000it5ya4qx4vj87 -->
 
 ```scala
 // The create Hello World reply {
@@ -722,29 +828,29 @@ object CreateHelloWorldReply {
 // }
 ```
 
-<!--- transclude cjqgywc4o000ioiyacmg2njfx -->
+<!--- transclude cjqngqokc000it5ya4qx4vj87 -->
 
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[private def createHelloWorldCommand: OnCommandHandler[Either[ServiceError, HelloWorldAggregate]] = {] cjqgywcdx000joiyak2lm5w5l -->
-
-```scala
-
-```
-
-<!--- transclude cjqgywcdx000joiyak2lm5w5l -->
-
-<!--- transclude::impl/HelloWorldServiceImpl.scala::[private def createHelloWorldCommand: OnCommandHandler[Either[ServiceError, HelloWorldAggregate]] = {] cjqgywcne000koiyawow9b0pw -->
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[private def createHelloWorldCommand: OnCommandHandler[Either[ServiceError, HelloWorldAggregate]] = {] cjqngqotv000jt5ya49d5zr3k -->
 
 ```scala
 
 ```
 
-<!--- transclude cjqgywcne000koiyawow9b0pw -->
+<!--- transclude cjqngqotv000jt5ya49d5zr3k -->
+
+<!--- transclude::impl/HelloWorldServiceImpl.scala::[private def createHelloWorldCommand: OnCommandHandler[Either[ServiceError, HelloWorldAggregate]] = {] cjqngqp2t000kt5ya37nt9m9a -->
+
+```scala
+
+```
+
+<!--- transclude cjqngqp2t000kt5ya37nt9m9a -->
 
 Replacement
 -----------
 A Replacement request takes the new desired HelloWorld algebraic data type and responds with the replaced HelloWorldResource plus the supporing algebraic data types of Identity and HypertextApplicationLanguage. If the Hello World resource is not replaced the service responses with an ErrorResponse. The following REST calls can be used. The Hello World identifier is required, but the replacementId is optional. If specified all identifiers must adhere to the Matcher for Id.
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Replacement Calls {] cjqgywcwy000loiyaf1j1nn56 -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Replacement Calls {] cjqngqpd0000lt5yatzs7gdpy -->
 
 ```scala
 // Hello World Replacement Calls {
@@ -783,11 +889,11 @@ A Replacement request takes the new desired HelloWorld algebraic data type and r
 // }
 ```
 
-<!--- transclude cjqgywcwy000loiyaf1j1nn56 -->
+<!--- transclude cjqngqpd0000lt5yatzs7gdpy -->
 
 The replace Hello World request is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldRequest(] cjqgywd6a000moiyae83n5k1f -->
+<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldRequest(] cjqngqplv000mt5ya52yk8ybe -->
 
 ```scala
 case class ReplaceHelloWorldRequest(
@@ -796,11 +902,11 @@ case class ReplaceHelloWorldRequest(
 )
 ```
 
-<!--- transclude cjqgywd6a000moiyae83n5k1f -->
+<!--- transclude cjqngqplv000mt5ya52yk8ybe -->
 
 And the replace Hello World response is defined as:
 
-<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldResponse(] cjqgywdfo000noiyahjt0133s -->
+<!--- transclude::api/HelloWorldService.scala::[case class ReplaceHelloWorldResponse(] cjqngqpu9000nt5yanlshsthu -->
 
 ```scala
 case class ReplaceHelloWorldResponse(
@@ -810,12 +916,12 @@ case class ReplaceHelloWorldResponse(
 )
 ```
 
-<!--- transclude cjqgywdfo000noiyahjt0133s -->
+<!--- transclude cjqngqpu9000nt5yanlshsthu -->
 
 Mutation
 --------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Mutation Calls {] cjqgywdos000ooiyao1pbxtrr -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Mutation Calls {] cjqngqq2x000ot5yaafvu0hs7 -->
 
 ```scala
 // Hello World Mutation Calls {
@@ -854,12 +960,12 @@ Mutation
 // }
 ```
 
-<!--- transclude cjqgywdos000ooiyao1pbxtrr -->
+<!--- transclude cjqngqq2x000ot5yaafvu0hs7 -->
 
 Deactivation
 ------------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Deactivation Calls {] cjqgywdxz000poiyavojwmje0 -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Deactivation Calls {] cjqngqqbe000pt5ya7ysceilj -->
 
 ```scala
 // Hello World Deactivation Calls {
@@ -897,12 +1003,12 @@ Deactivation
 // }
 ```
 
-<!--- transclude cjqgywdxz000poiyavojwmje0 -->
+<!--- transclude cjqngqqbe000pt5ya7ysceilj -->
 
 Reactivation
 ------------
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Reactivation Calls {] cjqgywe79000qoiyadxdnr5yj -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Reactivation Calls {] cjqngqqmi000qt5yauajslo6t -->
 
 ```scala
 // Hello World Reactivation Calls {
@@ -938,12 +1044,12 @@ Reactivation
 // }
 ```
 
-<!--- transclude cjqgywe79000qoiyadxdnr5yj -->
+<!--- transclude cjqngqqmi000qt5yauajslo6t -->
 
 Read
 ----
 
-<!--- transclude::api/HelloWorldService.scala::[Hello World Get Calls {] cjqgywegj000roiyanpniepp7 -->
+<!--- transclude::api/HelloWorldService.scala::[Hello World Get Calls {] cjqngqqwf000rt5yakxuzc836 -->
 
 ```scala
 // Hello World Get Calls {
@@ -973,7 +1079,7 @@ Read
 // }
 ```
 
-<!--- transclude cjqgywegj000roiyanpniepp7 -->
+<!--- transclude cjqngqqwf000rt5yakxuzc836 -->
 
 ```bash
 -- With Bearer Auth Token
@@ -1213,3 +1319,13 @@ So, which one should be used to create a resource? Or one needs to support both?
 [REST and DDD: incompatible?](http://dontpanic.42.nl/2012/04/rest-and-ddd-incompatible.html)
 
 Representational State Transfer is a software architectural style that defines a set of constraints to be used for creating web services. Web services that conform to the REST architectural style, termed RESTful web services, provide interoperability between computer systems on the Internet. Wikipedia
+
+### License
+
+MIT
+
+### Author Information
+
+| Author                | E-mail                        |
+|-----------------------|-------------------------------|
+|  |   |
