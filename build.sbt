@@ -53,7 +53,7 @@ lazy val `common` = (project in file("common"))
     )
   )
 
-lazy val helloWorldApi = (project in file("hello-world-api"))
+lazy val helloWorldApi = (project in file("hello-world/hello-world-api"))
   .dependsOn(`common`)
   .settings(commonSettings: _*)
   .settings(
@@ -64,7 +64,7 @@ lazy val helloWorldApi = (project in file("hello-world-api"))
     )
   )
 
-lazy val helloWorldImpl = (project in file("hello-world-impl"))
+lazy val helloWorldImpl = (project in file("hello-world/hello-world-impl"))
   .settings(commonSettings: _*)
   .enablePlugins(LagomScala, SbtReactiveAppPlugin)
   .settings(
@@ -84,7 +84,7 @@ lazy val helloWorldImpl = (project in file("hello-world-impl"))
   .settings(lagomForkedTestSettings: _*)
   .dependsOn(helloWorldApi, `common`, `base64`)
 
-lazy val `identity-api` = (project in file("identity-api"))
+lazy val `identity-api` = (project in file("identity/identity-api"))
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslApi,
@@ -93,7 +93,7 @@ lazy val `identity-api` = (project in file("identity-api"))
   )
   .dependsOn(`common`)
 
-lazy val `identity-impl` = (project in file("identity-impl"))
+lazy val `identity-impl` = (project in file("identity/identity-impl"))
   .enablePlugins(LagomScala)
   .settings(
     libraryDependencies ++= Seq(
