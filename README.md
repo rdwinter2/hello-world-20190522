@@ -100,6 +100,9 @@ The Hello World SCS includes a simple username/password login authentication mic
 <a name="autonomousbubblepattern"></a>Autonomous Bubble Pattern
   : "This approach involves creating a fresh context for new application development that is shielded from the entanglements of the legacy world. This is a step beyond just using an anticorruption layer. It gives the new bubble context full control over its backing data, which is then asynchronously kept up-to-date with the legacy systems. It requires some work to protect the boundaries of the bubble and keep both worlds consistent, but the resulting autonomy and reduction in development friction is a first bold step toward a modernized future architecture." [ThoughtWorks](https://www.thoughtworks.com/radar/techniques/autonomous-bubble-pattern)
 
+<a name="boundedcontext"></a>Bounded Context
+  : "A Bounded Context is an explicit boundary within which a domain model exists. Inside the boundary all terms and phrases of the Ubiquitous Language have specific meaning, and the model reflects the Language with exactness." Implementing DDD by Vaughn Vernon
+
 <a name="domaindrivendesign"></a>Domain Driven Design (DDD)
   : "an approach to software development for complex needs by connecting the implementation to an evolving model. The premise of domain-driven design is the following: (1) placing the project's primary focus on the core domain and domain logic; (2) basing complex designs on a model of the domain; (3) initiating a creative collaboration between technical and domain experts to iteratively refine a conceptual model that addresses particular domain problems." [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design)
 
@@ -117,6 +120,9 @@ The Hello World SCS includes a simple username/password login authentication mic
 
 <a name="domainprimitive"></a>Domain Primitive
   : "A value object so precise in its definition that it, by its mere existance, manifests its validity is called a Domain Primitive." [Secure by Design](https://www.manning.com/books/secure-by-design)
+
+Ubiquitous Language
+  :
 
 ## <a name="references"></a>References
 

@@ -328,11 +328,11 @@ object Matchers {
 //
 // Sum types - a disjoint union or variant type (this or that)
 //   sealed trait Pet
-//   case class Cat(name: String) extends Pet
-//   case class Fish(name: String, color: String) extends Pet
-//   case class Squid(name: String, age: Int) extends Pet
+//   final case class Cat(name: String) extends Pet
+//   final case class Fish(name: String, color: String) extends Pet
+//   final case class Squid(name: String, age: Int) extends Pet
 
-case class HelloWorld(
+final case class HelloWorld(
   name: String,
   description: Option[String])
 
@@ -349,7 +349,7 @@ object HelloWorld {
 // }
 
 // Supporting algebraic data types {
-case class Identity(
+final case class Identity(
   identifier: String,
   revision: Option[Int],    // a monotonically increasing counter of changes
   hash: Option[String])
@@ -366,7 +366,7 @@ object Identity {
     }
 }
 
-case class HypertextApplicationLanguage(
+final case class HypertextApplicationLanguage(
   halLinks: Seq[HalLink]
   )
 
@@ -374,7 +374,7 @@ object HypertextApplicationLanguage {
   implicit val format: Format[HypertextApplicationLanguage] = Jsonx.formatCaseClass
 }
 
-case class HalLink(
+final case class HalLink(
   rel: String,
   href: String,
   deprecation: Option[String] = None,
@@ -397,7 +397,7 @@ object HalLink {
   implicit val format: Format[HalLink] = Jsonx.formatCaseClass
 }
 
-case class Mutation(
+final case class Mutation(
   op: String,
   path: String,
   value: Option[String]
@@ -417,7 +417,7 @@ object Mutation {
 
 // Resource
 
-case class HelloWorldResource(
+final case class HelloWorldResource(
   helloWorld: HelloWorld
 )
 
@@ -444,7 +444,7 @@ object HelloWorldResource {
 //    r has size <= maxRequestSize
 //    }
 
-case class ValidCreateHelloWorldRequest(
+final case class ValidCreateHelloWorldRequest(
     helloWorld: HelloWorld
 ) {}
 
@@ -459,7 +459,7 @@ case object ValidCreateHelloWorldRequest {
 }
 // }
 
-case class ReplaceHelloWorldRequest(
+final case class ReplaceHelloWorldRequest(
     replacementHelloWorld: HelloWorld,
     motivation: Option[String]
 ) {}
@@ -475,7 +475,7 @@ case object ReplaceHelloWorldRequest {
     }
 }
 
-case class MutateHelloWorldRequest(
+final case class MutateHelloWorldRequest(
     mutations: Seq[Mutation],
     motivation: Option[String]
 ) {}
@@ -493,7 +493,7 @@ case object MutateHelloWorldRequest {
 
 // Response
 
-case class CreateHelloWorldResponse(
+final case class CreateHelloWorldResponse(
     helloWorldId: Identity,
     helloWorld: HelloWorld,
     helloWorldHal: Option[HypertextApplicationLanguage]
@@ -503,7 +503,7 @@ object CreateHelloWorldResponse {
   implicit val format: Format[CreateHelloWorldResponse] = Jsonx.formatCaseClass
 }
 
-case class ReplaceHelloWorldResponse(
+final case class ReplaceHelloWorldResponse(
     helloWorldId: Identity,
     helloWorld: HelloWorld,
     helloWorldHal: Option[HypertextApplicationLanguage]
@@ -513,7 +513,7 @@ object ReplaceHelloWorldResponse {
   implicit val format: Format[ReplaceHelloWorldResponse] = Json.format
 }
 
-case class GetHelloWorldResponse(
+final case class GetHelloWorldResponse(
     helloWorldId: String,
     helloWorld: HelloWorld
 )
@@ -522,7 +522,7 @@ object GetHelloWorldResponse {
   implicit val format: Format[GetHelloWorldResponse] = Json.format
 }
 
-case class GetAllHelloWorldsResponse(helloWorlds: Seq[HelloWorldResource])
+final case class GetAllHelloWorldsResponse(helloWorlds: Seq[HelloWorldResource])
 
 object GetAllHelloWorldsResponse {
   implicit val format: Format[GetAllHelloWorldsResponse] = Json.format
@@ -535,7 +535,7 @@ sealed trait HelloWorldMessageBrokerEvent {
   val helloWorldId: String
 }
 
-case class HelloWorldCreated(
+final case class HelloWorldCreated(
     helloWorldId: String,
     helloWorld: HelloWorld
 ) extends HelloWorldMessageBrokerEvent
@@ -544,7 +544,7 @@ object HelloWorldCreated {
   implicit val format: Format[HelloWorldCreated] = Json.format
 }
 
-//case class HelloWorldBrokerEvent(event: HelloWorldEventType,
+//final case class HelloWorldBrokerEvent(event: HelloWorldEventType,
 //                          id: String,
 //                          data: Map[String, String] = Map.empty[String, String])
 

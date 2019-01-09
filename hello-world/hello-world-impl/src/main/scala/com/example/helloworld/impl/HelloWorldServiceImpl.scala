@@ -495,7 +495,7 @@ final class HelloWorldEntity extends PersistentEntity {
 
 // Hello World State
 
-case class HelloWorldState(
+final case class HelloWorldState(
   helloWorldAggregate: HelloWorldAggregate,
   status: HelloWorldStatus.Status = HelloWorldStatus.NONEXISTENT
 ) {
@@ -520,7 +520,7 @@ object HelloWorldStatus extends Enumeration {
 
 // Hello World Aggregate
 
-case class HelloWorldAggregate(
+final case class HelloWorldAggregate(
   helloWorldIdentity: Identity,
   helloWorldResource: HelloWorldResource
 )
@@ -538,7 +538,7 @@ case object GetHelloWorldQuery
 }
 
 // The create Hello World reply {
-case class CreateHelloWorldReply(
+final case class CreateHelloWorldReply(
   helloWorldAggregate: HelloWorldAggregate)
 
 object CreateHelloWorldReply {
@@ -547,7 +547,7 @@ object CreateHelloWorldReply {
 // }
 
 // The create Hello World command {
-case class CreateHelloWorldCommand(
+final case class CreateHelloWorldCommand(
   helloWorldAggregate: HelloWorldAggregate)
     extends HelloWorldCommand[Either[ServiceError, CreateHelloWorldReply]]
 
@@ -562,7 +562,7 @@ object CreateHelloWorldCommand {
 //  implicit val format: Format[DestroyHelloWorldCommand.type] = singletonFormat(DestroyHelloWorldCommand)
 //}
 
-case class ReplaceHelloWorldCommand(ReplaceHelloWorldCommand: String, replaceHelloWorldRequest: ReplaceHelloWorldRequest)
+final case class ReplaceHelloWorldCommand(ReplaceHelloWorldCommand: String, replaceHelloWorldRequest: ReplaceHelloWorldRequest)
     extends HelloWorldCommand[Either[ServiceError, HelloWorldAggregate]]
 
 object ReplaceHelloWorldCommand {
@@ -582,21 +582,21 @@ object HelloWorldEvent {
     derived.flat.oformat((__ \ "type").format[String])
 }
 
-case class HelloWorldCreatedEvent(helloWorldAggregate: HelloWorldAggregate)
+final case class HelloWorldCreatedEvent(helloWorldAggregate: HelloWorldAggregate)
     extends HelloWorldEvent
 
 object HelloWorldCreatedEvent {
   implicit val format: Format[HelloWorldCreatedEvent] = Json.format
 }
 
-//case class HelloWorldDestroyedEvent(helloWorldId: String)
+//final case class HelloWorldDestroyedEvent(helloWorldId: String)
 //    extends HelloWorldEvent
 //
 //object HelloWorldDestroyedEvent {
 //  implicit val format: Format[HelloWorldDestroyedEvent] = Json.format
 //}
 
-case class HelloWorldReplacedEvent(
+final case class HelloWorldReplacedEvent(
   helloWorldId: String,
   replacementHelloWorldResource: HelloWorldResource,
   motivation: Option[String])
