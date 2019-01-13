@@ -44,6 +44,13 @@ trait HelloWorldService extends Service {
     import Service._
     // @formatter:off
     named("hello-world").withCalls(
+      // CRUDy Bulk Data Administration
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-creation",     bulkCreateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-replacement",  bulkReplaceHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-mutation",     bulkMutateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-deactivation", bulkDeactivateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-reactivation", bulkReactivateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-excision",     bulkExciseHelloWorld _),
       // CRUDy plain REST
       restCall(Method.POST,   "/api/hello-worlds",     postHelloWorld1 _),
       restCall(Method.POST,   "/api/hello-worlds/:id", postHelloWorld2 _),
@@ -52,6 +59,14 @@ trait HelloWorldService extends Service {
       restCall(Method.DELETE, "/api/hello-worlds/:id", deleteHelloWorld _),
       restCall(Method.GET,    "/api/hello-worlds/:id", getHelloWorld _),
       restCall(Method.GET,    "/api/hello-worlds",     getAllHelloWorlds _),
+      // Data Administrator bulk data hammer interface
+      // request body is an array of Create, Update, Delete (CUD) operations each containing an array
+      // Example:
+      // {"dataAdminActions": [{"create":[{"id":..,"name":..,"description":..},{..},..]},{"delete":[..]},..]}
+      // NOTE: for update you just need to supply the id and the changed fields
+      // Service will respond with a 202 Accepted and a link to check the status
+      }
+      restCall(Method.POST,   "/api/hello-worlds/data-administration",                   administerCe _),
       // CRUDy DDDified REST without a proper ubiquitious language
       // Create
       restCall(Method.POST, "/api/hello-worlds/creation",                                createHelloWorld1 _),

@@ -133,3 +133,50 @@ Ubiquitous Language
 
 The REST call identifiers for the Hello World project are defined as:
 
+## Data Administration
+
+Some people still want to hammer the data. They need a bulk interface to be a bigger hammer.
+
+Service called data-administration. Only those with the proper role.
+
+POST to api/data-administration
+
+Body: paths should not be to something outside this Self-Contained System?
+
+```json
+{
+  "operations" [
+  {
+    "method": "POST",
+    "path": "api/hello-world/creation",
+    "headers": [
+    {
+      "name": "Accept",
+      "value": "application/json"
+      }
+    ],
+    body": {
+      "name": "1",
+      "description": "one"
+    }
+  },
+  {
+    "method": "POST",
+    "path": "api/hello-world/creation",
+    "headers": [
+    {
+      "name": "Accept",
+      "value": "application/json"
+      }
+    ],
+    body": {
+      "name": "2",
+      "description": "two"
+    }
+  },
+  ...
+  ]
+}
+```
+
+Body can be compressed for transfer. Streaming update? resumeable? https://tus.io/

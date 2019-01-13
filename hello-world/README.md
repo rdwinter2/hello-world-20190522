@@ -35,7 +35,14 @@ This is a simple Hello World self-contained system (SCS) to demonstrate the use 
     import Service._
     // @formatter:off
     named("hello-world").withCalls(
-      // CRUDy plain REST
+      // CRUDy Bulk Data Administration
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-creation",     bulkCreateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-replacement",  bulkReplaceHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-mutation",     bulkMutateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-deactivation", bulkDeactivateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-reactivation", bulkReactivateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-excision",     bulkExciseHelloWorld _),
+      // CRUDy REST
       restCall(Method.POST,   "/api/hello-worlds",     postHelloWorld1 _),
       restCall(Method.POST,   "/api/hello-worlds/:id", postHelloWorld2 _),
       restCall(Method.PUT,    "/api/hello-worlds/:id", putHelloWorld _),
