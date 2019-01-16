@@ -44,13 +44,23 @@ trait HelloWorldService extends Service {
     import Service._
     // @formatter:off
     named("hello-world").withCalls(
+      // Hello World Queries
+      restCall(Method.GET,    "/api/hello-worlds/:id", getHelloWorld _),
+      restCall(Method.GET,    "/api/hello-worlds",     getAllHelloWorlds _),
       // CRUDy Bulk Data Administration
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-creation",     bulkCreateHelloWorld _),
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-replacement",  bulkReplaceHelloWorld _),
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-mutation",     bulkMutateHelloWorld _),
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-deactivation", bulkDeactivateHelloWorld _),
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-reactivation", bulkReactivateHelloWorld _),
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-excision",     bulkExciseHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-creation",        bulkCreateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-replacement",     bulkReplaceHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-mutation",        bulkMutateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-deactivation",    bulkDeactivateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-reactivation",    bulkReactivateHelloWorld _),
+      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-distruction",     bulkDistroyHelloWorld _),
+      // CRUDy Bulk Data Administration Queries
+      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-creation/:id",        getHelloWorldBulkCreation _),
+      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-replacement/:id",     getHelloWorldBulkReplacement _),
+      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-mutation/:id",        getHelloWorldBulkMutation _),
+      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-deactivation/:id",    getHelloWorldBulkDeactivation _),
+      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-reactivation/:id",    getHelloWorldBulkReactivation _),
+      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-distruction/:id",     getHelloWorldBulkDistruction _),
       // CRUDy plain REST
       restCall(Method.POST,   "/api/hello-worlds",     postHelloWorld1 _),
       restCall(Method.POST,   "/api/hello-worlds/:id", postHelloWorld2 _),

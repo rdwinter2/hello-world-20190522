@@ -17,7 +17,7 @@ This is a simple Hello World self-contained system (SCS) to demonstrate the use 
    * [Conceptual Data Model](#conceptualdatamodel)
 2. [Microservices](#microservices)
    * [Hello World](#helloworldmicroservice)
-   * [Tag](#tagmicroservice)
+   * [Hello World Tag](#helloworldtagmicroservice)
    * [Tag Hello World Saga](#taghelloworldsagamicroservice)
    * [Authorization](#authorizationmicroservice)
    * [Authentication](#authenticationmicroservice)
@@ -74,7 +74,7 @@ From [Eric Evans](http://domainlanguage.com/wp-content/uploads/2016/04/GettingSt
 
 ### <a name="helloworldmicroservice"></a>Hello World
 
-### <a name="tagmicroservice"></a>Tag
+### <a name="helloworldtagmicroservice"></a>Tag
 
 ### <a name="taghelloworldsagamicroservice"></a>Tag Hello World Saga
 
