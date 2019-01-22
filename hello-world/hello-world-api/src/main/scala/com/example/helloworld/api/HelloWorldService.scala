@@ -44,31 +44,33 @@ trait HelloWorldService extends Service {
     import Service._
     // @formatter:off
     named("hello-world").withCalls(
+      // 1st part of path is the self-contained system name
+      // 2nd part of the path is the resource name
       // Hello World Queries
-      restCall(Method.GET,    "/api/hello-worlds/:id", getHelloWorld _),
-      restCall(Method.GET,    "/api/hello-worlds",     getAllHelloWorlds _),
+      restCall(Method.GET,    "/hello-world/hello-worlds/:id", getHelloWorld _),
+      restCall(Method.GET,    "/hello-world/hello-worlds",     getAllHelloWorlds _),
       // CRUDy Bulk Data Administration
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-creation",        bulkCreateHelloWorld _),
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-replacement",     bulkReplaceHelloWorld _),
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-mutation",        bulkMutateHelloWorld _),
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-deactivation",    bulkDeactivateHelloWorld _),
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-reactivation",    bulkReactivateHelloWorld _),
-      restCall(Method.POST,   "/api/hello-worlds/data-administration/bulk-distruction",     bulkDistroyHelloWorld _),
+      restCall(Method.POST,   "/hello-world/hello-worlds/data-administration/bulk-creation",        bulkCreateHelloWorld _),
+      restCall(Method.POST,   "/hello-world/hello-worlds/data-administration/bulk-replacement",     bulkReplaceHelloWorld _),
+      restCall(Method.POST,   "/hello-world/hello-worlds/data-administration/bulk-mutation",        bulkMutateHelloWorld _),
+      restCall(Method.POST,   "/hello-world/hello-worlds/data-administration/bulk-deactivation",    bulkDeactivateHelloWorld _),
+      restCall(Method.POST,   "/hello-world/hello-worlds/data-administration/bulk-reactivation",    bulkReactivateHelloWorld _),
+      restCall(Method.POST,   "/hello-world/hello-worlds/data-administration/bulk-distruction",     bulkDistroyHelloWorld _),
       // CRUDy Bulk Data Administration Queries
-      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-creation/:id",        getHelloWorldBulkCreation _),
-      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-replacement/:id",     getHelloWorldBulkReplacement _),
-      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-mutation/:id",        getHelloWorldBulkMutation _),
-      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-deactivation/:id",    getHelloWorldBulkDeactivation _),
-      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-reactivation/:id",    getHelloWorldBulkReactivation _),
-      restCall(Method.GET,    "/api/hello-worlds/data-administration/bulk-distruction/:id",     getHelloWorldBulkDistruction _),
+      restCall(Method.GET,    "/hello-world/hello-worlds/data-administration/bulk-creation/:id",        getHelloWorldBulkCreation _),
+      restCall(Method.GET,    "/hello-world/hello-worlds/data-administration/bulk-replacement/:id",     getHelloWorldBulkReplacement _),
+      restCall(Method.GET,    "/hello-world/hello-worlds/data-administration/bulk-mutation/:id",        getHelloWorldBulkMutation _),
+      restCall(Method.GET,    "/hello-world/hello-worlds/data-administration/bulk-deactivation/:id",    getHelloWorldBulkDeactivation _),
+      restCall(Method.GET,    "/hello-world/hello-worlds/data-administration/bulk-reactivation/:id",    getHelloWorldBulkReactivation _),
+      restCall(Method.GET,    "/hello-world/hello-worlds/data-administration/bulk-distruction/:id",     getHelloWorldBulkDistruction _),
       // CRUDy plain REST
-      restCall(Method.POST,   "/api/hello-worlds",     postHelloWorld1 _),
-      restCall(Method.POST,   "/api/hello-worlds/:id", postHelloWorld2 _),
-      restCall(Method.PUT,    "/api/hello-worlds/:id", putHelloWorld _),
-      restCall(Method.PATCH,  "/api/hello-worlds/:id", patchHelloWorld _),
-      restCall(Method.DELETE, "/api/hello-worlds/:id", deleteHelloWorld _),
-      restCall(Method.GET,    "/api/hello-worlds/:id", getHelloWorld _),
-      restCall(Method.GET,    "/api/hello-worlds",     getAllHelloWorlds _),
+      restCall(Method.POST,   "/hello-world/hello-worlds",     postHelloWorld1 _),
+      restCall(Method.POST,   "/hello-world/hello-worlds/:id", postHelloWorld2 _),
+      restCall(Method.PUT,    "/hello-world/hello-worlds/:id", putHelloWorld _),
+      restCall(Method.PATCH,  "/hello-world/hello-worlds/:id", patchHelloWorld _),
+      restCall(Method.DELETE, "/hello-world/hello-worlds/:id", deleteHelloWorld _),
+      restCall(Method.GET,    "/hello-world/hello-worlds/:id", getHelloWorld _),
+      restCall(Method.GET,    "/hello-world/hello-worlds",     getAllHelloWorlds _),
       // Data Administrator bulk data hammer interface
       // request body is an array of Create, Update, Delete (CUD) operations each containing an array
       // Example:
@@ -76,38 +78,38 @@ trait HelloWorldService extends Service {
       // NOTE: for update you just need to supply the id and the changed fields
       // Service will respond with a 202 Accepted and a link to check the status
       }
-      restCall(Method.POST,   "/api/hello-worlds/data-administration",                   administerCe _),
+      restCall(Method.POST,   "/hello-world/hello-worlds/data-administration",                   administerCe _),
       // CRUDy DDDified REST without a proper ubiquitious language
       // Create
-      restCall(Method.POST, "/api/hello-worlds/creation",                                createHelloWorld1 _),
-      restCall(Method.POST, "/api/hello-worlds/:id/creation",                            createHelloWorld2 _),
-      restCall(Method.POST, "/api/hello-worlds/creation/:creationId",                    createHelloWorld3 _),
-      restCall(Method.POST, "/api/hello-worlds/:id/creation/:creationId",                createHelloWorld4 _),
-      restCall(Method.GET,  "/api/hello-worlds/:id/creation/:creationId",                getCreationHelloWorld _),
-      pathCall(             "/api/hello-worlds/:id/creation/:creationId/stream",         streamCreationHelloWorld _),
+      restCall(Method.POST, "/hello-world/hello-worlds/creation",                                createHelloWorld1 _),
+      restCall(Method.POST, "/hello-world/hello-worlds/:id/creation",                            createHelloWorld2 _),
+      restCall(Method.POST, "/hello-world/hello-worlds/creation/:creationId",                    createHelloWorld3 _),
+      restCall(Method.POST, "/hello-world/hello-worlds/:id/creation/:creationId",                createHelloWorld4 _),
+      restCall(Method.GET,  "/hello-world/hello-worlds/:id/creation/:creationId",                getCreationHelloWorld _),
+      pathCall(             "/hello-world/hello-worlds/:id/creation/:creationId/stream",         streamCreationHelloWorld _),
       // Read
       // Update
-      restCall(Method.POST, "/api/hello-worlds/:id/replacement",                         replaceHelloWorld1 _),
-      restCall(Method.POST, "/api/hello-worlds/:id/replacement/:replacementId",          replaceHelloWorld2 _),
-      restCall(Method.GET,  "/api/hello-worlds/:id/replacement/:replacementId",          getReplacementHelloWorld _),
-      pathCall(             "/api/hello-worlds/:id/replacement/:replacementId/stream",   streamReplacementHelloWorld _),
-      restCall(Method.POST, "/api/hello-worlds/:id/mutation",                            mutateHelloWorld1 _),
-      restCall(Method.POST, "/api/hello-worlds/:id/mutation/:mutationId",                mutateHelloWorld2 _),
-      restCall(Method.GET,  "/api/hello-worlds/:id/mutation/:mutationId",                getMutationHelloWorld _),
-      pathCall(             "/api/hello-worlds/:id/mutation/:mutationId/stream",         streamMutationHelloWorld _),
+      restCall(Method.POST, "/hello-world/hello-worlds/:id/replacement",                         replaceHelloWorld1 _),
+      restCall(Method.POST, "/hello-world/hello-worlds/:id/replacement/:replacementId",          replaceHelloWorld2 _),
+      restCall(Method.GET,  "/hello-world/hello-worlds/:id/replacement/:replacementId",          getReplacementHelloWorld _),
+      pathCall(             "/hello-world/hello-worlds/:id/replacement/:replacementId/stream",   streamReplacementHelloWorld _),
+      restCall(Method.POST, "/hello-world/hello-worlds/:id/mutation",                            mutateHelloWorld1 _),
+      restCall(Method.POST, "/hello-world/hello-worlds/:id/mutation/:mutationId",                mutateHelloWorld2 _),
+      restCall(Method.GET,  "/hello-world/hello-worlds/:id/mutation/:mutationId",                getMutationHelloWorld _),
+      pathCall(             "/hello-world/hello-worlds/:id/mutation/:mutationId/stream",         streamMutationHelloWorld _),
       // Delete
-      restCall(Method.POST, "/api/hello-worlds/:id/deactivation",                        deactivateHelloWorld1 _),
-      restCall(Method.POST, "/api/hello-worlds/:id/deactivation/:deactivationId",        deactivateHelloWorld2 _),
-      restCall(Method.GET,  "/api/hello-worlds/:id/deactivation/:deactivationId",        getDeactivationHelloWorld _),
-      pathCall(             "/api/hello-worlds/:id/deactivation/:deactivationId/stream", streamDeactivationHelloWorld _),
+      restCall(Method.POST, "/hello-world/hello-worlds/:id/deactivation",                        deactivateHelloWorld1 _),
+      restCall(Method.POST, "/hello-world/hello-worlds/:id/deactivation/:deactivationId",        deactivateHelloWorld2 _),
+      restCall(Method.GET,  "/hello-world/hello-worlds/:id/deactivation/:deactivationId",        getDeactivationHelloWorld _),
+      pathCall(             "/hello-world/hello-worlds/:id/deactivation/:deactivationId/stream", streamDeactivationHelloWorld _),
       // Undelete
-      restCall(Method.POST, "/api/hello-worlds/:id/reactivation",                        reactivateHelloWorld1 _),
-      restCall(Method.POST, "/api/hello-worlds/:id/reactivation/:reactivationId",        reactivateHelloWorld2 _),
-      restCall(Method.GET,  "/api/hello-worlds/:id/reactivation/:reactivationId",        getReactivationHelloWorld _),
-      pathCall(             "/api/hello-worlds/:id/reactivation/:reactivationId/stream", streamReactivationHelloWorld _),
+      restCall(Method.POST, "/hello-world/hello-worlds/:id/reactivation",                        reactivateHelloWorld1 _),
+      restCall(Method.POST, "/hello-world/hello-worlds/:id/reactivation/:reactivationId",        reactivateHelloWorld2 _),
+      restCall(Method.GET,  "/hello-world/hello-worlds/:id/reactivation/:reactivationId",        getReactivationHelloWorld _),
+      pathCall(             "/hello-world/hello-worlds/:id/reactivation/:reactivationId/stream", streamReactivationHelloWorld _),
       // DDDified REST using the bounded context's ubiquitious language
-      //restCall(Method.POST, "/api/hello-worlds/:id/description-enhancement/:enhancementId", enhanceDescriptionHelloWorld _),
-//      pathCall("/api/ff hello-worlds/stream", streamHelloWorlds _),
+      //restCall(Method.POST, "/hello-world/hello-worlds/:id/description-enhancement/:enhancementId", enhanceDescriptionHelloWorld _),
+//      pathCall("/hello-world/ff hello-worlds/stream", streamHelloWorlds _),
     )
       .withAutoAcl(true)
       .withExceptionSerializer(new DefaultExceptionSerializer(Environment.simple(mode = Mode.Prod)))
@@ -137,17 +139,17 @@ trait HelloWorldService extends Service {
     *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action.
     *
     * REST POST endpoints:
-    *   /api/hello-worlds
-    *   /api/hello-worlds/:id
-    *   /api/hello-worlds/creation
-    *   /api/hello-worlds/:id/creation
-    *   /api/hello-worlds/creation/:creationId
-    *   /api/hello-worlds/:id/creation/:creationId
+    *   /hello-world/hello-worlds
+    *   /hello-world/hello-worlds/:id
+    *   /hello-world/hello-worlds/creation
+    *   /hello-world/hello-worlds/:id/creation
+    *   /hello-world/hello-worlds/creation/:creationId
+    *   /hello-world/hello-worlds/:id/creation/:creationId
     *
     * Examples:
     * CT="Content-Type: application/json"
     * DATA='{"helloWorld": {"name": "test", "description": "test description"}}'
-    * curl -H $CT -X POST -d $DATA http://localhost:9000/api/hello-worlds
+    * curl -H $CT -X POST -d $DATA http://localhost:9000/hello-world/hello-worlds
     */
   def postHelloWorld1:                                             ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
   def postHelloWorld2(helloWorldId: String):                       ServiceCall[CreateHelloWorldRequest, Either[ErrorResponse, CreateHelloWorldResponse]]
@@ -177,15 +179,15 @@ trait HelloWorldService extends Service {
     *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action
     *
     * REST PUT endpoint:
-    *   /api/hello-worlds/:id
+    *   /hello-world/hello-worlds/:id
     * REST POST endpoints:
-    *   /api/hello-worlds/:id/mutation
-    *   /api/hello-worlds/:id/mutation/:mutationId
+    *   /hello-world/hello-worlds/:id/mutation
+    *   /hello-world/hello-worlds/:id/mutation/:mutationId
     *
     * Example:
     * CT="Content-Type: application/json"
     * DATA='{"helloWorld": {"name": "test", "description": "different description"}}'
-    * curl -H $CT -X PUT -d $DATA http://localhost:9000/api/hello-worlds/cjq5au9sr000caqyayo9uktss
+    * curl -H $CT -X PUT -d $DATA http://localhost:9000/hello-world/hello-worlds/cjq5au9sr000caqyayo9uktss
     */
   def putHelloWorld(helloWorldId: String):                             ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]]
   def replaceHelloWorld1(helloWorldId: String):                        ServiceCall[ReplaceHelloWorldRequest, Either[ErrorResponse, ReplaceHelloWorldResponse]]
@@ -212,15 +214,15 @@ trait HelloWorldService extends Service {
     *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action
     *
     * REST PATCH endpoint:
-    *   /api/hello-worlds/:id
+    *   /hello-world/hello-worlds/:id
     * REST POST endpoints:
-    *   /api/hello-worlds/:id/replacement
-    *   /api/hello-worlds/:id/replacement/:replacementId
+    *   /hello-world/hello-worlds/:id/replacement
+    *   /hello-world/hello-worlds/:id/replacement/:replacementId
     *
     * Example:
     * CT="Content-Type: application/json"
     * DATA='[{"op": "replace", "path": "/name", "value": "new name"}]'
-    * curl -H $CT -X PATCH -d $DATA http://localhost:9000/api/hello-worlds/cjq5au9sr000caqyayo9uktss
+    * curl -H $CT -X PATCH -d $DATA http://localhost:9000/hello-world/hello-worlds/cjq5au9sr000caqyayo9uktss
     */
   def patchHelloWorld(helloWorldId: String):                       ServiceCall[MutateHelloWorldRequest, Either[ErrorResponse, MutateHelloWorldResponse]]
   def mutateHelloWorld1(helloWorldId: String):                     ServiceCall[MutateHelloWorldRequest, Either[ErrorResponse, MutateHelloWorldResponse]]
@@ -247,14 +249,14 @@ trait HelloWorldService extends Service {
     *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action
     *
     * REST DELETE endpoint:
-    *   /api/hello-worlds/:id
+    *   /hello-world/hello-worlds/:id
     * REST POST endpoints:
-    *   /api/hello-worlds/:id/deactivation
-    *   /api/hello-worlds/:id/deactivation/:deactivationId
+    *   /hello-world/hello-worlds/:id/deactivation
+    *   /hello-world/hello-worlds/:id/deactivation/:deactivationId
     *
     * Example:
     * CT="Content-Type: application/json"
-    * curl -H $CT -X DELETE http://localhost:9000/api/hello-worlds/cjq5au9sr000caqyayo9uktss
+    * curl -H $CT -X DELETE http://localhost:9000/hello-world/hello-worlds/cjq5au9sr000caqyayo9uktss
     */
   def patchHelloWorld(helloWorldId: String):                               ServiceCall[DeactivateHelloWorldRequest, Either[ErrorResponse, DeactivateHelloWorldResponse]]
   def deactivateHelloWorld1(helloWorldId: String):                         ServiceCall[DeactivateHelloWorldRequest, Either[ErrorResponse, DeactivateHelloWorldResponse]]
@@ -281,12 +283,12 @@ trait HelloWorldService extends Service {
     *         HTTP 422 Unprocessable Entity  if the aggregate is not in the proper state to perform this action
     *
     * REST POST endpoints:
-    *   /api/hello-worlds/:id/reactivation
-    *   /api/hello-worlds/:id/reactivation/:reactivationId
+    *   /hello-world/hello-worlds/:id/reactivation
+    *   /hello-world/hello-worlds/:id/reactivation/:reactivationId
     *
     * Example:
     * CT="Content-Type: application/json"
-    * curl -H $CT -X POST http://localhost:9000/api/hello-worlds/cjq5au9sr000caqyayo9uktss/reactivation
+    * curl -H $CT -X POST http://localhost:9000/hello-world/hello-worlds/cjq5au9sr000caqyayo9uktss/reactivation
     */
   def patchHelloWorld(helloWorldId: String):                               ServiceCall[ReactivateHelloWorldRequest, Either[ErrorResponse, ReactivateHelloWorldResponse]]
   def reactivateHelloWorld1(helloWorldId: String):                         ServiceCall[ReactivateHelloWorldRequest, Either[ErrorResponse, ReactivateHelloWorldResponse]]
@@ -306,7 +308,7 @@ trait HelloWorldService extends Service {
     *
     * Example:
     * CT="Content-Type: application/json"
-    * curl -H $CT http://localhost:9000/api/hello-worlds/cjq5au9sr000caqyayo9uktss
+    * curl -H $CT http://localhost:9000/hello-world/hello-worlds/cjq5au9sr000caqyayo9uktss
     */
   def getHelloWorld(helloWorldId: String): ServiceCall[NotUsed, Either[ErrorResponse, GetHelloWorldResponse]]
 
@@ -316,7 +318,7 @@ trait HelloWorldService extends Service {
     * @return A list of "Hello World" resources.
     *
     * Example:
-    * curl http://localhost:9000/api/hello-worlds
+    * curl http://localhost:9000/hello-world/hello-worlds
     */
   def getAllHelloWorlds(page: Option[String]): ServiceCall[NotUsed, utils.PagingState[GetAllHelloWorldsResponse]]
   def getAllHelloWorlds:                       ServiceCall[NotUsed, GetAllHelloWorldsResponse]
@@ -390,6 +392,33 @@ object Identity {
       //identity.revision should be >= 0
     }
 }
+
+// The five W's and one H
+final case class DataProvenance(
+  who: Who,
+  what: What,
+  when: When,
+  where: Where,
+  why: Why,
+  how: How)
+
+object DataProvenance {
+  implicit val format: Format[Identity] = Jsonx.formatCaseClass
+}
+
+// human or process manager
+final case class Who(
+  who: Who,
+  what: What,
+  when: When,
+  where: Where,
+  why: Why,
+  how: How)
+
+object Who {
+  implicit val format: Format[Identity] = Jsonx.formatCaseClass
+}
+
 
 final case class HypertextApplicationLanguage(
   halLinks: Seq[HalLink]
