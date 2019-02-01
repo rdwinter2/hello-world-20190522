@@ -15,7 +15,7 @@ Schema definition language borrows from GraphQL, YAML, ELM, F#, etc. Built-in sc
 | predicate<br>check constraint | {type}: {built-in type} @check("{regex}") | `Description: String @check("[a-zA-Z0-9\-\.\_\~].{1,2048}")` |
 | required<br>NOT NULL | {type}: {built-in type}! | `Description: String!` |
 | unordered list | {plural name}: [{type}!] | `descriptions: [Description!]` |
-| product type<br>record type<br>this and that | {type}:<br>&nbsp;&nbsp;{name1}: {type}<br>&nbsp;&nbsp;{name2}: {type} | <code>Person:<br>  id: Id!<br>  name: HumanName</code> |
+| product type<br>record type<br>this and that | {type}:<br>&nbsp;&nbsp;{name1}: {type}<br>&nbsp;&nbsp;{name2}: {type} | `Person:`<br>&nbsp;&nbsp;`id: Id!`<br>&nbsp;&nbsp;`name: HumanName` |
 | sum type<br>discriminated union<br>this or that | {type}:<br>&nbsp;&nbsp; | hello |
 | primitive | hello |
 | primitive | hello |
