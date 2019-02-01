@@ -11,8 +11,8 @@ Schema definition language borrows from GraphQL, YAML, ELM, F#, etc. Built-in sc
 |-----|-----|---|
 | organization | organization: {name} | organization: example.com |
 | namespace | package: {name} | package: foo |
-| scalar | Description: String |
-| predicate<br>check constraint | Description: String @check("[a-zA-Z0-9\-\.\_\~].{1,2048}") |
+| scalar | {type}: {built-in type} | Description: String |
+| predicate<br>check constraint | {type}: {built-in type} @check("{regex}") | Description: String @check("[a-zA-Z0-9\-\.\_\~].{1,2048}") |
 | required<br>NOT NULL | Description: String! |
 | unordered list | Descriptions: [Description!] |
 | value object | description: Description |
