@@ -5,18 +5,18 @@ Hello World
 
 ## <a name="overview"></a>Overview
 
-Schema definition language borrows from GraphQL, YAML, ELM, F#, etc. Built-in scalar types, Int, Float, String, Boolean. Names begin with lowercase, types begin with uppercase.
+Schema definition language borrows from GraphQL, YAML, ELM, F#, etc. Built-in scalar types, Int, Float, String, Boolean. Names begin with lowercase (camelCase), types begin with uppercase (CamelCase).
 
 | category | specification format | example |
 |-----|-----|---|
-| organization | organization: {name} | `organization: example.com` |
-| namespace | package: {name} | `package: foo` |
-| scalar | {type}: {built-in type} | `Description: String` |
-| predicate<br>check constraint | {type}: {built-in type} @check("{regex}") | `Description: String @check("[a-zA-Z0-9\-\.\_\~].{1,2048}")` |
-| required<br>NOT NULL | {type}: {built-in type}! | `Description: String!` |
-| unordered list | {plural name}: [{type}!] | `descriptions: [Description!]` |
-| product type<br>record type<br>this and that | {type}:<br>&nbsp;&nbsp;{name1}: {type}<br>&nbsp;&nbsp;{name2}: {type} | `Person:`<br>&nbsp;&nbsp;`id: Id!`<br>&nbsp;&nbsp;`name: HumanName` |
-| sum type<br>discriminated union<br>this or that | {type}:<br>&nbsp;&nbsp; | hello |
+| organization | `organization: {name}` | `organization: example.com` |
+| namespace | `package: {name}` | `package: foo` |
+| scalar | `{type}: {built-in type}` | `Description: String` |
+| predicate<br>check constraint | `{type}: {built-in type} @check("{regex}")` | `Description: String @check("[a-zA-Z0-9\-\.\_\~].{1,2048}")` |
+| required<br>NOT NULL | `{type}: {built-in type}!` | `Description: String!` |
+| unordered list | `{plural name}: [{type}!]` | `descriptions: [Description!]` |
+| product type<br>record type<br>this and that | `{type}:`<br>&nbsp;&nbsp;`{name1}: {type}`<br>&nbsp;&nbsp;`{name2}: {type}` | `Person:`<br>&nbsp;&nbsp;`id: Id!`<br>&nbsp;&nbsp;`name: HumanName` |
+| sum type<br>discriminated union<br>this or that | `{type}:`<br>&nbsp;&nbsp;`&#124; {type}`<br>&nbsp;&nbsp;`&#124; {type}` | hello |
 | primitive | hello |
 | primitive | hello |
 | value object | description: Description |
