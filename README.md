@@ -16,12 +16,12 @@ Hello World
 | value object | hello | hello | hello | hello | hello | hello | hello |
 | entity | hello | hello | hello | hello | hello | hello | hello |
 | aggregate | hello | hello | hello | hello | hello | hello | hello |
-| sum type<br>discriminated union<br>this or that | hello | hello | hello | hello | hello | hello | hello |
-| product type<br>record<br>this and that | hello | hello | final case class Person(<br>&nbsp;&nbsp;name: String,<br>&nbsp;&nbsp;description: Option[String])| hello | hello | hello |  hello |
+| sum type<br>discriminated union<br>this or that | hello | hello | hello | sealed abstract class Status extends Product with Serializable<br>object Status \{<br>&nbsp;&nbsp;final case object Ok extends Status<br>&nbsp;&nbsp;final case object Nok extends Status<br>\} | hello | hello | hello |
+| product type<br>record<br>this and that | hello | hello | hello | final case class Person(<br>&nbsp;&nbsp;name: String,<br>&nbsp;&nbsp;description: Option[String])| hello | hello | hello |
 | primitive | hello | hello | hello | hello | hello | hello | hello |
 | primitive | hello | hello | hello | hello | hello | hello | hello |
 
-
+https://nrinaudo.github.io/scala-best-practices/adts/product_with_serializable.html
 
 
 This is a simple Hello World self-contained system (SCS) to demonstrate the use of the Lagom framework. It has a simple CRUD interface as well as methods for doing a proper Domain Driven Design (DDD) ubiquitious language (UL).
