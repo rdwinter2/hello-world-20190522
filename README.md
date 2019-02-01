@@ -5,7 +5,7 @@ Hello World
 
 ## <a name="overview"></a>Overview
 
-Schema definition language borrows from GraphQL, YAML, ELM, F#, etc. Built-in scalar types, Int, Float, String, Boolean. Names begin with lowercase (camelCase), types begin with uppercase (CamelCase).
+Schema definition language (SDL) borrows heavily from GraphQL, YAML, ELM, F#, etc. Built-in scalar types, Int, Float, String, Boolean, Date, DateTime. Names begin with lowercase (camelCase), types begin with uppercase (CamelCase).
 
 | category | specification format | example |
 |-----|-----|---|
@@ -14,14 +14,36 @@ Schema definition language borrows from GraphQL, YAML, ELM, F#, etc. Built-in sc
 | scalar | `{type}: {built-in type}` | `Description: String` |
 | predicate<br>check constraint | `{type}: {built-in type} @check("{regex}")` | `Description: String @check("[a-zA-Z0-9\-\.\_\~].{1,2048}")` |
 | required<br>NOT NULL | `{type}: {built-in type}!` | `Description: String!` |
-| unordered list | `{plural name}: [{type}!]` | `descriptions: [Description!]` |
+| list<br>(unordered) | `{plural name}: [{type}!]` | `descriptions: [Description!]` |
+| required list | `{plural name}: [{type}!]!` | `descriptions: [Description!]!` |
+| list w/<br>predicate | `{plural name}: [{type}!]! @check({predicate})` | `descriptions: [Description!]! @check(2<=length<=10)` |
 | product type<br>record type<br>this and that | `{type}:`<br>&nbsp;&nbsp;`{name1}: {type}`<br>&nbsp;&nbsp;`{name2}: {type}` | `Person:`<br>&nbsp;&nbsp;`id: Id!`<br>&nbsp;&nbsp;`name: HumanName` |
 | sum type<br>discriminated union<br>this or that | `{type}:`<br>&nbsp;&nbsp;`\| {type}`<br>&nbsp;&nbsp;`\| {type}` | `Status:`<br>&nbsp;&nbsp;`\| Ok`<br>&nbsp;&nbsp;`\| NotOk` |
-| primitive | hello |
-| primitive | hello |
-| value object | description: Description |
-| entity | hello |
-| aggregate | hello |
+| definition<br>(preceeds item) | `"""`<br>`{some text}`<br>`"""`<br>`{item}` | `"""`<br>`The person who created`<br>`this item`<br>`"""`<br>`producer: Person` |
+
+
+Example:
+
+SDL
+
+```yml
+---
+organization: example.com
+package: foo
+Id: String @check("[a-zA-Z0-9\-\.\_\~]{1,32}")
+HumanName: String @check("[a-zA-Z0-9\-\.\_\~]{1,1024}")
+Description: String @check(".{1,4096}")
+Latitude: String @check("[-+]?\d+\.\d*", abs<=90) @UoM("DD")
+Longitude: String @check("[-+]?\d+\.\d*", abs<=180) @UoM("DD")
+AltitudeAgl: Int @check(>=0) @UoM("feet")
+AltitudeMsl: Int @check(>=-1500) @UoM("feet")
+ClosingDate: String @check(iso-8601)
+TransactionDateTime: String @check(iso-8601=seconds utc)
+TransactionFee: Int @check(>=0) @UoM("microUSD")
+SystemTime: Int @check(>=0) @UoM("posix")
+MgrsCoordinate: String @check("\d{2}[A-Za-z]{3}\d{10}")
+...
+```
 
 | category | bob | yml | GraphQL | scala | elm | avro | proto3 |
 |-----|-----|-------|-----|------|--------|---|---|
