@@ -5,6 +5,23 @@ Hello World
 
 ## <a name="overview"></a>Overview
 
+
+
+| category | bob | yml | scala | elm | avro | proto3 |
+|-----|-----|-------|-----|------|--------|---|
+| primitive | hello | hello | hello | hello | hello | hello |
+| scalar | hello | hello | hello | hello | hello | hello |
+| value object | hello | hello | hello | hello | hello | hello |
+| entity | hello | hello | hello | hello | hello | hello |
+| aggregate | hello | hello | hello | hello | hello | hello |
+| sum type | hello | hello | hello | hello | hello | hello |
+| product type | hello | hello | final case class Person(<br>&nbsp;&nbsp;name: String,<br>&nbsp;&nbsp;description: Option[String])| hello | hello |
+| primitive | hello | hello | hello | hello | hello | hello |
+| primitive | hello | hello | hello | hello | hello | hello |
+
+
+
+
 This is a simple Hello World self-contained system (SCS) to demonstrate the use of the Lagom framework. It has a simple CRUD interface as well as methods for doing a proper Domain Driven Design (DDD) ubiquitious language (UL).
 
 ## Table of Contents
@@ -183,3 +200,10 @@ Body can be compressed for transfer. Streaming update? resumeable? https://tus.i
 
 
 JWT https://tools.ietf.org/html/rfc7519
+
+
+
+git clone https://github.com/ansible/ansible.git --recursive
+cd ./ansible
+source ./hacking/env-setup
+

@@ -1,4 +1,28 @@
 ---
+#ddd:
+#value_objects: Many objects have no conceptual identity.  These objects describe characteristics of a thing.
+#entities:
+#aggregates:
+#root entities: 
+
+
+
+
+
+metadata:
+  name
+  definition
+  units of measure
+  contraints
+  datatype
+  generic element / class word
+  versioned vs. non-versioned
+  nullability
+  relationships
+  defaults
+  { references, POC }
+
+
 scalar_types:
   HelloWorldId: String @check("[a-zA-Z0-9\-\.\_\~]{1,128}")
   Name: String @check("[a-zA-Z0-9\-\.\_\~]{1,128}")
