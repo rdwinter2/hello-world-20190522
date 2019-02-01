@@ -7,17 +7,19 @@ Hello World
 
 
 
-| category | bob | yml | scala | elm | avro | proto3 |
-|-----|-----|-------|-----|------|--------|---|
-| primitive | hello | hello | hello | hello | hello | hello |
-| scalar | hello | hello | hello | hello | hello | hello |
-| value object | hello | hello | hello | hello | hello | hello |
-| entity | hello | hello | hello | hello | hello | hello |
-| aggregate | hello | hello | hello | hello | hello | hello |
-| sum type | hello | hello | hello | hello | hello | hello |
-| product type | hello | hello | final case class Person(<br>&nbsp;&nbsp;name: String,<br>&nbsp;&nbsp;description: Option[String])| hello | hello |
-| primitive | hello | hello | hello | hello | hello | hello |
-| primitive | hello | hello | hello | hello | hello | hello |
+| category | bob | yml | GraphQL | scala | elm | avro | proto3 |
+|-----|-----|-------|-----|------|--------|---|---|
+| predicate | hello | hello | hello | hello | hello | hello | hello |
+| optionality | hello | hello | hello | hello | hello | hello | hello |
+| predicate | hello | hello | hello | hello | hello | hello | hello |
+| scalar | hello | hello | hello | hello | hello | hello | hello |
+| value object | hello | hello | hello | hello | hello | hello | hello |
+| entity | hello | hello | hello | hello | hello | hello | hello |
+| aggregate | hello | hello | hello | hello | hello | hello | hello |
+| sum type<br>discriminated union<br>this or that | hello | hello | hello | hello | hello | hello | hello |
+| product type<br>record<br>this and that | hello | hello | final case class Person(<br>&nbsp;&nbsp;name: String,<br>&nbsp;&nbsp;description: Option[String])| hello | hello | hello |  hello |
+| primitive | hello | hello | hello | hello | hello | hello | hello |
+| primitive | hello | hello | hello | hello | hello | hello | hello |
 
 
 
