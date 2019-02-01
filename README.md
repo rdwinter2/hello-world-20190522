@@ -16,7 +16,7 @@ Schema definition language borrows from GraphQL, YAML, ELM, F#, etc. Built-in sc
 | required<br>NOT NULL | `{type}: {built-in type}!` | `Description: String!` |
 | unordered list | `{plural name}: [{type}!]` | `descriptions: [Description!]` |
 | product type<br>record type<br>this and that | `{type}:`<br>&nbsp;&nbsp;`{name1}: {type}`<br>&nbsp;&nbsp;`{name2}: {type}` | `Person:`<br>&nbsp;&nbsp;`id: Id!`<br>&nbsp;&nbsp;`name: HumanName` |
-| sum type<br>discriminated union<br>this or that | `{type}:`<br>&nbsp;&nbsp;`&#124; {type}`<br>&nbsp;&nbsp;`&#124; {type}` | hello |
+| sum type<br>discriminated union<br>this or that | `{type}:`<br>&nbsp;&nbsp;`\| {type}`<br>&nbsp;&nbsp;`\| {type}` | hello |
 | primitive | hello |
 | primitive | hello |
 | value object | description: Description |
