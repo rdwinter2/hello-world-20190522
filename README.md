@@ -5,7 +5,23 @@ Hello World
 
 ## <a name="overview"></a>Overview
 
+Schema definition language borrows from GraphQL, YAML, ELM, F#, etc. Built-in scalar types, Int, Float, String, Boolean. Names begin with lowercase, types begin with uppercase.
 
+| category | specification format | example |
+|-----|-----|---|
+| organization | organization: {name} | organization: example.com |
+| namespace | package: {name} | package: foo |
+| scalar | Description: String |
+| predicate<br>check constraint | Description: String @check("[a-zA-Z0-9\-\.\_\~].{1,2048}") |
+| required<br>NOT NULL | Description: String! |
+| unordered list | Descriptions: [Description!] |
+| value object | description: Description |
+| entity | hello |
+| aggregate | hello |
+| sum type<br>discriminated union<br>this or that | hello |
+| product type<br>record<br>this and that | hello |
+| primitive | hello |
+| primitive | hello |
 
 | category | bob | yml | GraphQL | scala | elm | avro | proto3 |
 |-----|-----|-------|-----|------|--------|---|---|
@@ -208,4 +224,5 @@ JWT https://tools.ietf.org/html/rfc7519
 git clone https://github.com/ansible/ansible.git --recursive
 cd ./ansible
 source ./hacking/env-setup
-
+echo "127.0.0.1" > ~/ansible_hosts
+export ANSIBLE_INVENTORY=~/ansible_hosts
