@@ -30,6 +30,7 @@ SDL
 ---
 organization: example.com
 package: foo
+
 Id: String @check("[a-zA-Z0-9\-\.\_\~]{1,32}")
 HumanName: String @check("[a-zA-Z0-9\-\.\_\~]{1,1024}")
 Description: String @check(".{1,4096}")
@@ -42,6 +43,12 @@ TransactionDateTime: String @check(iso-8601=seconds utc)
 TransactionFee: Int @check(>=0) @UoM("microUSD")
 SystemTime: Int @check(>=0) @UoM("posix")
 MgrsCoordinate: String @check("\d{2}[A-Za-z]{3}\d{10}")
+
+Person:
+  id: Id!
+  name: HumanName!
+
+
 ...
 ```
 
