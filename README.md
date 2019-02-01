@@ -9,19 +9,19 @@ Schema definition language borrows from GraphQL, YAML, ELM, F#, etc. Built-in sc
 
 | category | specification format | example |
 |-----|-----|---|
-| organization | organization: {name} | organization: example.com |
-| namespace | package: {name} | package: foo |
-| scalar | {type}: {built-in type} | Description: String |
-| predicate<br>check constraint | {type}: {built-in type} @check("{regex}") | Description: String @check("[a-zA-Z0-9\-\.\_\~].{1,2048}") |
-| required<br>NOT NULL | Description: String! |
-| unordered list | Descriptions: [Description!] |
+| organization | organization: {name} | `organization: example.com` |
+| namespace | package: {name} | `package: foo` |
+| scalar | {type}: {built-in type} | `Description: String` |
+| predicate<br>check constraint | {type}: {built-in type} @check("{regex}") | `Description: String @check("[a-zA-Z0-9\-\.\_\~].{1,2048}")` |
+| required<br>NOT NULL | {type}: {built-in type}! | `Description: String!` |
+| unordered list | {plural name}: [{type}!] | `descriptions: [Description!]` |
+| product type<br>record type<br>this and that | {type}:<br>&nbsp;&nbsp;{name1}: {type}<br>&nbsp;&nbsp;{name2}: {type} | <code>Person:<br>  id: Id!<br>  name: HumanName</code> |
+| sum type<br>discriminated union<br>this or that | {type}:<br>&nbsp;&nbsp; | hello |
+| primitive | hello |
+| primitive | hello |
 | value object | description: Description |
 | entity | hello |
 | aggregate | hello |
-| sum type<br>discriminated union<br>this or that | hello |
-| product type<br>record<br>this and that | hello |
-| primitive | hello |
-| primitive | hello |
 
 | category | bob | yml | GraphQL | scala | elm | avro | proto3 |
 |-----|-----|-------|-----|------|--------|---|---|
