@@ -41,7 +41,7 @@ AltitudeMsl: Int @check(>=-1500) @UoM("feet")
 ClosingDate: String @check(iso-8601)
 TransactionDateTime: String @check(iso-8601=seconds utc)
 TransactionFee: Int @check(>=0) @UoM("microUSD")
-SystemTime: Int @check(>=0) @UoM("posix")
+SystemTime: Int @check(>=0) @UoM("posix") @default(date +%s)
 MgrsCoordinate: String @check("\d{2}[A-Za-z]{3}\d{10}")
 
 Person:

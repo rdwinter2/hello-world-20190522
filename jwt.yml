@@ -1,0 +1,264 @@
+---
+"""
+JSON Web Token (JWT) is a compact, URL-safe means of representing
+claims to be transferred between two parties.  The claims in a JWT
+are encoded as a JSON object that is used as the payload of a JSON
+Web Signature (JWS) structure or as the plaintext of a JSON Web
+Encryption (JWE) structure, enabling the claims to be digitally
+signed or integrity protected with a Message Authentication Code
+(MAC) and/or encrypted.
+"""
+namespace: JsonWebToken
+"""
+In its compact form, JSON Web Tokens consist of three parts separated by dots (.), which are:
+
+* Header
+* Payload
+* Signature
+"""
+compactJwt: String @check("")  # format xxxxx.yyyyy.zzzzz
+
+encodedJwt:
+verifiedJwt:
+
+jwt:
+  header: JoseHeader
+  payload: @flatmap
+    RegisteredClaims
+    PublicClaims
+    PrivateClaims
+  signature: Base64Url
+
+
+"""
+For a JWT object, the members of the JSON object represented by the
+JOSE Header describe the cryptographic operations applied to the JWT
+and optionally, additional properties of the JWT.  Depending upon
+whether the JWT is a JWS or JWE, the corresponding rules for the JOSE
+Header values apply
+This specification further specifies the use of the following Header
+Parameters in both the cases where the JWT is a JWS and where it is a
+JWE.
+"""
+JoseHeader:
+   """
+   The "typ" (type) Header Parameter defined by [JWS] and [JWE] is used
+   by JWT applications to declare the media type [IANA.MediaTypes] of
+   this complete JWT.  This is intended for use by the JWT application
+   when values that are not JWTs could also be present in an application
+   data structure that can contain a JWT object; the application can use
+   this value to disambiguate among the different kinds of objects that
+   might be present.  It will typically not be used by applications when
+   it is already known that the object is a JWT.  This parameter is
+   ignored by JWT implementations; any processing of this parameter is
+   performed by the JWT application.  If present, it is RECOMMENDED that
+   its value be "JWT" to indicate that this object is a JWT.  While
+   media type names are not case sensitive, it is RECOMMENDED that "JWT"
+   always be spelled using uppercase characters for compatibility with
+   legacy implementations.  Use of this Header Parameter is OPTIONAL.
+   """
+   typ: String
+   """
+   The "cty" (content type) Header Parameter defined by [JWS] and [JWE]
+   is used by this specification to convey structural information about
+   the JWT.
+
+   In the normal case in which nested signing or encryption operations
+   are not employed, the use of this Header Parameter is NOT
+   RECOMMENDED.  In the case that nested signing or encryption is
+   employed, this Header Parameter MUST be present; in this case, the
+   value MUST be "JWT", to indicate that a Nested JWT is carried in this
+   JWT.  While media type names are not case sensitive, it is
+   RECOMMENDED that "JWT" always be spelled using uppercase characters
+   for compatibility with legacy implementations.  See Appendix A.2 for
+   an example of a Nested JWT.
+   """
+   cty: String
+   """
+   In some applications using encrypted JWTs, it is useful to have an
+   unencrypted representation of some claims.  This might be used, for
+   instance, in application processing rules to determine whether and
+   how to process the JWT before it is decrypted.
+
+   This specification allows claims present in the JWT Claims Set to be
+   replicated as Header Parameters in a JWT that is a JWE, as needed by
+   the application.  If such replicated claims are present, the
+   application receiving them SHOULD verify that their values are
+   identical, unless the application defines other specific processing
+   rules for these claims.  It is the responsibility of the application
+   to ensure that only claims that are safe to be transmitted in an
+   unencrypted manner are replicated as Header Parameter values in the
+   JWT.
+
+   Section 10.4.1 of this specification registers the "iss" (issuer),
+   "sub" (subject), and "aud" (audience) Header Parameter names for the
+   purpose of providing unencrypted replicas of these claims in
+   encrypted JWTs for applications that need them.  Other specifications
+   MAY similarly register other names that are registered Claim Names as
+   Header Parameter names, as needed.
+   """
+   RegisteredClaims @flatmap
+
+
+"""
+The following Claim Names are registered in the IANA "JSON Web Token
+Claims" registry established by Section 10.1.  None of the claims
+defined below are intended to be mandatory to use or implement in all
+cases, but rather they provide a starting point for a set of useful,
+interoperable claims.  Applications using JWTs should define which
+specific claims they use and when they are required or optional.  All
+the names are short because a core goal of JWTs is for the
+representation to be compact.
+"""
+RegisteredClaims:
+   """
+   The "iss" (issuer) claim identifies the principal that issued the
+   JWT.  The processing of this claim is generally application specific.
+   The "iss" value is a case-sensitive string containing a StringOrURI
+   value.  Use of this claim is OPTIONAL.
+   """
+   iss: StringOrURI
+   """
+   The "sub" (subject) claim identifies the principal that is the
+   subject of the JWT.  The claims in a JWT are normally statements
+   about the subject.  The subject value MUST either be scoped to be
+   locally unique in the context of the issuer or be globally unique.
+   The processing of this claim is generally application specific.  The
+   "sub" value is a case-sensitive string containing a StringOrURI
+   value.  Use of this claim is OPTIONAL.
+   """
+   sub: StringOrURI
+   """
+   The "aud" (audience) claim identifies the recipients that the JWT is
+   intended for.  Each principal intended to process the JWT MUST
+   identify itself with a value in the audience claim.  If the principal
+   processing the claim does not identify itself with a value in the
+   "aud" claim when this claim is present, then the JWT MUST be
+   rejected.  In the general case, the "aud" value is an array of case-
+   sensitive strings, each containing a StringOrURI value.  In the
+   special case when the JWT has one audience, the "aud" value MAY be a
+   single case-sensitive string containing a StringOrURI value.  The
+   interpretation of audience values is generally application specific.
+   Use of this claim is OPTIONAL.
+   """
+   aud: StringOrURI    # TODO: allow for the general case
+   """
+   The "exp" (expiration time) claim identifies the expiration time on
+   or after which the JWT MUST NOT be accepted for processing.  The
+   processing of the "exp" claim requires that the current date/time
+   MUST be before the expiration date/time listed in the "exp" claim.
+   Implementers MAY provide for some small leeway, usually no more than
+   a few minutes, to account for clock skew.  Its value MUST be a number
+   containing a NumericDate value.  Use of this claim is OPTIONAL.
+   """
+   exp: NumericDate
+   """
+   The "nbf" (not before) claim identifies the time before which the JWT
+   MUST NOT be accepted for processing.  The processing of the "nbf"
+   claim requires that the current date/time MUST be after or equal to
+   the not-before date/time listed in the "nbf" claim.  Implementers MAY
+   provide for some small leeway, usually no more than a few minutes, to
+   account for clock skew.  Its value MUST be a number containing a
+   NumericDate value.  Use of this claim is OPTIONAL.
+   """
+   nbf: NumericDate
+   """
+   The "iat" (issued at) claim identifies the time at which the JWT was
+   issued.  This claim can be used to determine the age of the JWT.  Its
+   value MUST be a number containing a NumericDate value.  Use of this
+   claim is OPTIONAL.
+   """
+   iat: NumericDate
+   """
+   The "jti" (JWT ID) claim provides a unique identifier for the JWT.
+   The identifier value MUST be assigned in a manner that ensures that
+   there is a negligible probability that the same value will be
+   accidentally assigned to a different data object; if the application
+   uses multiple issuers, collisions MUST be prevented among values
+   produced by different issuers as well.  The "jti" claim can be used
+   to prevent the JWT from being replayed.  The "jti" value is a case-
+   sensitive string.  Use of this claim is OPTIONAL.
+   """
+   jti: CollisionResistantIdentifier
+"""
+Claim Names can be defined at will by those using JWTs.  However, in
+order to prevent collisions, any new Claim Name should either be
+registered in the IANA "JSON Web Token Claims" registry established
+by Section 10.1 or be a Public Name: a value that contains a
+Collision-Resistant Name.  In each case, the definer of the name or
+value needs to take reasonable precautions to make sure they are in
+control of the part of the namespace they use to define the Claim
+Name.
+"""
+PublicClaims:
+  """
+  Name (NAME) depends on the context.
+  The name of the entity and sub-schema of Thing and is usually a text Data type.
+  https://ldapwiki.com/wiki/Name
+  """
+  name: String
+  """
+  Uid (UserId or Login ID or Logon ID) is a Shorthand Name representing the Entity.
+  https://ldapwiki.com/wiki/Uid
+  """
+  uid: String!        # Question: couldn't this be the same as subject?
+"""
+A producer and consumer of a JWT MAY agree to use Claim Names that
+are Private Names: names that are not Registered Claim Names
+(Section 4.1) or Public Claim Names (Section 4.2).  Unlike Public
+Claim Names, Private Claim Names are subject to collision and should
+be used with caution.
+"""
+PrivateClaims:
+  """
+  A flag that indicates that the subject is an administrator of the audience.
+  """
+  admin: Boolean
+  """
+  A list of roles the subject is authorized for within this audience.
+  """
+  roles: [String!]
+
+metadata:
+  name
+  definition
+  units of measure
+  contraints
+  datatype
+  generic element / class word
+  versioned vs. non-versioned
+  nullability
+  relationships
+  defaults
+  { references, POC }
+
+CollisionResistantIdentifier:
+StringOrUri: String
+Base64: String @check("[a-zA-Z0-9\+\/\=]{1,}")
+Base64Url: String @check("[a-zA-Z0-9\-\_\=]{1,}")
+"""
+https://www.iana.org/assignments/jwt/jwt.xhtml#confirmation-methods
+"""
+JwtConfirmationMethod:
+  | JWK  # JSON Web Key Representing Public Key
+  | JWE  # Encrypted JSON Web Key
+  | KID  # Key Identifier
+  | JKU  # JWK Set URL
+
+
+"""
+A JSON numeric value representing the number of seconds from
+1970-01-01T00:00:00Z UTC until the specified UTC date/time,
+ignoring leap seconds.  This is equivalent to the IEEE Std 1003.1,
+2013 Edition [POSIX.1] definition "Seconds Since the Epoch", in
+which each day is accounted for by exactly 86400 seconds, other
+than that non-integer values can be represented.  See RFC 3339
+[RFC3339] for details regarding date/times in general and UTC in
+particular.
+"""
+NumericDate: Int @check(>=0) @UoM("posix") @default(date +%s)
+references:
+  - RFC7519: https://tools.ietf.org/html/rfc7519
+  - IANA: https://www.iana.org/assignments/jwt/jwt.xhtml
+  - ldapwiki: https://ldapwiki.com/wiki/JSON%20Web%20Token%20Claims
+...
