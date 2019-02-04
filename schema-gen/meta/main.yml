@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Robert D. Winter, 2nd
+  description: A role to generate Lagom Scala code to implement a schema definition.
+  company: AFLCMC/HBCC
+  issue_tracker_url:
+  license: MIT
+  min_ansible_version: 2.0
+  platforms:
+  - name: EL
+    versions:
+    - 7
+dependencies: []
+...

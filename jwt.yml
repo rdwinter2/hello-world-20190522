@@ -218,6 +218,10 @@ PrivateClaims:
   A list of roles the subject is authorized for within this audience.
   """
   roles: [String!]
+  """
+  A list of permissions the subject is authorized for within this audience.
+  """
+  permissions: [String!]
 
 metadata:
   name

@@ -5,7 +5,7 @@ Hello World
 
 ## <a name="overview"></a>Overview
 
-Schema definition language (SDL) borrows heavily from GraphQL, YAML, ELM, F#, etc. Built-in scalar types, Int, Float, String, Boolean, Date, DateTime. Names begin with lowercase (camelCase), types begin with uppercase (CamelCase).
+Schema definition language (SDL) borrows heavily from SQL DDL, GraphQL, YAML, ELM, F#, etc. Built-in scalar types, Int, Float, String, Boolean, Date, DateTime. Names begin with lowercase (camelCase), types begin with uppercase (CamelCase).
 
 | category | specification format | example |
 |-----|-----|---|

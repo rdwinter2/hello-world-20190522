@@ -1,0 +1,7 @@
+---
+- name: Generate Hello World algebraic data type
+  template:
+    src: HelloWorld.scala.j2
+    dest: ./hello-world/hello-world-api/src/main/scala/com/example/helloworld/api/HelloWorld.scala
+    mode: 0644
+...
