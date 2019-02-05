@@ -19,6 +19,7 @@ my $type_name = '';
 my $type_flag = 'scalar';
 my $indent = "  ";
 my $type_start = 0;
+my %sum_parents;
 while (<>) {
   chomp;
   next if /^---$/;
@@ -64,6 +65,9 @@ while (<>) {
     $current_type .= "        kabab: " . kabab($t[0]) . "\n";
     $current_type .= "        snake: " . snake($t[0]) . "\n";
     $current_type .= "        SNAKE: " . SNAKE($t[0]) . "\n";
+    if ( $type_flag eq 'sum' ) {
+      $sum_parents{$t[0]} = $type_name;
+    }
     if ( $#t > 0 ) {
       $t[1] =~ s/^\s*//;
       if ( $t[1] =~ /!/ ) {
@@ -84,6 +88,16 @@ if ($current_type ne '') {
   $product_types{$type_name} = $current_type if $type_flag eq 'product';
   $scalar_types{$type_name} = $current_type if $type_flag eq 'scalar';
 }
+for my $t (keys %sum_parents) {
+  if ( exists $product_types{$t} ) {
+    my @tmp = split(/\n/, $product_types{$t});
+    my $tmp = shift(@tmp);
+    my $rest = join("\n", @tmp);
+    $product_types{$t} = $tmp . "\n" . "    parent_sum_type: " . $sum_parents{$t} . "\n" . $rest . "\n";
+  } else {
+    $scalar_types{$t} = "  - name: " . $t . "\n" . "    parent_sum_type: " . $sum_parents{$t} . "\n";
+  }
+}
 print "---\n";
 print "sum_types:\n";
 for my $t (keys %sum_types) {
@@ -93,4 +107,7 @@ print "product_types:\n";
 for my $t (keys %product_types) {
   print "$product_types{$t}";
 }
-print "...\n";
+print "scalar_types:\n";
+for my $t (keys %scalar_types) {
+  print "$scalar_types{$t}";
+}
