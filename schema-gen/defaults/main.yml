@@ -1,3 +1,98 @@
 ---
+#  Summary
+#  * Only in double quotes you can use escape sequences like \n
+#  * Plain scalars can be used only if they don't start with a special character (sequence) or contain a colon followed by a space (or end with a colon)
+#  * Single quoted scalars allow to include special characters. Only ' needs to be escaped by doubling it.
+#  * Double quoted scalars allow escape sequences like \t, \x0a. The double quote itself is escaped with \"
+#  * Literal block scalars preserve newlines and trailing spaces
+#  * Folded block scalars will fold its lines with spaces
+#  * | or > will strip any trailing empty lines, but keep the last newline
+#  * |+ or >+ will keep trailing empty lines
+#  * |- or >- will strip all trailing empty lines and the last newline
+#  * You can specify the indendation of block scalars with |<num> or ><num>
 
+# to express one single quote inside the string use two instead
+matchers:
+  - { key: "Email", value: '^[a-zA-Z0-9\.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$' }
+  - { key: "Id", value: '^[a-zA-Z0-9\-\.\_\~]{1,64}$' }
+  - { key: "Name", value: '^[a-zA-Z0-9\-\.\_\~]{1,128}$' }
+  - { key: "Description", value: '^.{1,2048}$' }
+  - { key: "Motivation", value: '^.{1,2048}$' }
+  - { key: "Op", value: '^add|remove|replace|move|copy|test$' }
+
+
+# sealed trait Shape
+# final case class Circle(radius: Double) extends Shape
+# final case class Rectangle(width: Double, height: Double) extends Shape
+#
+# sealed abstract class Status extends Product with Serializable
+# object Status {
+#   final case object Ok extends Status
+#   final case object Nok extends Status
+# }
+#
+#
+# Shape:
+#   | Circle
+#   | Rectangle
+# Circle:
+#   radius: Double!
+# Retangle:
+#   width: Double!
+#   height: Double!
+
+types:
+  - circle:
+      name: Circle
+      type: product
+      parameters:
+        - radius:
+            name: Radius
+            type: Double
+  - rectangle:
+      name: Rectangle
+      type: product
+      parameters:
+        - width:
+            name: width
+            type: Double
+        - height:
+            name: height
+            type: Double
+  - shape:
+      name: Shape
+      type: sum
+      enumerations:
+        - Circle
+        - Rectangle
+
+
+# scalar_types:
+#   - { name: "radius", type: "Double" }
+# sum_types:
+#   - Shape:
+#       name:
+#       type:
+# product_types:
+#   - Circle:
+#   - Rectangle:
+#
+#
+#   - HelloWorld
+#
+# types:
+#   - userInfo:
+#       namespace: "example.com"
+#       fields:
+#         - username:
+#             name: "username"
+#             type: "string"
+#             default: "NONE"
+#         - age:
+#             name: "age"
+#
+# scalar_types:
+#   HelloWorldId: String @check("[a-zA-Z0-9\-\.\_\~]{1,128}")
+#   Name: String @check("[a-zA-Z0-9\-\.\_\~]{1,128}")
+#   Description: String @check(".{1,2048}")
 ...

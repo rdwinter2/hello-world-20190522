@@ -19,7 +19,7 @@ import play.api.libs.json._
 
 object Matchers {
   {% for item in matchers %}
-    val {{ item.name }} = """{{ item.regex }}"""
+    val {{ item.key }} = """{{ item.value }}"""
   {% endfor %}
 }
 
@@ -29,13 +29,20 @@ object Matchers {
 // They are built up from Product types and Sum types.
 //
 // Product types - a tuple or record (this and that)
-//   class ScalaPerson(val name: String, val age: Int)
+//   final case class ScalaPerson(val name: String, val age: Int)
 //
 // Sum types - a disjoint union or variant type (this or that)
 //   sealed trait Pet
 //   final case class Cat(name: String) extends Pet
 //   final case class Fish(name: String, color: String) extends Pet
 //   final case class Squid(name: String, age: Int) extends Pet
+//
+// Sum types as a better alternative to enumeration
+//  sealed abstract class Status extends Product with Serializable
+//  object Status {
+//    final case object Ok extends Status
+//    final case object Nok extends Status
+//  }
 
 final case class HelloWorld(
   name: String,

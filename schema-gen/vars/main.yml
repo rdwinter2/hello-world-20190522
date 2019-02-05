@@ -1,9 +1,2 @@
 ---
-matchers:
-  Email: "^[a-zA-Z0-9\.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-  Id: "^[a-zA-Z0-9\-\.\_\~]{1,64}$"
-  Name: "^[a-zA-Z0-9\-\.\_\~]{1,128}$"
-  Description: "^.{1,2048}$"
-  Motivation: "^.{1,2048}$"
-  Op: "^add|remove|replace|move|copy|test$"
 ...
