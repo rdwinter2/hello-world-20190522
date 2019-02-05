@@ -1,0 +1,18 @@
+---
+# This is a comment
+ShapeOfWater:
+  | CircleOfLife
+  | RectangleCanBeSquare
+CircleOfLife:
+  radiusDude: Double!
+RectangleCanBeSquare:
+  width: Double!
+  height: Double!
+HelloWorld:
+  name: String!
+  description: String
+Status:
+  | Ok
+  | NotOk
+  | Weird
+...

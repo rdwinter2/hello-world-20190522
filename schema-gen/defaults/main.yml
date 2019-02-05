@@ -41,32 +41,115 @@ matchers:
 #   width: Double!
 #   height: Double!
 
-types:
-  - circle:
-      name: Circle
-      type: product
-      parameters:
-        - radius:
-            name: Radius
-            type: Double
-  - rectangle:
-      name: Rectangle
-      type: product
-      parameters:
-        - width:
-            name: width
-            type: Double
-        - height:
-            name: height
-            type: Double
-  - shape:
-      name: Shape
-      type: sum
-      enumerations:
-        - Circle
-        - Rectangle
-
-
+sum_types:
+  - name: ShapeOfWater
+    word: Shape Of Water
+    camel: shapeOfWater
+    Camel: ShapeOfWater
+    KABAB: SHAPE-OF-WATER
+    kabab: shape-of-water
+    snake: shape_of_water
+    SNAKE: SHAPE_OF_WATER
+    enumerations:
+      - name: CircleOfLife
+        word: Circle Of Life
+        camel: circleOfLife
+        Camel: CircleOfLife
+        KABAB: CIRCLE-OF-LIFE
+        kabab: circle-of-life
+        snake: circle_of_life
+        SNAKE: CIRCLE_OF_LIFE
+      - name: RectangleCanBeSquare
+        word: Rectangle Can Be Square
+        camel: rectangleCanBeSquare
+        Camel: RectangleCanBeSquare
+        KABAB: RECTANGLE-CAN-BE-SQUARE
+        kabab: rectangle-can-be-square
+        snake: rectangle_can_be_square
+        SNAKE: RECTANGLE_CAN_BE_SQUARE
+product_types:
+  - name: HelloWorld
+    word: Hello World
+    camel: helloWorld
+    Camel: HelloWorld
+    KABAB: HELLO-WORLD
+    kabab: hello-world
+    snake: hello_world
+    SNAKE: HELLO_WORLD
+    parameters:
+      - name: name
+        word: Name
+        camel: name
+        Camel: Name
+        KABAB: NAME
+        kabab: name
+        snake: name
+        SNAKE: NAME
+        required: true
+        scala_type: String
+        type: String
+      - name: description
+        word: Description
+        camel: description
+        Camel: Description
+        KABAB: DESCRIPTION
+        kabab: description
+        snake: description
+        SNAKE: DESCRIPTION
+        required: false
+        scala_type: Option[String]
+        type: String
+  - name: CircleOfLife
+    word: Circle Of Life
+    camel: circleOfLife
+    Camel: CircleOfLife
+    KABAB: CIRCLE-OF-LIFE
+    kabab: circle-of-life
+    snake: circle_of_life
+    SNAKE: CIRCLE_OF_LIFE
+    parameters:
+      - name: radiusDude
+        word: Radius Dude
+        camel: radiusDude
+        Camel: RadiusDude
+        KABAB: RADIUS-DUDE
+        kabab: radius-dude
+        snake: radius_dude
+        SNAKE: RADIUS_DUDE
+        required: true
+        scala_type: Double
+        type: Double
+  - name: RectangleCanBeSquare
+    word: Rectangle Can Be Square
+    camel: rectangleCanBeSquare
+    Camel: RectangleCanBeSquare
+    KABAB: RECTANGLE-CAN-BE-SQUARE
+    kabab: rectangle-can-be-square
+    snake: rectangle_can_be_square
+    SNAKE: RECTANGLE_CAN_BE_SQUARE
+    parameters:
+      - name: width
+        word: Width
+        camel: width
+        Camel: Width
+        KABAB: WIDTH
+        kabab: width
+        snake: width
+        SNAKE: WIDTH
+        required: true
+        scala_type: Double
+        type: Double
+      - name: height
+        word: Height
+        camel: height
+        Camel: Height
+        KABAB: HEIGHT
+        kabab: height
+        snake: height
+        SNAKE: HEIGHT
+        required: true
+        scala_type: Double
+        type: Double
 # scalar_types:
 #   - { name: "radius", type: "Double" }
 # sum_types:

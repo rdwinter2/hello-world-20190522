@@ -18,10 +18,13 @@ import play.api.libs.json._
 // Hello World regex matchers
 
 object Matchers {
-  {% for item in matchers %}
-    val {{ item.key }} = """{{ item.value }}"""
-  {% endfor %}
-}
+      val Email = """^[a-zA-Z0-9\.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"""
+      val Id = """^[a-zA-Z0-9\-\.\_\~]{1,64}$"""
+      val Name = """^[a-zA-Z0-9\-\.\_\~]{1,128}$"""
+      val Description = """^.{1,2048}$"""
+      val Motivation = """^.{1,2048}$"""
+      val Op = """^add|remove|replace|move|copy|test$"""
+  }
 
 // Hello World algebraic data type {
 //
@@ -43,32 +46,15 @@ object Matchers {
 //    final case object Ok extends Status
 //    final case object Nok extends Status
 //  }
-{% set types = [] %}
-{% for product_type in product_types %}
-{% set definitions = [] %}
-{% for parameter in product_type.parameters %}
-{% do definitions.append(parameter.camel + ': ' + parameter.scala_type) %}
-{% endfor %}
-{% set definition = definitions|join(', ') %}
-{% set type = {} %}
-{% do type.update({'name': product_type.name}) %}
-{% do type.update({'definition': definition}) %}
-{% do types.append(type) %}
-{% endfor %}
 
-{% for sum_type in sum_types %}
-sealed trait {{ sum_type.Camel }}
-{% for e in sum_type.enumerations %}
-final case class {{ e.Camel }}({% for t in types if t.name == e.name %}{{ t.definition }}{% endfor %}) extends {{ sum_type.Camel }}
-{% endfor %}
-{% endfor %}
+sealed trait ShapeOfWater
+final case class CircleOfLife(radiusDude: Double) extends ShapeOfWater
+final case class RectangleCanBeSquare(width: Double, height: Double) extends ShapeOfWater
 
-{% for product_type in product_types %}
-final case class {{ product_type.Camel }}(
-  {% for parameter in product_type.parameters %}
-  {{ parameter.camel }}: {{ parameter.scala_type }}
-  {% endfor %}
-  name: String,
+final case class HelloWorld(
+    name: String
+    description: Option[String]
+    name: String,
   description: Option[String])
 
 object HelloWorld {
@@ -81,4 +67,34 @@ object HelloWorld {
       helloWorld.description.each should matchRegexFully(Matchers.Description)
     }
 }
-{% endfor %}
+final case class CircleOfLife(
+    radiusDude: Double
+    name: String,
+  description: Option[String])
+
+object HelloWorld {
+  implicit val format: Format[HelloWorld] = Jsonx.formatCaseClass
+
+  val helloWorldValidator: Validator[HelloWorld] =
+    validator[HelloWorld] { helloWorld =>
+      helloWorld.name is notEmpty
+      helloWorld.name should matchRegexFully(Matchers.Name)
+      helloWorld.description.each should matchRegexFully(Matchers.Description)
+    }
+}
+final case class RectangleCanBeSquare(
+    width: Double
+    height: Double
+    name: String,
+  description: Option[String])
+
+object HelloWorld {
+  implicit val format: Format[HelloWorld] = Jsonx.formatCaseClass
+
+  val helloWorldValidator: Validator[HelloWorld] =
+    validator[HelloWorld] { helloWorld =>
+      helloWorld.name is notEmpty
+      helloWorld.name should matchRegexFully(Matchers.Name)
+      helloWorld.description.each should matchRegexFully(Matchers.Description)
+    }
+}
