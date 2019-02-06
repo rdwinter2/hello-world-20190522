@@ -15,4 +15,5 @@ Status:
   | Ok
   | NotOk
   | Weird
+AltitudeAgl: Int
 ...

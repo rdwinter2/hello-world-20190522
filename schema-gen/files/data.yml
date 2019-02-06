@@ -1,0 +1,117 @@
+---
+AltitudeAgl:
+  Camel: AltitudeAgl
+  KABAB: ALTITUDE-AGL
+  SNAKE: ALTITUDE_AGL
+  base_type: Int
+  camel: altitudeAgl
+  kabab: altitude-agl
+  name: AltitudeAgl
+  snake: altitude_agl
+  type: scalar
+  word: 'Altitude Agl'
+CircleOfLife:
+  Camel: CircleOfLife
+  KABAB: CIRCLE-OF-LIFE
+  SNAKE: CIRCLE_OF_LIFE
+  camel: circleOfLife
+  constituents:
+    -
+      radiusDude:
+        camel: radiusDude
+        name: radiusDude
+        word: 'Radius Dude'
+  kabab: circle-of-life
+  name: CircleOfLife
+  snake: circle_of_life
+  type: product
+  word: 'Circle Of Life'
+HelloWorld:
+  Camel: HelloWorld
+  KABAB: HELLO-WORLD
+  SNAKE: HELLO_WORLD
+  camel: helloWorld
+  constituents:
+    -
+      name:
+        camel: name
+        name: name
+        word: Name
+    -
+      description:
+        camel: description
+        name: description
+        word: Description
+  kabab: hello-world
+  name: HelloWorld
+  snake: hello_world
+  type: product
+  word: 'Hello World'
+RectangleCanBeSquare:
+  Camel: RectangleCanBeSquare
+  KABAB: RECTANGLE-CAN-BE-SQUARE
+  SNAKE: RECTANGLE_CAN_BE_SQUARE
+  camel: rectangleCanBeSquare
+  constituents:
+    -
+      width:
+        camel: width
+        name: width
+        word: Width
+    -
+      height:
+        camel: height
+        name: height
+        word: Height
+  kabab: rectangle-can-be-square
+  name: RectangleCanBeSquare
+  snake: rectangle_can_be_square
+  type: product
+  word: 'Rectangle Can Be Square'
+ShapeOfWater:
+  Camel: ShapeOfWater
+  KABAB: SHAPE-OF-WATER
+  SNAKE: SHAPE_OF_WATER
+  camel: shapeOfWater
+  constituents:
+    -
+      CircleOfLife:
+        camel: circleOfLife
+        name: CircleOfLife
+        word: 'Circle Of Life'
+    -
+      RectangleCanBeSquare:
+        camel: rectangleCanBeSquare
+        name: RectangleCanBeSquare
+        word: 'Rectangle Can Be Square'
+  kabab: shape-of-water
+  name: ShapeOfWater
+  snake: shape_of_water
+  type: sum
+  word: 'Shape Of Water'
+Status:
+  Camel: Status
+  KABAB: STATUS
+  SNAKE: STATUS
+  camel: status
+  constituents:
+    -
+      Ok:
+        camel: ok
+        name: Ok
+        word: Ok
+    -
+      NotOk:
+        camel: notOk
+        name: NotOk
+        word: 'Not Ok'
+    -
+      Weird:
+        camel: weird
+        name: Weird
+        word: Weird
+  kabab: status
+  name: Status
+  snake: status
+  type: sum
+  word: Status
