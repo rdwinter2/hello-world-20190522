@@ -86,6 +86,11 @@ while (<>) {
     my $i = $#{$yaml->[0]->{$t}{"constituents"}}; # index position of array for new element
     $yaml->[0]->{$t}{"constituents"}[$i]{$s}{"word"} = word($s);
     $yaml->[0]->{$t}{"constituents"}[$i]{$s}{"camel"} = camel($s);
+    $yaml->[0]->{$t}{"constituents"}[$i]{$s}{"Camel"} = Camel($s);
+    $yaml->[0]->{$t}{"constituents"}[$i]{$s}{"KABAB"} = KABAB($s);
+    $yaml->[0]->{$t}{"constituents"}[$i]{$s}{"kabab"} = kabab($s);
+    $yaml->[0]->{$t}{"constituents"}[$i]{$s}{"snake"} = snake($s);
+    $yaml->[0]->{$t}{"constituents"}[$i]{$s}{"SNAKE"} = SNAKE($s);
     $current_type .= "      - name: $r[0]\n";
     $current_type .= "        word: " . word($r[0]) . "\n";
     $current_type .= "        camel: " . camel($r[0]) . "\n";
