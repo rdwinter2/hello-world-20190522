@@ -146,9 +146,10 @@ for my $t (keys %sum_parents) {
 #  print "$scalar_types{$t}";
 #}
 my $yaml_out = $yaml->write_string;
-#print $yaml_out;
+print "---\ntypes:\n";
 my $dash = 0;
 foreach (split(/\n/,$yaml_out)) {
+  next if (/^---$/);
   if (/^(\s+-)\s*$/) {
     $dash_text = $1;
 #    print "dash by itself ::" . $dash_text . "::\n";
@@ -163,7 +164,8 @@ foreach (split(/\n/,$yaml_out)) {
       my $content = substr $line, ($dash+2);
       $line = $dash_text . " " . $content;
     }
-    print $line . "\n";
+    print "  - " . $line . "\n" unless (/^\s/);
+    print "    " . $line . "\n" if (/^\s/);
     $dash = 0;
   }
 }
