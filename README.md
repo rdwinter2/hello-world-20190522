@@ -5,6 +5,18 @@ Hello World
 
 ## <a name="overview"></a>Overview
 
+NOTE: Schema Definition Language (SDL) includes types, commands, queries, responses, messages, resources, aggregates, finite state machines.
+
+https://meettechniek.info/measurement/accuracy.html
+https://sciencing.com/how-to-calculate-uncertainty-13710219.html
+complex numbers: https://github.com/scalanlp/breeze/blob/master/math/src/main/scala/breeze/math/Complex.scala
+
+```yml
+type:
+  - Height: Double @UoM(feet) @default(0.00) @precision(+-10^-3) @accuracy(+-3.00) @uncertainty(+-4)
+
+```
+
 Schema definition language (SDL) borrows heavily from SQL DDL, GraphQL, YAML, ELM, F#, etc. Built-in scalar types, Int, Float, String, Boolean, Date, DateTime. Names begin with lowercase (camelCase), types begin with uppercase (CamelCase).
 
 | category | specification format | example |
