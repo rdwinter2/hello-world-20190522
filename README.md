@@ -5,6 +5,9 @@ Hello World
 
 ## <a name="overview"></a>Overview
 
+
+
+
 NOTE: Schema Definition Language (SDL) includes types, commands, queries, responses, messages, resources, aggregates, finite state machines.
 
 https://meettechniek.info/measurement/accuracy.html
