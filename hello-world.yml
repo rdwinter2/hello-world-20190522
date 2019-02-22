@@ -5,8 +5,90 @@
 #aggregates:
 #root entities:
 
+# Link to an aggregate root entity >=>
+# Link within an aggregate to a non-root entity >->
+# Events persisted |>
+state:
+aggregate:
+resource:
+requests:
+responses:
+commands:
+queries:
+events:
+
+Revision:
+  logicalClock: Int!
+  localTime: EpochTime
+
+Order: @aggregateRoot
+  id: OrderId! @isUnique
+  revision: Revision!
+  lines: [OrderLine!]
+OrderLine:
+  id: OrderLineId! @isPartUnique
+  productId: >=> Product.id
+  price: Money!
+  quantity: OrderQuantity
+
+# Function
+RepriceOrderLine: /api/orders/{orderId}/order-lines/{orderLineId}/price-modification
+  -> Order.id
+  -> OrderLine.id
+  ~> RepricingRequest
+  => OrderLineRepricingResponse
+  |> OrderLinePriceChanged
+  @invariant(newPrice < OrderLine.price * 0.10 unless managerOverride)
+
+# invariants ?
+RepricingRequest:
+  newPrice: Money!
+  reason: RepricingRational!    # raison d'être
+  managerOverride: Boolean
+
+RepricingRational:
+  | Clearance
+  | CustomerLoyalty
+  | DamagedItem
+  | OtherRepricingRational
+
+OtherRepricingRational: String!
+
+OrderLineRepricingResponse:
 
 
+
+# Better? change the price of product "xyz" in my order to x. Does knowing the orderLineId provide value? Can the same product have multiple order lines?
+ChangeOrderLinePrice: Order -> Product.id -> Price -> Order
+# Events
+OrderLinePriceChanged:
+  orderId: OrderId!
+  orderLineId: OrderLineId!
+  updatedPrice: Money!
+# Apply
+OrderLinePriceChangedApply: state -> orderLinePriceChanged -> state
+  {state|state.lines[x].price=updatedPrice when x.orderId=orderId}
+HelloWorldCreatedEvent(helloWorldAggregate), state) => HelloWorldState(Some(helloWorldAggregate), HelloWorldStatus.ACTIVE, 1
+HelloWorldReplacedEvent(helloWorldId, replacementHelloWorldResource, motivation), state) =>
+            HelloWorldState(Some(HelloWorldAggregate(helloWorldId, replacementHelloWorldResource)), HelloWorldStatus.ACTIVE, 1
+
+# Reference from one aggregate to a non-root entity in another aggregate
+
+Abc:
+  id: AbcId
+  name: AbcName
+  orderLines: [>=> AbcOrderLines!]   # maybe better to cache value objects from OrderLine references may not exist later?
+    order: Order.id!
+    line: OrderLine.id!
+
+
+
+AbcName: String @check("")
+
+
+/api/
+
+-> --> >>=
 
 
 metadata:
