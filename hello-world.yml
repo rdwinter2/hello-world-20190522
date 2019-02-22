@@ -147,7 +147,6 @@ Range of legal values: −9,223,372,036,854,775,807 to +9,223,372,036,854,775,80
 """
 Money: Int64 @check(abs<=9,223,372,036,854,775,807) @UoM("microUSD")
 
-
 # Query
 GetOrder: /api/orders/:id?revision
   -> Order.id!
