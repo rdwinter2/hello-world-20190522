@@ -5,9 +5,13 @@
 #aggregates:
 #root entities:
 
-# Link to an aggregate root entity >=>
-# Link within an aggregate to a non-root entity >->
-# Events persisted |>
+# >=> Link to an aggregate root entity
+# >-> Link within an aggregate to a non-root entity
+# -> parameters to a command
+# ~> request body for a command
+# => response body of a command
+# |> Events persisted by a command
+
 state:
 aggregate:
 resource:
@@ -17,9 +21,14 @@ commands:
 queries:
 events:
 
+"""
+[POSIX time](https://en.wikipedia.org/wiki/Unix_time)
+"""
+PosixTime: Int64 @UoM("posix")
+
 Revision:
   logicalClock: Int!
-  localTime: EpochTime
+  localTime: PosixTime @check(>=0) @default(date +%s)
 
 Order: @aggregateRoot
   id: OrderId! @isUnique
@@ -31,40 +40,152 @@ OrderLine:
   price: Money!
   quantity: OrderQuantity
 
-# Function
-RepriceOrderLine: /api/orders/{orderId}/order-lines/{orderLineId}/price-modification
+# Command
+RepriceOrderLine: /api/orders/:id/order-lines/:lineId/price-modification
   -> Order.id
   -> OrderLine.id
   ~> RepricingRequest
   => OrderLineRepricingResponse
-  |> OrderLinePriceChanged
+  |> OrderLineRepriced
   @invariant(newPrice < OrderLine.price * 0.10 unless managerOverride)
 
 # invariants ?
 RepricingRequest:
-  newPrice: Money!
+  newPrice: Money! @check(>=0) @UoM("microUSD")
   reason: RepricingRational!    # raison d'être
-  managerOverride: Boolean
+  managerOverride: Boolean @default(false)
 
 RepricingRational:
   | Clearance
-  | CustomerLoyalty
-  | DamagedItem
+  | CustomerLoyaltyReward
+  | DamagedGoods
   | OtherRepricingRational
 
 OtherRepricingRational: String!
 
 OrderLineRepricingResponse:
+  | OrderLineRepricingAccepted
+  | OrderLineRepricingSuccess
+  | OrderLineRepricingDenied
+
+OrderLineRepricingAccepted:
+  httpStatus: HttpStatus!
+  hal: HypertextApplicationLanguage!  # self link used to check status
+
+OrderLineRepricingSuccess:
+  httpStatus: HttpStatus!
+  revision: Order.revision!
+  hal: HypertextApplicationLanguage!
+
+OrderLineRepricingDenied:
+  httpStatus: HttpStatus!
+  denialReasons: [DenialReason!]
+  hal: HypertextApplicationLanguage!
+
+DenialReason:
+  reason: String  # may be a URL
+
+HypertextApplicationLanguage:
+  halLinks: [HalLink!]
+  @invariant(must have self link)
+
+HalLink:
+  rel: String!
+  href: String!
+  deprecation: String
+  name: String
+  profile: String
+  title: String
+  hreflang: String
+  `type`: String
+  templated: Boolean @default(false)
+
+OrderLineRepriced:
+  orderId: Order.id!
+  revision: Revision!
+  orderLineId: OrderLine.id!
+  price: Money!
+  reason: RepricingRational!
+  managerOverride: Boolean
+  provenance: Provenance
+
+Provenance:
+  who: Who
+  what: What
+  when: When
+  where: Where
+  why: Why
+  how: How
+
+"Who was involved in the state change?"
+Who:
+  | ResponsibleHuman
+  | AutomatedProcessManager
+
+"What happened?"
+What:
+  events: [Event!]
+
+"When did it happen?"
+When:
+
+
+"Where did the change take place?"
+Where:
+
+"Why did it happen?"
+Why:
+
+"How did it happen?"
+How:
 
 
 
-# Better? change the price of product "xyz" in my order to x. Does knowing the orderLineId provide value? Can the same product have multiple order lines?
+"""
+1 Micro US Dollar (USD) = 1 millionth USD or $0.000001
+Range of legal values: −9,223,372,036,854,775,807 to +9,223,372,036,854,775,807
+"""
+Money: Int64 @check(abs<=9,223,372,036,854,775,807) @UoM("microUSD")
+
+
+# Query
+GetOrder: /api/orders/:id?revision
+  -> Order.id!
+  ?  Revision.logicalClock
+  => GetOrderResponse!
+
+GetOrderResponse:
+  | OrderResponse
+  | ErrorResponse
+
+OrderResponse:
+  httpStatus: HttpStatus!
+  order: Order!
+  hal: HypertextApplicationLanguage!
+
+# Use Oracle Flashback Query and just store JSON data
+# When point in time is not specified current time is used
+# and next and previous links will include it
+GetAllOrders: /api/orders?limit&start&pointInTime
+  ? ResultLimit
+  & ResultStart
+  & PointInTime
+  => GetAllOrdersResponse!
+
+GetAllOrdersResponse:
+  | OrdersResponse
+  | ErrorResponse
+
+OrdersResponse:
+  httpStatus: HttpStatus!
+  orders: [Order!]
+  hal: HypertextApplicationLanguage! # includes next and previous links
+
+
+# Better? change the price of product "xyz" in my order to x. Does knowing the orderLineId provide value? Can the same product have multiple order lines? Maybe, if some items are damaged and have a lower price.
 ChangeOrderLinePrice: Order -> Product.id -> Price -> Order
 # Events
-OrderLinePriceChanged:
-  orderId: OrderId!
-  orderLineId: OrderLineId!
-  updatedPrice: Money!
+
 # Apply
 OrderLinePriceChangedApply: state -> orderLinePriceChanged -> state
   {state|state.lines[x].price=updatedPrice when x.orderId=orderId}
